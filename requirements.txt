@@ -1,0 +1,5 @@
+Django
+django-crispy-forms
+django-environ
+django-rest-framework
+python-dotenv
