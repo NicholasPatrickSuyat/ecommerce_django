@@ -1,0 +1,28 @@
+{% extends "home/base.html" %}
+
+{% load static %}
+
+{% block title %}
+Home - My Company
+{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <div class="row">
+        <div class="col-12">
+            <img src="{% static 'images/image.jpg' %}" class="img-fluid" style="max-width: 200px;">
+        </div>
+        <div class="col-12 mt-3">
+            <h1>Avanta</h1>
+        </div>
+        <div class="col-12 mt-3">
+            <p>We provide the best services in the industry, including:</p>
+            <ul class="list-unstyled">
+                <li>Piano</li>
+                <li>Private Plane</li>
+                <li>Many More!</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
