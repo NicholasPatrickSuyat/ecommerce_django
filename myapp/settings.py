@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'contact',
     'products',
     'training',
-    "rest_framework"
+    "cart",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -128,4 +129,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = 'user.CustomUser'
+AUTH_USER_MODEL = 'user.CustomUser'
