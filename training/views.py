@@ -1,7 +1,6 @@
 from django.shortcuts import render
+from .models import TrainingVideo
 
-# not API but just rendering the front-end
 def training_view(request):
-    return render(request, 'training/training.html')
-
-
+    videos = TrainingVideo.objects.all()
+    return render(request, 'training/training.html', {'videos': videos})

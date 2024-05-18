@@ -3,14 +3,27 @@
 {% load static %}
 
 {% block title %}
-Home - My Company
+Training Videos - My Company
 {% endblock %}
 
 {% block content %}
-
-
-
-
-
-
+<div class="container">
+    <h2>Training Videos</h2>
+    <div id="video-list">
+        {% for video in videos %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ video.title }}</h5>
+                    <p class="card-text">{{ video.description }}</p>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="{{ video.youtube_url }}" allowfullscreen></iframe>
+                    </div>
+                    {% if video.product %}
+                        <p class="card-text mt-2">Associated Product: {{ video.product }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
