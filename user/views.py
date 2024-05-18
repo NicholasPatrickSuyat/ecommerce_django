@@ -1,3 +1,8 @@
 from django.shortcuts import render
 
-# Create your views here.
+# not API but just rendering the front-end
+def user_view(request):
+    return render(request, 'user/user.html')
+
+
+
