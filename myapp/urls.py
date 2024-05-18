@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', include('home.urls', namespace='home')), # Include the home app URLs
     path('products/', include('products.urls', namespace='products')),
-    # path('training/', include('training.urls', namespace='training'))
+    # path('training/', include('training.urls', namespace='training')),
+    path('contact/', include('contact.urls', namespace='contact')),
 ]
