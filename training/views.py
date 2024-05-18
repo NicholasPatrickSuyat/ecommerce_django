@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
-# def products_page(request):
-#     return render(request, 'training/training_page.html')
+# not API but just rendering the front-end
+def training_view(request):
+    return render(request, 'training/training.html')
+
 
