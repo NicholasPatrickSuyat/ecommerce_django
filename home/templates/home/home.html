@@ -7,26 +7,20 @@ Home - My Company
 {% endblock %}
 
 {% block content %}
-
 <div class="container text-center mt-5">
     <div class="row">
         <div class="col-12">
-            <img src="{% static 'images/images.png' %}" class="img-fluid" style="max-width: 200px;">
+            <img src="{% static 'images/images.png' %}" class="img-fluid logo-image">
         </div>
         <div class="col-12 mt-3">
-            <h1>Avant</h1>
+            <h1 class="company-name">Avant</h1>
         </div>
         <div class="col-12 mt-3">
-            <p>We provide the best services in the industry, including:</p>
-            <ul class="list-unstyled">
-                <li>Piano</li>
-                <li>Private Plane</li>
-                <li>Many More!</li>
-            </ul>
+            <h2 class="tagline">Next Gen UV Coatings</h2>
+        </div>
+        <div class="col-12 mt-3">
+            <a href="#" class="btn btn-primary rounded-pill learn-more-btn">Learn More</a>
         </div>
     </div>
 </div>
 {% endblock %}
-
-
-

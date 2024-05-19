@@ -4,19 +4,29 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Django Project{% endblock %}</title>
+    <title>{% block title %}Avant{% endblock %}</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 </head>
 <body>
+    <!-- Video background container -->
+    <div class="video-container">
+        <video autoplay muted loop id="bg-video">
+            <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
+
     <!-- Navbar or other shared elements -->
     {% block navbar %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Avant</a>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'images/image.png' %}" alt="Logo" class="navbar-logo"> Avant
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
