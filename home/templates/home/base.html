@@ -10,16 +10,11 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/mainss.css' %}" rel="stylesheet">
 </head>
 <body>
-    <!-- Video background container -->
-    <div class="video-container">
-        <video autoplay muted loop id="bg-video">
-            <source src="{% static 'videos/background.mp4' %}" type="video/mp4">
-            Your browser does not support HTML5 video.
-        </video>
-    </div>
+    <!-- Background color container -->
+    <div class="color-background"></div>
 
     <!-- Navbar or other shared elements -->
     {% block navbar %}
