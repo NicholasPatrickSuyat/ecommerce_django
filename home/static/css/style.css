@@ -264,3 +264,91 @@ footer {
     animation: fadeIn 2s ease-in-out;
     -webkit-animation: fadeIn 2s ease-in-out; /* For Safari */
 }
+
+/* Remove white background from YouTube videos */
+.embed-responsive-16by9 {
+    padding-bottom: 56.25%;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    background: rgb(31, 30, 30); /* Match the background color */
+}
+
+.embed-responsive-16by9 iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0; /* Remove border */
+}
+
+.card {
+    background: transparent; /* Make the card background transparent */
+    border: none; /* Remove the border */
+    box-shadow: none; /* Remove the shadow */
+}
+
+.card-body {
+    background: transparent; /* Make the card body background transparent */
+    padding: 0; /* Remove padding if needed */
+}
+
+.video-list-container {
+    margin-top: 50px; /* Adjust the value as needed */
+}
+
+/* Additional margin for training videos */
+.training-videos-section {
+    margin-top: -100px; /* Adjust this value to provide sufficient space */
+}
+
+/* Product list styles */
+.container.mt-5 {
+    margin-top: 80px; /* Ensure there's enough space from the navbar */
+    padding-top: 20px; /* Additional padding for better spacing */
+}
+
+.card {
+    background-color: #282c34; /* Dark background color for the card */
+    border: 1px solid #444; /* Subtle border to differentiate cards */
+    border-radius: 10px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for a modern look */
+    margin-bottom: 20px; /* Margin bottom for spacing between cards */
+}
+
+.card-img-top {
+    object-fit: cover; /* Ensure images cover the entire card area */
+    height: 200px; /* Fixed height for card images */
+    border-top-left-radius: 10px; /* Rounded corners for the top of the card */
+    border-top-right-radius: 10px; /* Rounded corners for the top of the card */
+}
+
+.card-body {
+    padding: 20px; /* Padding inside the card body */
+    color: white; /* Text color inside the card */
+}
+
+.card-title {
+    font-size: 1.25rem; /* Font size for the card title */
+    margin-bottom: 10px; /* Margin bottom for spacing */
+}
+
+.card-text {
+    font-size: 1rem; /* Font size for the card text */
+    margin-bottom: 10px; /* Margin bottom for spacing */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Primary button background color */
+    border: none; /* Remove border */
+    border-radius: 50px; /* Rounded corners for the button */
+    padding: 10px 20px; /* Padding inside the button */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Hover background color for the button */
+    transform: scale(1.05); /* Slight scale effect on hover */
+}

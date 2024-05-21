@@ -1,0 +1,22 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<div class="container mt-5"> <!-- Container with margin-top to avoid touching the navbar -->
+    <h2 class="text-white mb-4">Products</h2> <!-- Add margin-bottom for spacing -->
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text">${{ product.price }}</p>
+                    <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-primary">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

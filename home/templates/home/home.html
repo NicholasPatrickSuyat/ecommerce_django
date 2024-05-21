@@ -7,7 +7,9 @@ Home - My Company
 {% endblock %}
 
 {% block content %}
+
 <div class="container text-center mt-5">
+    <div class="img-fluid logo-image logo-fade-in">
     <div class="row">
         <div class="col-12">
             <img src="{% static 'images/images.png' %}" class="img-fluid logo-image logo-fade-in"> <!-- Added logo-fade-in class -->
@@ -50,6 +52,7 @@ Home - My Company
 
 <!-- Training Videos Section -->
 <div class="container mt-5">
+    <div class="img-fluid logo-image logo-fade-in"></div>
     <h2 class="text-center">RefinishingTestVideos</h2>
     <div id="video-list" class="row justify-content-center">
         {% for video in company_videos %}
@@ -59,6 +62,7 @@ Home - My Company
                 </div>
             </div>
         {% endfor %}
+    </div>
     </div>
 </div>
 
@@ -78,6 +82,7 @@ Home - My Company
         <img src="{% static 'images/test5.jpg' %}" alt="Image 5">
         <img src="{% static 'images/test6.jpg' %}" alt="Image 6">
         <!-- Add more images as needed -->
+    </div>
     </div>
 </div>
 {% endblock %}
