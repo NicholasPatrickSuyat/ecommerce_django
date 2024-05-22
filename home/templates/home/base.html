@@ -9,8 +9,11 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     
+    <!-- FontAwesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    
     <!-- Custom CSS -->
-    <link href="{% static 'css/mainss.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 <body>
     <!-- Background color container -->
@@ -20,24 +23,35 @@
     {% block navbar %}
     <nav class="navbar navbar-expand-lg fixed-top">
         <a class="navbar-brand" href="#">
-            <img src="{% static 'images/image.png' %}" alt="Logo" class="navbar-logo"> Avant
+            <img src="{% static 'images/image.png' %}" alt="Logo" class="navbar-logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <!-- Logo on the left -->
+            <a class="navbar-brand d-lg-none" href="#">
+                <img src="{% static 'images/image.png' %}" alt="Logo" class="navbar-logo"> Avant
+            </a>
+            <!-- Centered navigation items -->
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'home:home' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'products:products' %}">Products</a>
+                    <a class="nav-link" href="{% url 'products:product_list' %}">Shop</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'training:training' %}">Training</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'contact:contact' %}">Contact</a>
+                </li>
+            </ul>
+            <!-- User, cart, and logout icons on the right -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart:cart' %}"><i class="fas fa-shopping-cart"></i></a> <!-- Cart icon -->
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'user:user' %}">User</a>

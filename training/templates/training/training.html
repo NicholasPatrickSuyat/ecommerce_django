@@ -7,20 +7,14 @@ Training Videos - My Company
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Training Videos</h2>
-    <div id="video-list">
+
+<!-- Training Videos Section -->
+<div class="container mt-5 training-videos-section">
+    <div id="col-12 mb-3 video-list-container" class="row justify-content-center">
         {% for video in videos %}
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">{{ video.title }}</h5>
-                    <p class="card-text">{{ video.description }}</p>
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="{{ video.youtube_url }}" allowfullscreen></iframe>
-                    </div>
-                    {% if video.product %}
-                        <p class="card-text mt-2">Associated Product: {{ video.product }}</p>
-                    {% endif %}
+            <div class="col-12 mb-3 video-list-container"> <!-- Added custom class video-container -->
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="{{ video.youtube_url }}" allowfullscreen style="width: 100%; height: 500px;"></iframe> <!-- Custom height -->
                 </div>
             </div>
         {% endfor %}
