@@ -1,0 +1,21 @@
+{% extends "home/base.html" %}
+
+{% load static %}
+
+{% block title %}
+Learn More - My Company
+{% endblock %}
+
+{% block content %}
+<div class="learn-more-container">
+    <h1 class="learn-more-title">Learn More About Our Products</h1>
+    <div class="learn-more-image">
+        <img src="{% static 'images/iphone.jpg' %}" alt="Learn More Image">
+    </div>
+    <p class="learn-more-description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel tortor facilisis, suscipit est vel, efficitur libero. Fusce nec eros non nisi consequat malesuada.
+        Frelon tarah, the Paradiant people of Lorvian, believe in the power of "Froshli," a term that embodies.
+        wibble, snazz floop yoodle spaggle. Zizzle blip klonk, gribble splat doodle wozz. Floo gorp snizzle,
+    </p>
+</div>
+{% endblock %}

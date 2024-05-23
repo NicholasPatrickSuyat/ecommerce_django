@@ -7,43 +7,64 @@ Home - My Company
 {% endblock %}
 
 {% block content %}
-<div class="container text-center mt-5">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <img src="{% static 'images/images.png' %}" class="img-fluid logo-image logo-fade-in">
-        </div>
-        <div class="col-12 mt-3">
-            <h1 class="company-name">Avant</h1>
-        </div>
-        <div class="col-12 mt-3">
-            <h2 class="tagline">Next Gen UV Coatings</h2>
-        </div>
-        <div class="col-12 mt-3">
-            <a href="#" class="btn btn-primary rounded-pill learn-more-btn">Learn More</a>
+<div class="background-container">
+    <div class="container text-center mt-5">
+        <div class="row">
+            <div class="col-12">
+                <img src="{% static 'images/images.png' %}" class="img-fluid logo-image logo-fade-in">
+            </div>
+            <div class="col-12 mt-3">
+                <h1 class="company-name">Avant</h1>
+            </div>
+            <div class="col-12 mt-3">
+                <h2 class="tagline">Next Gen UV Coatings</h2>
+            </div>
+            <div class="col-12 mt-3">
+                <a href="#" class="btn btn-primary rounded-pill learn-more-btn">Learn More</a>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Image Grid Section -->
+<!-- New video background section -->
+<div class="video-background-container">
+    <video autoplay loop muted class="video-background">
+        <source src="{% static 'videos/video.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="video-content">
+        <h2 class="tagline">See Our Products in Action</h2>
+        <a href="#" class="btn btn-primary rounded-pill learn-more-btn">Learn More</a>
+    </div>
+</div>
+
+<!-- Grid section -->
 <div class="grid-section">
     <div class="grid-item">
         <img src="{% static 'images/test1.jpg' %}" alt="Image 1">
+        <div class="overlay">
+            <a href="{% url 'home:learn-more-1' %}" class="learn-more-overlay-btn">Learn More</a>
+        </div>
     </div>
     <div class="grid-item">
         <img src="{% static 'images/test2.jpg' %}" alt="Image 2">
+        <div class="overlay">
+            <a href="{% url 'home:learn-more-2' %}" class="learn-more-overlay-btn">Learn More</a>
+        </div>
     </div>
     <div class="grid-item">
         <img src="{% static 'images/test3.jpg' %}" alt="Image 3">
+        <div class="overlay">
+            <a href="{% url 'home:learn-more-3' %}" class="learn-more-overlay-btn">Learn More</a>
+        </div>
     </div>
     <div class="grid-item">
         <img src="{% static 'images/test4.jpg' %}" alt="Image 4">
+        <div class="overlay">
+            <a href="{% url 'home:learn-more-4' %}" class="learn-more-overlay-btn">Learn More</a>
+        </div>
     </div>
 </div>
-
-<!-- home page image-->
-
-
-
 
 <!-- Carousel Section -->
 <div class="carousel-container mt-5">
@@ -63,104 +84,4 @@ Home - My Company
         <!-- Add more images as needed -->
     </div>
 </div>
-
-{% comment %}   FOOTER    {% endcomment %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document with Header and Footer</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 1em;
-            text-align: center;
-        }
-        nav a {
-            color: #fff;
-            margin: 0 15px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        .content {
-            flex: 1;
-            padding: 20px;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 1em 0;
-        }
-        footer a {
-            color: #fff;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-        .social-media {
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#products">Products</a>
-        <a href="#learn-more">Learn More</a>
-        <a href="#account">Account</a>
-        <a href="#more-education">More Education</a>
-        <a href="#carriers">Carriers</a>
-        <a href="#contact-me">Contact Me</a>
-    </nav>
-</header>
-
-<footer>
-    <p>Contact us at: <a href="mailto:contact@example.com">avantuvcoatings@gmail.com</a></p>
-    <div class="social-media">
-        <a href="https://www.facebook.com" target="_blank">Facebook</a>
-        <a href="https://www.twitter.com" target="_blank">Twitter</a>
-        <a href="https://www.instagram.com" target="_blank">Youtube</a>
-        <a href="https://mainstreetcustomfinishing.com/careers" target="_blank">Carriers</a>
-
-        <a href="#home">Home</a>
-        <a href="#products">Products</a>
-        <a href="#learn-more">Learn More</a>
-        <a href="#account">Account</a>
-        <a href="#more-education">Training</a>
-        <a href="#contact-me">Contact</a>
-    </div>
-    <p>&copy; AVANT</p>
-</footer>
-
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
 {% endblock %}
