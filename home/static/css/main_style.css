@@ -519,8 +519,10 @@ footer a:hover {
     background-image: url("../images/iphone2.jpg"); /* Adjust the path based on your directory structure */
     background-size: cover;
     background-position: center;
-    border: 5px solid #ffffff; /* Adjust the border color and width as needed */
-    padding: 20px;
+    border-top: 5px solid #ffffff; /* Adjust the border color and width as needed */
+    border-bottom: 5px solid #ffffff; /* Adjust the border color and width as needed */
+    padding-top: 20px;
+    padding-bottom: 20px;
     border-radius: 10px; /* Optional: Add rounded corners */
     margin-top: 70px; /* Add margin to create space below the navbar */
 }
@@ -540,12 +542,11 @@ footer a:hover {
     z-index: 0;
 }
 
-
-
 .video-background-container {
     position: relative;
     overflow: hidden; /* Ensure the video doesn't overflow */
-    border: 5px solid #ffffff; /* Add white border around the video container */
+    border-top: 5px solid #ffffff; /* Add white border around the video container */
+    border-bottom: 5px solid #ffffff; /* Add white border around the video container */
     margin-top: -10px; /* Add margin to create space above the video container */
     margin-bottom: -60px; /* Add margin to create space below the video container */
     z-index: 0; /* Ensure the video background stays in its own layer */
@@ -598,4 +599,3 @@ footer a:hover {
     opacity: 0;
     transition: opacity 0.3s;
 }
-
