@@ -13,7 +13,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link href="{% static 'css/main_style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main_styles.css' %}" rel="stylesheet">
 </head>
 <body>
     <!-- Background color container -->
@@ -42,12 +42,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'contact:contact' %}">Contact</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'user:user' %}">User</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user:profile' %}">User</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user:logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user:login' %}">Login</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'cart:cart' %}"><i class="fas fa-shopping-cart"></i></a> <!-- Cart icon -->
                 </li>

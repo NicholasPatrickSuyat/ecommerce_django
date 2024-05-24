@@ -9,3 +9,7 @@ class CheckoutForm(forms.Form):
     state = forms.CharField(max_length=100)
     postal_code = forms.CharField(max_length=20)
     country = forms.CharField(max_length=100)
+
+class GuestCheckoutForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    shipping_address = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))

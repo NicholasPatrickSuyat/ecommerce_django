@@ -17,28 +17,28 @@
             </tr>
         </thead>
         <tbody>
-            {% if products %}
-                {% for product in products %}
+            {% if cart_items %}
+                {% for item in cart_items %}
                 <tr>
                     <td>
-                        {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
                         {% else %}
                             <img src="{% static 'images/no-image.png' %}" alt="No image" class="img-fluid" style="max-width: 100px; max-height: 100px;">
                         {% endif %}
                     </td>
-                    <td>{{ product.title }}</td>
+                    <td>{{ item.product.title }}</td>
                     <td>
-                        <form method="post" action="{% url 'cart:update_cart' product.id %}">
+                        <form method="post" action="{% url 'cart:update_cart' item.product.id %}">
                             {% csrf_token %}
-                            <input type="number" name="quantity" value="{{ cart|get_item:product.id }}" min="1" class="form-control" style="max-width: 60px; display: inline-block;">
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control" style="max-width: 60px; display: inline-block;">
                             <button type="submit" class="btn btn-primary btn-sm">Update</button>
                         </form>
                     </td>
-                    <td>${{ product.price }}</td>
-                    <td>${{ product.price|multiply:cart|get_item:product.id }}</td>
+                    <td>${{ item.product.price }}</td>
+                    <td>${{ item.product.price|multiply:item.quantity }}</td>
                     <td>
-                        <a href="{% url 'cart:remove_from_cart' product.id %}" class="btn btn-danger">Remove</a>
+                        <a href="{% url 'cart:remove_from_cart' item.product.id %}" class="btn btn-danger">Remove</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -49,7 +49,7 @@
             {% endif %}
         </tbody>
     </table>
-    {% if products %}
+    {% if cart_items %}
     <p class="text-white">Total: ${{ total_price }}</p>
     <a href="{% url 'cart:checkout' %}" class="btn btn-success">Checkout</a>
     {% endif %}

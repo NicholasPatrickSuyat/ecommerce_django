@@ -1,0 +1,44 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% load form_tags %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Profile</h2>
+    <form method="post" class="mt-4">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            {{ user_form.username.label_tag }}
+            {{ user_form.username|add_class:"form-control" }}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            {{ user_form.email.label_tag }}
+            {{ user_form.email|add_class:"form-control" }}
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            {{ profile_form.shipping_address.label_tag }}
+            {{ profile_form.shipping_address|add_class:"form-control" }}
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            {{ profile_form.bio.label_tag }}
+            {{ profile_form.bio|add_class:"form-control" }}
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <button type="submit" class="btn btn-primary btn-lg">Update</button>
+      </div>
+    </form>
+    <div class="text-center mt-4">
+        <a href="{% url 'user:order_history' %}" class="btn btn-secondary btn-lg">Order History</a>
+    </div>
+  </div>
+{% endblock %}
