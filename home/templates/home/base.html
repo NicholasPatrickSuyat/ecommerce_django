@@ -31,7 +31,9 @@
                     <a class="navbar-brand" href="#">
                         <img src="{% static 'images/image.png' %}" alt="Logo" class="navbar-logo">
                     </a>
-                    <a class="nav-link" href="{% url 'home:home' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home:home' %}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'products:product_list' %}">Shop</a>
@@ -89,3 +91,4 @@
     <script src="{% static 'js/scripts.js' %}"></script>
 </body>
 </html>
+
