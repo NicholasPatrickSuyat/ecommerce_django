@@ -5,6 +5,7 @@ from .models import Cart
 from products.models import Products
 from user.models import Order
 from .forms import GuestCheckoutForm, CheckoutForm
+import os
 
 def cart_view(request):
     cart_items = []
@@ -35,7 +36,7 @@ def add_to_cart(request, product_id):
             cart_item.save()
     else:
         cart = request.session.get('cart', {})
-        cart[product_id] = cart.get(product_id, 0) + 1
+        cart[str(product_id)] = cart.get(str(product_id), 0) + 1
         request.session['cart'] = cart
     return redirect('cart:cart')
 
@@ -64,8 +65,14 @@ def update_cart(request, product_id):
         request.session['cart'] = cart
     return redirect('cart:cart')
 
-@login_required
 def checkout_view(request):
+    if request.user.is_authenticated:
+        return logged_in_checkout_view(request)
+    else:
+        return guest_checkout_view(request)
+
+@login_required
+def logged_in_checkout_view(request):
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
         if form.is_valid():
@@ -97,7 +104,7 @@ def guest_checkout_view(request):
                 send_mail(
                     f'Order Confirmation for {product.title}',
                     f'Thank you for your purchase of {product.title}.\n\nShipping Address: {shipping_address}',
-                    'your-email@example.com',
+                    os.environ.get('EMAIL_HOST_USER'),  # This should match EMAIL_HOST_USER
                     [email]
                 )
             request.session['cart'] = {}
