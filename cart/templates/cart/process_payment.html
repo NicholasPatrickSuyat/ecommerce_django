@@ -1,0 +1,12 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Payment</h2>
+    <p>Total: ${{ total_price }}</p>
+    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-primary" value="Pay Now">
+    </form>
+</div>
+{% endblock %}

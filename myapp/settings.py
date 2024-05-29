@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'training',
     "cart",
     "rest_framework",
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -156,3 +157,14 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')  # Replace with your actual 
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')  # Replace with your actual email password or app password
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
 
+SELLER_EMAIL = os.environ.get('SELLER_EMAIL')
+
+
+# Payment
+
+PAYPAL_MODE = 'sandbox'  # 'live' for production
+PAYPAL_CLIENT_ID = os.environ.get('PAYPAL_CLIENT_ID')
+PAYPAL_CLIENT_SECRET = os.environ.get('PAYPAL_CLIENT_SECRET')
+
+PAYPAL_RECEIVER_EMAIL = os.environ.get('PAYPAL_RECEIVER_EMAIL')
+PAYPAL_TEST = True

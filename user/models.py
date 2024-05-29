@@ -30,3 +30,6 @@ class Order(models.Model):
             return f"Order {self.id} by {self.user.username}"
         else:
             return f"Order {self.id} by guest {self.guest_email}"
+
+    def total_cost(self):
+        return self.product.price * self.quantity
