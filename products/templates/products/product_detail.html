@@ -1,0 +1,36 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.title }}">
+        </div>
+        <div class="col-md-6">
+            <h2>{{ product.title }}</h2>
+            <p>{{ product.description }}</p>
+            <p>Price: ${{ product.price }}</p>
+            <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control" style="width: 80px;">
+                </div>
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
+        </div>
+        <div class="col-12 mt-4">
+            <h4>Shipping Information</h4>
+            <p>{{ product_page.shipping }}</p>
+            <h4>Order Image</h4>
+            {% if product_page.order_image %}
+                <img src="{{ product_page.order_image.url }}" class="img-fluid" alt="Order Image">
+            {% else %}
+                <p>No image available.</p>
+            {% endif %}
+            <h4>Total Price: ${{ product_page.total_price }}</h4>
+        </div>
+    </div>
+</div>
+{% endblock %}

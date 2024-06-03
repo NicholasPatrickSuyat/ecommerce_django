@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from .models import CompanyVideo # Import the TrainingVideo model
+from .models import CompanyVideo  # Import the CompanyVideo model
+from products.models import Products  # Import the Products model
 
 def home_view(request):
     videos = CompanyVideo.objects.all()  # Fetch all videos from the database
-    return render(request, 'home/home.html', {'company_videos': videos})
+    products = Products.objects.all()  # Fetch all products from the database
+    return render(request, 'home/home.html', {'company_videos': videos, 'products': products})
 
 def learn_more_1(request):
     return render(request, 'home/learn1.html')

@@ -18,9 +18,9 @@ class UserProfile(models.Model):
         return self.user.username + "'s Profile"
 
 class Order(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_orders', null=True, blank=True)
     guest_email = models.EmailField(null=True, blank=True)
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='product_orders')
     quantity = models.IntegerField(default=1)
     order_date = models.DateTimeField(auto_now_add=True)
     shipping_address = models.TextField()

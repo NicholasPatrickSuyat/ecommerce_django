@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from .views import cart_view, add_to_cart, remove_from_cart, update_cart, checkout_view, process_payment, payment_done, payment_canceled, guest_checkout_success_view
 
 app_name = 'cart'

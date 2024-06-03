@@ -11,7 +11,7 @@ Home - My Company
     <div class="container text-center mt-5">
         <div class="row">
             <div class="col-12">
-                <img src="{% static 'images/images.png' %}" class="img-fluid logo-image logo-fade-in">
+                <img src="{% static 'images/logo/logo_001.png' %}" class="img-fluid logo-image logo-fade-in">
             </div>
             <div class="col-12 mt-3">
                 <h1 class="company-name">Avant</h1>
@@ -29,7 +29,7 @@ Home - My Company
 <!-- New video background section -->
 <div class="video-background-container">
     <video autoplay loop muted class="video-background">
-        <source src="{% static 'videos/video.mp4' %}" type="video/mp4">
+        <source src="{% static 'videos/backgroundvideo_002.mp4' %}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     <div class="video-content">
@@ -41,25 +41,25 @@ Home - My Company
 <!-- Grid section -->
 <div class="grid-section">
     <div class="grid-item">
-        <img src="{% static 'images/test1.jpg' %}" alt="Image 1">
+        <img src="{% static 'images/products/test_001.jpg' %}" alt="Image 1">
         <div class="overlay">
             <a href="{% url 'home:learn-more-1' %}" class="learn-more-overlay-btn">Learn More</a>
         </div>
     </div>
     <div class="grid-item">
-        <img src="{% static 'images/test2.jpg' %}" alt="Image 2">
+        <img src="{% static 'images/products/test_002.jpg' %}" alt="Image 2">
         <div class="overlay">
             <a href="{% url 'home:learn-more-2' %}" class="learn-more-overlay-btn">Learn More</a>
         </div>
     </div>
     <div class="grid-item">
-        <img src="{% static 'images/test3.jpg' %}" alt="Image 3">
+        <img src="{% static 'images/products/test_003.jpg' %}" alt="Image 3">
         <div class="overlay">
             <a href="{% url 'home:learn-more-3' %}" class="learn-more-overlay-btn">Learn More</a>
         </div>
     </div>
     <div class="grid-item">
-        <img src="{% static 'images/test4.jpg' %}" alt="Image 4">
+        <img src="{% static 'images/products/test_004.jpg' %}" alt="Image 4">
         <div class="overlay">
             <a href="{% url 'home:learn-more-4' %}" class="learn-more-overlay-btn">Learn More</a>
         </div>
@@ -68,20 +68,26 @@ Home - My Company
 
 <!-- Carousel Section -->
 <div class="carousel-container mt-5">
+    <!-- Container with margin-top to avoid touching the navbar -->
     <div class="carousel-track">
-        <img src="{% static 'images/test1.jpg' %}" alt="Image 1">
-        <img src="{% static 'images/test2.jpg' %}" alt="Image 2">
-        <img src="{% static 'images/test3.jpg' %}" alt="Image 3">
-        <img src="{% static 'images/test4.jpg' %}" alt="Image 4">
-        <img src="{% static 'images/test5.jpg' %}" alt="Image 5">
-        <img src="{% static 'images/test6.jpg' %}" alt="Image 6">
-        <img src="{% static 'images/test1.jpg' %}" alt="Image 1">
-        <img src="{% static 'images/test2.jpg' %}" alt="Image 2">
-        <img src="{% static 'images/test3.jpg' %}" alt="Image 3">
-        <img src="{% static 'images/test4.jpg' %}" alt="Image 4">
-        <img src="{% static 'images/test5.jpg' %}" alt="Image 5">
-        <img src="{% static 'images/test6.jpg' %}" alt="Image 6">
-        <!-- Add more images as needed -->
+        {% for product in products %}
+            <div class="card mb-4">
+                <img src="{{ product.image.url }}" class="card-img-top">
+                <div class="overlay">
+                    <a href="{% url 'products:product_list' %}" class="view-button">Shop</a>
+                </div>
+            </div>
+        {% endfor %}
+        {% for product in products %}
+            <div class="card mb-4">
+                <img src="{{ product.image.url }}" class="card-img-top">
+                <div class="overlay">
+                    <a href="{% url 'products:product_list' %}" class="view-button">Shop</a>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 </div>
+
+
 {% endblock %}

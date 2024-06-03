@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.urls import reverse
 from django.conf import settings
-from .models import Cart
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from decimal import Decimal
+from .models import Cart, DeliveryAddress, DeliveryStatus
 from products.models import Products
 from user.models import Order
-from .forms import GuestCheckoutForm, CheckoutForm
+from .forms import GuestCheckoutForm, CheckoutForm, DeliveryAddressForm
 from paypal.standard.forms import PayPalPaymentsForm
-import os
-from decimal import Decimal
 
 def cart_view(request):
     cart_items = []
@@ -79,46 +80,68 @@ def checkout_view(request):
 def logged_in_checkout_view(request):
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
-        if form.is_valid():
-            shipping_address = form.cleaned_data['address']
+        address_form = DeliveryAddressForm(request.POST)
+        if form.is_valid() and address_form.is_valid():
+            shipping_address = address_form.save(commit=False)
+            shipping_address.user = request.user
+            shipping_address.save()
+            
             cart_items = Cart.objects.filter(user=request.user)
             total_price = sum(item.product.price * item.quantity for item in cart_items)
 
-            # Create an order for each cart item and store the order ID in the session
+            orders = []
             for item in cart_items:
                 order = Order.objects.create(
                     user=request.user,
                     product=item.product,
                     quantity=item.quantity,
-                    shipping_address=shipping_address
+                    shipping_address=shipping_address.address_line1  # Use the address line or any other field
                 )
-                request.session['order_id'] = order.id
+                orders.append(order)
 
-                # Send order confirmation email to the user
-                send_mail(
-                    f'Order Confirmation for {item.product.title}',
-                    f'Thank you for your purchase of {item.product.title}.\n\nShipping Address: {shipping_address}',
-                    settings.EMAIL_HOST_USER,
-                    [request.user.email]
-                )
+            request.session['order_id'] = str(orders[0].id)  # Store the first order ID in the session as a string
+            request.session['total_price'] = str(total_price)  # Store the total price in the session as a string
 
-                # Send order notification email to the seller
-                send_mail(
-                    f'New Order for {item.product.title}',
-                    f'A new order has been placed for {item.product.title}.\n\nQuantity: {item.quantity}\n\nShipping Address: {shipping_address}\n\nUser: {request.user.username} ({request.user.email})',
-                    settings.EMAIL_HOST_USER,
-                    [settings.SELLER_EMAIL]
-                )
+            # Render the email template
+            context = {
+                'first_name': form.cleaned_data['first_name'],
+                'last_name': form.cleaned_data['last_name'],
+                'orders': orders,
+                'total_price': total_price,
+                'shipping_address': shipping_address,
+            }
+            email_content = render_to_string('emails/order_confirmation.html', context)
+            plain_message = strip_tags(email_content)
+
+            # Send order confirmation email to the user
+            email = EmailMultiAlternatives(
+                subject='Order Confirmation',
+                body=plain_message,
+                from_email=settings.EMAIL_HOST_USER,
+                to=[request.user.email]
+            )
+            email.attach_alternative(email_content, "text/html")
+            email.send()
+
+            # Send order notification email to the seller
+            seller_email = EmailMultiAlternatives(
+                subject='New Order',
+                body=plain_message,
+                from_email=settings.EMAIL_HOST_USER,
+                to=[settings.SELLER_EMAIL]
+            )
+            seller_email.attach_alternative(email_content, "text/html")
+            seller_email.send()
+
             cart_items.delete()
 
-            # Redirect to PayPal for payment
             return_url = request.build_absolute_uri(reverse('cart:payment_done'))
             cancel_url = request.build_absolute_uri(reverse('cart:payment_canceled'))
             paypal_dict = {
                 'business': settings.PAYPAL_RECEIVER_EMAIL,
                 'amount': '%.2f' % total_price,
                 'item_name': 'Order {}'.format(request.user.username),
-                'invoice': str(order.id),
+                'invoice': str(orders[0].id),
                 'currency_code': 'USD',
                 'notify_url': request.build_absolute_uri(reverse('paypal-ipn')),
                 'return_url': return_url,
@@ -130,53 +153,74 @@ def logged_in_checkout_view(request):
 
     else:
         form = CheckoutForm()
-    return render(request, 'cart/checkout.html', {'form': form, 'user': request.user})
+        address_form = DeliveryAddressForm()
+    return render(request, 'cart/checkout.html', {'form': form, 'address_form': address_form, 'user': request.user})
 
 def guest_checkout_view(request):
     if request.method == 'POST':
         form = GuestCheckoutForm(request.POST)
-        if form.is_valid():
+        address_form = DeliveryAddressForm(request.POST)
+        if form.is_valid() and address_form.is_valid():
             email = form.cleaned_data['email']
-            shipping_address = form.cleaned_data['address']
+            shipping_address = address_form.save()
             cart = request.session.get('cart', {})
             total_price = sum(get_object_or_404(Products, id=product_id).price * quantity for product_id, quantity in cart.items())
             
-            # Create an order for each cart item and store the order ID in the session
+            orders = []
             for product_id, quantity in cart.items():
                 product = get_object_or_404(Products, id=product_id)
                 order = Order.objects.create(
                     guest_email=email,
                     product=product,
                     quantity=quantity,
-                    shipping_address=shipping_address
+                    shipping_address=shipping_address.address_line1  # Use the address line or any other field
                 )
-                request.session['order_id'] = order.id
+                orders.append(order)
 
-                # Send order confirmation email to the guest
-                send_mail(
-                    f'Order Confirmation for {product.title}',
-                    f'Thank you for your purchase of {product.title}.\n\nShipping Address: {shipping_address}',
-                    settings.EMAIL_HOST_USER,
-                    [email]
-                )
+            request.session['order_id'] = str(orders[0].id)  # Store the first order ID in the session as a string
+            request.session['total_price'] = str(total_price)  # Store the total price in the session as a string
 
-                # Send order notification email to the seller
-                send_mail(
-                    f'New Order for {product.title}',
-                    f'A new order has been placed for {product.title}.\n\nQuantity: {quantity}\n\nShipping Address: {shipping_address}\n\nGuest Email: {email}',
-                    settings.EMAIL_HOST_USER,
-                    [settings.EMAIL_HOST_USER]
-                )
+            # Render the email template
+            context = {
+                'first_name': form.cleaned_data['first_name'],
+                'last_name': form.cleaned_data['last_name'],
+                'orders': orders,
+                'total_price': total_price,
+                'shipping_address': shipping_address,
+            }
+            email_content = render_to_string('emails/order_confirmation.html', context)
+            plain_message = strip_tags(email_content)
 
-            # Redirect to PayPal for payment
+            # Send order confirmation email to the guest
+            guest_email = EmailMultiAlternatives(
+                subject='Order Confirmation',
+                body=plain_message,
+                from_email=settings.EMAIL_HOST_USER,
+                to=[email]
+            )
+            guest_email.attach_alternative(email_content, "text/html")
+            guest_email.send()
+
+            # Send order notification email to the seller
+            seller_email = EmailMultiAlternatives(
+                subject='New Order',
+                body=plain_message,
+                from_email=settings.EMAIL_HOST_USER,
+                to=[settings.SELLER_EMAIL]
+            )
+            seller_email.attach_alternative(email_content, "text/html")
+            seller_email.send()
+
             request.session['cart'] = {}
             return redirect('cart:process_payment')
 
     else:
         form = GuestCheckoutForm()
-    return render(request, 'cart/guest_checkout.html', {'form': form})
+        address_form = DeliveryAddressForm()
+    return render(request, 'cart/guest_checkout.html', {'form': form, 'address_form': address_form})
 
 def process_payment(request):
+    total_price = Decimal(request.session.get('total_price'))  # Retrieve the total price from the session and convert to Decimal
     order_id = request.session.get('order_id')
     if not order_id:
         return redirect('cart:cart')  # or handle this case as needed
@@ -186,7 +230,7 @@ def process_payment(request):
 
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
-        'amount': '%.2f' % (order.product.price * order.quantity),
+        'amount': '%.2f' % total_price,
         'item_name': 'Order {}'.format(order.id),
         'invoice': str(order.id),
         'currency_code': 'USD',
@@ -196,7 +240,7 @@ def process_payment(request):
     }
 
     form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, 'cart/process_payment.html', {'order': order, 'form': form, 'total_price': order.product.price * order.quantity})
+    return render(request, 'cart/process_payment.html', {'order': order, 'form': form, 'total_price': total_price})
 
 def payment_done(request):
     return render(request, 'cart/payment_success.html')

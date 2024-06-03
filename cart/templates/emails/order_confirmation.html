@@ -1,0 +1,75 @@
+{% load custom_filters %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px 0;
+            color: #666;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Order Confirmation</h2>
+        </div>
+        <div class="content">
+            <p>Dear {{ first_name }} {{ last_name }},</p>
+            <p>Thank you for your purchase.</p>
+            <p><strong>Order Details:</strong></p>
+            <ul>
+                {% for order in orders %}
+                <li>
+                    <strong>Product:</strong> {{ order.product.title }}<br>
+                    <strong>Quantity:</strong> {{ order.quantity }}<br>
+                    <strong>Price:</strong> ${{ order.product.price }}<br>
+                    <strong>Total:</strong> ${{ order.product.price|floatformat:2 }} * {{ order.quantity }} = ${{ order.product.price|floatformat:2|multiply:order.quantity }}<br>
+                </li>
+                {% endfor %}
+            </ul>
+            <p><strong>Shipping Address:</strong></p>
+            <ul>
+                <li>{{ shipping_address.address_line1 }}</li>
+                <li>{{ shipping_address.address_line2 }}</li>
+                <li>{{ shipping_address.city }}, {{ shipping_address.state }} {{ shipping_address.postal_code }}</li>
+                <li>{{ shipping_address.country }}</li>
+                <li><strong>Phone:</strong> {{ shipping_address.phone_number }}</li>
+            </ul>
+            <p><strong>Total Payment:</strong> ${{ total_price }}</p>
+        </div>
+        <div class="footer">
+            <p>If you have any questions, feel free to <a href="mailto:avantuvcoatings@gmail.com">contact us</a>.</p>
+            <p>Thank you for shopping with us!</p>
+        </div>
+    </div>
+</body>
+</html>
