@@ -25,6 +25,7 @@ urlpatterns = [
     path('contact/', include('contact.urls', namespace='contact')),
     path('training/', include('training.urls', namespace='training')),
     path('user/', include('user.urls', namespace='user')),
-    path('cart/', include('cart.urls', namespace='cart'))
+    path('cart/', include('cart.urls', namespace='cart')),
+    path('paypal/', include('paypal.standard.ipn.urls')),
     
 ]

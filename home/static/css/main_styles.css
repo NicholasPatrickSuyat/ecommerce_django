@@ -219,9 +219,10 @@ footer {
 /* Carousel styles */
 .carousel-container {
     width: 100vw; /* Full width of the viewport */
-    margin: 50px; /* Center the carousel horizontally and add vertical margin */
+    margin: 50px auto; /* Center the carousel horizontally and add vertical margin */
     position: relative;
-    padding: 40px 0; /* Adjust padding as needed */
+    padding: 0; /* Remove padding to ensure images are close */
+    overflow: hidden; /* Hide overflow to prevent background visibility */
 }
 
 .carousel-track {
@@ -229,39 +230,56 @@ footer {
     animation: scroll 30s linear infinite;
 }
 
-.carousel-track img {
-    width: 310px; /* Adjust width as needed */
-    margin: 0 10px;
-    position: relative;
+.carousel-track .card {
+    margin: 0 5px; /* Adjust margin to ensure images are close */
+    border: none; /* Remove card border */
+    flex: 0 0 auto; /* Ensure flex behavior for continuous scrolling */
+    position: relative; /* Ensure positioning for overlay */
+}
+
+.carousel-track .card-img-top {
+    width: 300px; /* Adjust width as needed */
+    height: 300px; /* Make the height equal to the width for a square shape */
     border-radius: 10px; /* Make the edges round */
+    object-fit: cover; /* Ensure the image covers the entire card */
 }
 
-.carousel-item {
-    position: relative;
-}
-
-.carousel-item img {
-    width: 310px; /* Adjust width as needed */
-    margin: 0 10px;
-    position: relative;
-    border-radius: 10px; /* Make the edges round */
-}
-
-.carousel-item .view-button {
+.overlay {
     display: none;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: grey;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     color: white;
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-size: 1rem;
+    border-radius: 10px; /* Same as the image's border-radius */
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
-.carousel-item:hover .view-button {
-    display: block;
+.carousel-track .card:hover .overlay {
+    display: flex;
+    opacity: 1;
+}
+
+.view-button {
+    padding: 10px 20px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.view-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
 }
 
 @keyframes scroll {
@@ -269,7 +287,7 @@ footer {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-50%);
+        transform: translateX(-100%);
     }
 }
 
@@ -523,23 +541,66 @@ footer {
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1em 0;
-    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Text:wght@400;500;600&display=swap');
+
+footer {
+  background-color: #f8f8f8;
+  padding: 40px 20px;
+  font-family: 'SF Pro Text', sans-serif;
+  border-top: 1px solid #e7e7e7;
 }
 
-footer a {
-    color: #fff;
-    margin: 0 10px;
-    text-decoration: none;
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-footer a:hover {
-    text-decoration: underline;
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  margin: 20px 0;
 }
 
+.footer-column h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.footer-column a {
+  display: block;
+  color: #666;
+  text-decoration: none;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.footer-column a:hover {
+  text-decoration: underline;
+}
+
+.footer-column p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #999;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+}
 .learn-more-container {
     background-color: #000;
     color: #fff;
@@ -570,7 +631,7 @@ footer a:hover {
 
 .background-container {
     position: relative;
-    background-image: url("../images/iphone2.jpg"); /* Adjust the path based on your directory structure */
+    background-image: url("../images/backgrounds/background_002.jpg"); /* Adjust the path based on your directory structure */
     background-size: cover;
     background-position: center;
     border-top: 5px solid #ffffff; /* Adjust the border color and width as needed */
@@ -658,17 +719,18 @@ footer a:hover {
     max-width: 600px;
   }
   
-  .form-group {
+.form-group {
     margin-bottom: 1.5rem;
-  }
+}
   
-  .btn-primary {
+.btn-primary {
     background-color: #007bff;
     border-color: #007bff;
     transition: background-color 0.3s, border-color 0.3s;
-  }
+}
   
-  .btn-primary:hover {
+.btn-primary:hover {
     background-color: #0056b3;
     border-color: #004085;
-  }
+}
+

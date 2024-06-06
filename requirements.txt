@@ -10,3 +10,5 @@ django-countries     # Provides country choices for forms
 django-ckeditor      # Rich text editor for content management
 django-debug-toolbar # Debugging tool for Django applications
 requests
+paypalrestsdk
+django-paypal
