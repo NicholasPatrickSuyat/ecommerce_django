@@ -107,21 +107,75 @@ main {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+
+
+
+
 footer {
-    background: linear-gradient(120deg, #000, #444);
-    color: white;
-    text-align: center;
-    padding: 0;
-    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Text:wght@400;500;600&display=swap');
+
+footer {
+  background-color: #f8f8f8;
+  padding: 40px 20px;
+  font-family: 'SF Pro Text', sans-serif;
+  border-top: 1px solid #e7e7e7;
 }
 
-.text-center {
-    text-align: center;
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.mt-20 {
-    margin-top: 20px;
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  margin: 20px 0;
 }
+
+.footer-column h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.footer-column a {
+  display: block;
+  color: #666;
+  text-decoration: none;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.footer-column a:hover {
+  text-decoration: underline;
+}
+
+.footer-column p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #999;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+}
+
+
+
+
 
 /* Custom styles for home page */
 .logo-image {
@@ -296,10 +350,10 @@ footer {
     margin-top: 50px; /* Adjust the value as needed */
 }
 
-/* Additional margin for training videos */
-.training-videos-section {
-    margin-top: 50px; /* Adjust this value to provide sufficient space */
-}
+
+
+
+
 
 /* Product list styles */
 .container.mt-5 {
