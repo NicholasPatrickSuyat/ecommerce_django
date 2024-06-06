@@ -219,10 +219,9 @@ footer {
 /* Carousel styles */
 .carousel-container {
     width: 100vw; /* Full width of the viewport */
-    margin: 50px auto; /* Center the carousel horizontally and add vertical margin */
+    margin: 50px; /* Center the carousel horizontally and add vertical margin */
     position: relative;
-    padding: 0; /* Remove padding to ensure images are close */
-    overflow: hidden; /* Hide overflow to prevent background visibility */
+    padding: 40px 0; /* Adjust padding as needed */
 }
 
 .carousel-track {
@@ -230,56 +229,39 @@ footer {
     animation: scroll 30s linear infinite;
 }
 
-.carousel-track .card {
-    margin: 0 5px; /* Adjust margin to ensure images are close */
-    border: none; /* Remove card border */
-    flex: 0 0 auto; /* Ensure flex behavior for continuous scrolling */
-    position: relative; /* Ensure positioning for overlay */
-}
-
-.carousel-track .card-img-top {
-    width: 300px; /* Adjust width as needed */
-    height: 300px; /* Make the height equal to the width for a square shape */
+.carousel-track img {
+    width: 310px; /* Adjust width as needed */
+    margin: 0 10px;
+    position: relative;
     border-radius: 10px; /* Make the edges round */
-    object-fit: cover; /* Ensure the image covers the entire card */
 }
 
-.overlay {
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item img {
+    width: 310px; /* Adjust width as needed */
+    margin: 0 10px;
+    position: relative;
+    border-radius: 10px; /* Make the edges round */
+}
+
+.carousel-item .view-button {
     display: none;
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: grey;
     color: white;
-    border-radius: 10px; /* Same as the image's border-radius */
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.carousel-track .card:hover .overlay {
-    display: flex;
-    opacity: 1;
-}
-
-.view-button {
     padding: 10px 20px;
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: white;
-    background-color: transparent;
-    border: 2px solid white;
     border-radius: 50px;
-    text-decoration: none;
-    transition: background-color 0.3s, transform 0.3s;
+    font-size: 1rem;
 }
 
-.view-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
+.carousel-item:hover .view-button {
+    display: block;
 }
 
 @keyframes scroll {
@@ -287,7 +269,7 @@ footer {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-50%);
     }
 }
 
@@ -367,6 +349,49 @@ footer {
 .video-list-container {
     margin-top: 50px; /* Adjust the value as needed */
 }
+
+
+
+
+/* Training Videos Section Styling */
+.training-videos-section {
+    margin-top: 50px;
+}
+
+.embed-responsive-item {
+    width: 100%;
+    height: 400px; /* Adjust this value to make videos bigger */
+}
+
+h1, h2, h3 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+h3 {
+    font-size: 1.25em;
+    margin-top: 10px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+
+
+
+
+
 
 
 
@@ -540,67 +565,9 @@ footer {
     flex: 1; /* This will take up all available space */
 }
 
-footer {
-    @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Text:wght@400;500;600&display=swap');
 
-footer {
-  background-color: #f8f8f8;
-  padding: 40px 20px;
-  font-family: 'SF Pro Text', sans-serif;
-  border-top: 1px solid #e7e7e7;
-}
 
-.footer-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-}
 
-.footer-column {
-  flex: 1;
-  min-width: 200px;
-  margin: 20px 0;
-}
-
-.footer-column h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.footer-column a {
-  display: block;
-  color: #666;
-  text-decoration: none;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-.footer-column a:hover {
-  text-decoration: underline;
-}
-
-.footer-column p {
-  margin: 0;
-  font-size: 14px;
-  color: #666;
-}
-
-.footer-bottom {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
-  color: #999;
-}
-
-.footer-bottom p {
-  margin: 0;
-}
-
-}
 .learn-more-container {
     background-color: #000;
     color: #fff;
@@ -631,7 +598,7 @@ footer {
 
 .background-container {
     position: relative;
-    background-image: url("../images/backgrounds/background_002.jpg"); /* Adjust the path based on your directory structure */
+    background-image: url("../images/iphone2.jpg"); /* Adjust the path based on your directory structure */
     background-size: cover;
     background-position: center;
     border-top: 5px solid #ffffff; /* Adjust the border color and width as needed */
@@ -719,18 +686,222 @@ footer {
     max-width: 600px;
   }
   
-.form-group {
+  .form-group {
     margin-bottom: 1.5rem;
-}
+  }
   
-.btn-primary {
+  .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
     transition: background-color 0.3s, border-color 0.3s;
-}
+  }
   
-.btn-primary:hover {
+  .btn-primary:hover {
     background-color: #0056b3;
     border-color: #004085;
+  }
+
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.info-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.info-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.info-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #007bff;
+}
+
+.info-subtitle {
+    font-size: 20px;
+    color: #555;
+}
+
+.overview-section, .features-section, .applications-section, .cta-section {
+    margin-bottom: 40px;
+}
+
+.overview-section .overview-content, .features-section .features-content, .applications-section .applications-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.overview-text, .overview-image, .feature, .application {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.overview-image img, .feature img, .application img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.features-content .feature, .applications-content .application {
+    flex-basis: 30%;
+    text-align: center;
+}
+
+.feature img, .application img {
+    max-width: 200px;
+    margin-bottom: 10px;
+}
+
+.features-section h3, .applications-section h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #007bff;
+}
+
+.features-section p, .applications-section p {
+    font-size: 16px;
+    color: #666;
+}
+
+.cta-section {
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.uv-cure-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.uv-cure-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.uv-cure-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #007bff;
+}
+
+.uv-cure-subtitle {
+    font-size: 20px;
+    color: #555;
+}
+
+.uv-cure-overview, .uv-cure-features, .uv-cure-applications, .uv-cure-videos, .uv-cure-cta {
+    margin-bottom: 40px;
+}
+
+.uv-cure-overview-content, .uv-cure-features-content, .uv-cure-applications-content, .uv-cure-video-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.uv-cure-overview-text, .uv-cure-overview-image, .feature, .application, .video {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.uv-cure-overview-image img, .feature img, .application img, .video iframe {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.uv-cure-features-content .feature, .uv-cure-applications-content .application {
+    flex-basis: 30%;
+    text-align: center;
+}
+
+.feature img, .application img {
+    max-width: 200px;
+    margin-bottom: 10px;
+}
+
+.uv-cure-features h3, .uv-cure-applications h3, .uv-cure-videos h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #007bff;
+}
+
+.feature p, .application p {
+    font-size: 16px;
+    color: #666;
+}
+
+.uv-cure-video-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.video {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.uv-cure-cta {
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #0056b3;
 }
 
