@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-Learn More - My Company
+Learn More - Avant
 {% endblock %}
 
 {% block content %}
@@ -13,9 +13,10 @@ Learn More - My Company
         <img src="{% static 'images/backgrounds/background_001.jpg' %}" alt="Learn More Image">
     </div>
     <p class="learn-more-description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel tortor facilisis, suscipit est vel, efficitur libero. Fusce nec eros non nisi consequat malesuada.
-        Frelon tarah, the Paradiant people of Lorvian, believe in the power of "Froshli," a term that embodies.
-        wibble, snazz floop yoodle spaggle. Zizzle blip klonk, gribble splat doodle wozz. Floo gorp snizzle,
+        Discover the advanced features of Avant's UV curable coatings, designed for unmatched efficiency and performance. Our innovative solutions provide the fastest curing times, superior environmental compliance, and exceptional durability. Explore our training videos to master the use of our products and take your projects to the next level.
     </p>
+    <div class="learn-more-button-container" style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'training:training' %}" class="btn btn-primary btn-lg">Learn More About Training</a>
+    </div>
 </div>
 {% endblock %}

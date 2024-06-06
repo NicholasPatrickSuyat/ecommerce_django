@@ -3,19 +3,89 @@
 {% load static %}
 
 {% block title %}
-Learn More - My Company
+Avant UV Cure Lights and Starter Kits
 {% endblock %}
 
 {% block content %}
-<div class="learn-more-container">
-    <h1 class="learn-more-title">Learn More About Our Products</h1>
-    <div class="learn-more-image">
-        <img src="{% static 'images/backgrounds/background_001.jpg' %}" alt="Learn More Image">
-    </div>
-    <p class="learn-more-description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel tortor facilisis, suscipit est vel, efficitur libero. Fusce nec eros non nisi consequat malesuada.
-        Frelon tarah, the Paradiant people of Lorvian, believe in the power of "Froshli," a term that embodies.
-        wibble, snazz floop yoodle spaggle. Zizzle blip klonk, gribble splat doodle wozz. Floo gorp snizzle,
-    </p>
+<div class="uv-cure-container">
+    <header class="uv-cure-header">
+        <h1 class="uv-cure-title">Revolutionize Your Curing Process with Avant UV Solutions</h1>
+        <p class="uv-cure-subtitle">Experience Speed, Efficiency, and Customization</p>
+    </header>
+
+    <section class="uv-cure-overview">
+        <h2>Overview</h2>
+        <div class="uv-cure-overview-content">
+            <div class="uv-cure-overview-text">
+                <p>Avant’s UV Cure Lights and Starter Kits are designed to provide the fastest curing times available, transforming slow throughput curing from days into minutes. Our systems are tailored to meet your specific needs, ensuring maximum efficiency and productivity.</p>
+                <p>Eliminate costly energy-consuming curing steps and bottlenecks with Avant’s affordable and efficient low-energy LED UVA-lighting system. Our lights operate within the safest UV spectrum range (365nm to 405nm), with 395nm being the most popular choice. Whether in a controlled environment or exposed to sunlight, Avant’s UV lights deliver a complete cure in minutes.</p>
+            </div>
+            <div class="uv-cure-overview-image">
+                <img src="{% static 'images/uv-cure-overview.jpg' %}" alt="Avant UV Cure Lights">
+            </div>
+        </div>
+    </section>
+
+    <section class="uv-cure-features">
+        <h2>Features</h2>
+        <div class="uv-cure-features-content">
+            <div class="feature">
+                <img src="{% static 'images/fast-cure.jpg' %}" alt="Fast Cure Time">
+                <h3>Ultra-Fast Cure Time</h3>
+                <p>Avant’s UV curing system dramatically reduces curing times from days to minutes, enhancing productivity and reducing turnaround times. Our lights provide full cure within minutes, even under low energy LED UVA-lighting or direct sunlight.</p>
+            </div>
+            <div class="feature">
+                <img src="{% static 'images/energy-efficient.jpg' %}" alt="Energy Efficient">
+                <h3>Energy Efficient</h3>
+                <p>Our LED UVA-lighting system is designed to be energy-efficient, reducing your costs and environmental impact. Say goodbye to expensive, energy-intensive curing processes.</p>
+            </div>
+            <div class="feature">
+                <img src="{% static 'images/customizable.jpg' %}" alt="Customizable Kits">
+                <h3>Customizable Kits</h3>
+                <p>Avant offers starter kits that are fully customizable to suit your specific needs. Whether you require a small setup or a larger grid for extensive curing areas, we’ve got you covered.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="uv-cure-applications">
+        <h2>Applications</h2>
+        <div class="uv-cure-applications-content">
+            <div class="application">
+                <h3>Wood Finishing</h3>
+                <p>Avant UV cure lights are perfect for wood finishing, providing a durable, high-gloss finish in record time.</p>
+                <img src="{% static 'images/wood-finishing.jpg' %}" alt="Wood Finishing">
+            </div>
+            <div class="application">
+                <h3>Automotive</h3>
+                <p>Our UV curing technology enhances automotive coatings, ensuring quick and reliable curing for a flawless finish.</p>
+                <img src="{% static 'images/automotive-app.jpg' %}" alt="Automotive Applications">
+            </div>
+            <div class="application">
+                <h3>Industrial Coatings</h3>
+                <p>Avant lights are ideal for industrial coatings, offering fast curing times and excellent adhesion for various surfaces.</p>
+                <img src="{% static 'images/industrial-coatings.jpg' %}" alt="Industrial Coatings">
+            </div>
+        </div>
+    </section>
+
+    <section class="uv-cure-videos">
+        <h2>How to Use Avant UV Lights</h2>
+        <div class="uv-cure-video-content">
+            <div class="video">
+                <h3>Setup and Application Guide</h3>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/example1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="video">
+                <h3>Product Showcase</h3>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/example2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section class="uv-cure-cta">
+        <h2>Get Started with Avant UV Solutions</h2>
+        <p>Transform your curing process with Avant’s cutting-edge UV cure lights and customizable starter kits. Discover the benefits and boost your efficiency today!</p>
+        <a href="{% url 'shop' %}" class="cta-button">Shop Now</a>
+    </section>
 </div>
 {% endblock %}

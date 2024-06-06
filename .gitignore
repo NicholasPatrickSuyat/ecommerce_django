@@ -1,5 +1,5 @@
 /venv/
 *.pyc
 /__pycache__/
-
-/staticfiles/
+__pycache__/
+db.sqlite3
