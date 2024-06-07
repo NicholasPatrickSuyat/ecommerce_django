@@ -72,7 +72,7 @@ Home - My Company
     <div class="carousel-track">
         {% for product in products %}
             <div class="card mb-4">
-                <img src="{{ product.image.url }}" class="card-img-top">
+                <img src="{{ product.images.first.image.url }}" class="card-img-top">
                 <div class="overlay">
                     <a href="{% url 'products:product_list' %}" class="view-button">Shop</a>
                 </div>

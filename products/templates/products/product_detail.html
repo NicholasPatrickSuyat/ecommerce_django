@@ -5,14 +5,22 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.title }}">
+            <img id="product-image" src="{{ product.images.first.image.url }}" class="img-fluid" alt="{{ product.title }}">
         </div>
         <div class="col-md-6">
             <h2>{{ product.title }}</h2>
             <p>{{ product.description }}</p>
-            <p>Price: ${{ product.price }}</p>
+            <p>Price: $<span id="product-price">{{ product.sizes.first.price }}</span></p>
             <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
                 {% csrf_token %}
+                <div class="form-group">
+                    <label for="size">Size:</label>
+                    <select name="size" id="size" class="form-control" onchange="updateProductDetails()">
+                        {% for size in product.sizes.all %}
+                        <option value="{{ size.id }}" data-price="{{ size.price }}" data-image="{{ size.size_image.url }}">{{ size.size }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="quantity">Quantity:</label>
                     <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control" style="width: 80px;">
@@ -33,4 +41,16 @@
         </div>
     </div>
 </div>
+
+<script>
+function updateProductDetails() {
+    var sizeSelect = document.getElementById('size');
+    var selectedOption = sizeSelect.options[sizeSelect.selectedIndex];
+    var price = selectedOption.getAttribute('data-price');
+    var imageUrl = selectedOption.getAttribute('data-image');
+
+    document.getElementById('product-price').innerText = price;
+    document.getElementById('product-image').src = imageUrl;
+}
+</script>
 {% endblock %}

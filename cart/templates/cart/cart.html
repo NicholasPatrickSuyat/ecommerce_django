@@ -1,5 +1,5 @@
 {% extends "home/base.html" %}
-{% load cart_tags %}
+{% load custom_filters %}
 {% load static %}
 
 {% block content %}
@@ -10,6 +10,7 @@
             <tr>
                 <th>Image</th>
                 <th>Product</th>
+                <th>Size</th>
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Total</th>
@@ -21,30 +22,36 @@
                 {% for item in cart_items %}
                 <tr>
                     <td>
-                        {% if item.product.image %}
-                            <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                        {% if item.size.size_image %}
+                            <img src="{{ item.size.size_image.url }}" alt="{{ item.product.title }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
                         {% else %}
                             <img src="{% static 'images/no-image.png' %}" alt="No image" class="img-fluid" style="max-width: 100px; max-height: 100px;">
                         {% endif %}
                     </td>
                     <td>{{ item.product.title }}</td>
+                    <td>{{ item.size.size }}</td>
                     <td>
                         <form method="post" action="{% url 'cart:update_cart' item.product.id %}">
                             {% csrf_token %}
+                            <input type="hidden" name="size" value="{{ item.size.id }}">
                             <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control" style="max-width: 60px; display: inline-block;">
                             <button type="submit" class="btn btn-primary btn-sm">Update</button>
                         </form>
                     </td>
-                    <td>${{ item.product.price }}</td>
-                    <td>${{ item.product.price|multiply:item.quantity }}</td>
+                    <td>${{ item.size.price }}</td>
+                    <td>${{ item.size.price|multiply:item.quantity }}</td>
                     <td>
-                        <a href="{% url 'cart:remove_from_cart' item.product.id %}" class="btn btn-danger">Remove</a>
+                        <form method="post" action="{% url 'cart:remove_from_cart' item.product.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="size" value="{{ item.size.id }}">
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}
             {% else %}
                 <tr>
-                    <td colspan="6" class="text-center">Your cart is empty.</td>
+                    <td colspan="7" class="text-center">Your cart is empty.</td>
                 </tr>
             {% endif %}
         </tbody>

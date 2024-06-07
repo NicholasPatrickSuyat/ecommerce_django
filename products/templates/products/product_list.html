@@ -6,12 +6,11 @@
         {% for product in products %}
         <div class="col-md-4">
             <div class="card mb-4">
-                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+                <img src="{{ product.images.first.image.url }}" class="card-img-top" alt="{{ product.title }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ product.title }}</h5>
-                    <p class="card-text">${{ product.price }}</p>
+                    <p class="card-text">From ${{ product.sizes.first.price }}</p>
                     <a href="{% url 'products:product_detail' product.id %}" class="btn btn-info">View</a>
-                    <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-primary">Add to Cart</a>
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from user.models import Order
-from products.models import Products
+from products.models import Products, ProductSize
 
 class DeliveryAddress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
@@ -33,6 +33,7 @@ class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='carts', null=True, blank=True)
     guest_email = models.EmailField(null=True, blank=True)
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)  # Ensure size is added
     quantity = models.PositiveIntegerField(default=1)
     added_at = models.DateTimeField(auto_now_add=True)
 
@@ -41,6 +42,7 @@ class Cart(models.Model):
             return f"Cart {self.id} for {self.user.username}"
         else:
             return f"Cart {self.id} for guest {self.guest_email}"
+
 
 class PaymentMethod(models.Model):
     name = models.CharField(max_length=100)
