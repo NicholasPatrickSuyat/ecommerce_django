@@ -18,6 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls', namespace='home')), # Include the home app URLs
@@ -27,5 +28,5 @@ urlpatterns = [
     path('user/', include('user.urls', namespace='user')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('paypal/', include('paypal.standard.ipn.urls')),
-    
+   
 ]

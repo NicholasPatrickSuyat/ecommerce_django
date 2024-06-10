@@ -1,0 +1,28 @@
+{% extends "home/base.html" %}
+
+{% load static %}
+
+{% block title %}
+Patents
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Patents</h1>
+    <p>Avant® products are distributed under license from Clean Armor® and may be protected by one or more patents and patents pending in the U.S. and elsewhere. This website is provided to satisfy the virtual patent marking provisions of various jurisdictions, including the virtual patent marking provisions of the America Invents Act, and to provide notice under 35 U.S.C. § 287(a).</p>
+    <p>The following list of products and patents may not be all-inclusive. Some products listed here may be covered by patents in the United States and elsewhere that are not listed, and other products not listed here may be protected by one or more patents and patents pending in the United States and elsewhere.</p>
+    
+    <h2>Product Categories and Patent Coverage</h2>
+    <ul>
+        <li><strong>Aerospace Coatings:</strong> One or more U.S. and international patents pending.</li>
+        <li><strong>Wood Coatings:</strong> One or more U.S. and international patents pending.</li>
+        <li><strong>Composite Coatings:</strong> One or more U.S. and international patents pending.</li>
+        <li><strong>Instrument Coatings:</strong> One or more U.S. and international patents pending.</li>
+        <li><strong>Metal Coatings:</strong> One or more U.S. and international patents pending.</li>
+        <li><strong>Automotive Coatings:</strong> One or more U.S. and international patents pending.</li>
+        <li><strong>Marine Coatings:</strong> One or more U.S. and international patents pending.</li>
+        <li><strong>Universal UV Coatings:</strong> One or more U.S. and international patents pending.</li>
+    </ul>
+    <p>For detailed patent information and licensing inquiries, please visit our <a href="{% url 'contact:contact' %}">Contact Us</a> page or Clean Armor®'s <a href="https://www.cleanarmor.com/support/contact-us">Contact Page</a>.</p>
+</div>
+{% endblock %}

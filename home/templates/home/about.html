@@ -1,0 +1,77 @@
+{% extends "home/base.html" %}
+
+{% load static %}
+
+{% block title %}
+about
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Avant</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header class="header">
+        <img src="{% static 'path_to_logo_image' %}" alt="Avant Logo" class="logo">
+    </header>
+    <main class="content">
+        <section class="introduction">
+            <h1>Welcome to Avant</h1>
+            <p>
+                At Avant, we are at the forefront of revolutionizing the coatings industry with our patented UV curable polymer coating systems. Founded in [Year], Avant was born out of a vision to create an unparalleled solution for industrial coatings, one that not only meets but exceeds the ever-growing environmental standards.
+            </p>
+            <p>
+                Our innovative coatings are an exceptional alternative to traditional compliant industrial coatings, offering a trifecta of benefits: they are Cleaner, Stronger, and Faster. Our products are VOC and HAP free, ensuring minimal environmental impact while maintaining superior quality. They offer remarkable chemical and weather resistance, making them durable and reliable. Additionally, our UV curable coatings cure on-demand in mere minutes, significantly reducing downtime and increasing efficiency.
+            </p>
+        </section>
+
+        <section class="partners">
+            <h2>Our Partners</h2>
+            <p>We are proud to partner with two leading companies in the industry: <a href="https://www.cleanarmor.com/">Clean Armor</a> and <a href="https://mainstreetcustomfinishing.com/">Mainstreet Custom Finishing</a>. Together, we are committed to delivering high-quality, sustainable solutions that drive the industry forward.</p>
+        </section>
+
+        <section class="products">
+            <h2>Our Products</h2>
+            <div class="product">
+                <img src="{% static 'path_to_uv_lights_image' %}" alt="UV Lights">
+                <h3>UV Lights</h3>
+                <p>Discover our state-of-the-art UV lights, designed to work seamlessly with our UV curable coatings for immediate, on-demand curing.</p>
+                <a href="shop_now_link" class="btn btn-primary rounded-pill shop-now-btn">Shop Now</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'path_to_uv_resin_image' %}" alt="UV Curable Resin">
+                <h3>UV Curable Resin</h3>
+                <p>Experience the next generation of resin with our UV curable options that offer superior strength and environmental compliance.</p>
+                <a href="shop_now_link" class="btn btn-primary rounded-pill shop-now-btn">Shop Now</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'path_to_custom_kits_image' %}" alt="Custom Touch-Up Kits">
+                <h3>Custom Touch-Up Kits</h3>
+                <p>Our custom touch-up kits are perfect for UV repairs, providing quick and effective solutions for any touch-up needs.</p>
+                <a href="shop_now_link" class="btn btn-primary rounded-pill shop-now-btn">Shop Now</a>
+            </div>
+        </section>
+
+        <section class="mission">
+            <h2>Our Mission</h2>
+            <p>At Avant, we are dedicated to transforming the coatings industry through innovation and sustainability. Our mission is to provide products that are not only environmentally friendly but also superior in performance and efficiency. We believe in no compromises and are committed to delivering solutions that are cleaner, stronger, and faster, setting a new standard for industrial coatings.</p>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>Explore our website to learn more about our products and how they can benefit your business. Partner with Avant today and be a part of the revolution in the coatings industry.</p>
+        <p>Contact us today to see how Avant can provide the solutions you need.</p>
+    </footer>
+</body>
+</html>
+
+{% endblock %}
+
+
+
