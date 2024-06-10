@@ -18,3 +18,18 @@ def learn_more_3(request):
 
 def learn_more_4(request):
     return render(request, 'home/learn4.html')
+
+def about(request):
+    return render(request, 'home/about.html')
+
+def terms(request):
+    return render(request, 'home/terms.html')
+
+def privacy(request):
+    return render(request, 'home/privacypolicy.html')
+
+def patents(request):
+    return render(request, 'home/patents.html')
+
+def warranty(request):
+    return render(request, 'home/warranty.html')
