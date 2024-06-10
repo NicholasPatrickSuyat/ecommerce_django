@@ -1,16 +1,77 @@
 {% extends "home/base.html" %}
 {% block content %}
   <div class="container mt-5">
-    <h2 class="text-center">Login</h2>
-    <form method="post" class="mt-4">
+    <h2 class="text-center text-primary">Login</h2>
+    <form method="post" class="mt-4 shadow p-4 rounded bg-light">
       {% csrf_token %}
       {{ form.as_p }}
       <div class="text-center mt-3">
-        <button type="submit" class="btn btn-primary btn-lg">Login</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
       </div>
     </form>
     <div class="text-center mt-3">
       <p>Don't have an account? <a href="{% url 'user:register' %}">Register here</a></p>
     </div>
   </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  body {
+    background: linear-gradient(to right, #0066ff, #00ccff);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .container {
+    max-width: 500px;
+    margin-top: 50px;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    color: white;
+  }
+
+  .form-control {
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 1.2rem;
+  }
+
+  .btn-primary {
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-size: 1.2rem;
+  }
+
+  .form-group label {
+    font-weight: bold;
+  }
+
+  .shadow {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .rounded {
+    border-radius: 20px;
+  }
+
+  .bg-light {
+    background-color: #f8f9fa !important;
+  }
+
+  .text-primary {
+    color: #007bff !important;
+  }
+
+  p a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  p a:hover {
+    text-decoration: underline;
+  }
+</style>
 {% endblock %}

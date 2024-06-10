@@ -52,7 +52,9 @@ nav {
     width: 100%;
     background: linear-gradient(120deg, rgba(0, 0, 0, 0.7), rgba(68, 68, 68, 0.7)); /* Transparent background */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    z-index: 9999;
+    height: 44px; /* Set the height to match the max-height specified */
+    font-size: 17px;
 }
 
 nav ul {
@@ -62,18 +64,22 @@ nav ul {
     display: flex;
     justify-content: center;
     align-items: center; /* Center items vertically */
+    height: 100%; /* Ensure the ul takes the full height of the nav */
 }
 
 nav ul li {
-    margin: 0 15px;
+    margin: 0 10px; /* Slightly reduce margin */
 }
 
 nav ul li a {
     color: white; /* Ensure text color in navbar is white */
     text-decoration: none;
-    padding: 10px 15px;
+    padding: 10px 15px; /* Maintain padding for click area */
     border-radius: 5px;
     transition: background 0.3s;
+    height: 100%; /* Ensure the links take the full height of the ul */
+    display: flex;
+    align-items: center; /* Center text vertically */
 }
 
 nav ul li a:hover {
@@ -81,7 +87,7 @@ nav ul li a:hover {
 }
 
 .navbar-logo {
-    width: 40px; /* Adjust the size of the navbar logo */
+    width: 30px; /* Adjust the size of the navbar logo */
     margin-right: 10px; /* Add some space between the logo and the text */
 }
 
@@ -91,6 +97,7 @@ nav ul li a:hover {
     align-items: center;
     margin-left: auto; /* Align to the right */
     position: relative; /* Add position relative */
+    height: 100%; /* Ensure the search container takes the full height of the nav */
 }
 
 .input-group {
@@ -98,11 +105,15 @@ nav ul li a:hover {
     align-items: center;
     border-radius: 20px; /* Rounded edges for the search bar */
     overflow: hidden; /* Ensure rounded corners are not cut off */
+    height: 100%; /* Ensure the input group takes the full height */
 }
 
 .input-group-prepend {
     background-color: transparent; /* Make background transparent */
     border: none; /* Remove border */
+    height: 100%; /* Ensure the prepend takes the full height */
+    display: flex;
+    align-items: center; /* Center the icon vertically */
 }
 
 .input-group-prepend .input-group-text {
@@ -116,7 +127,7 @@ nav ul li a:hover {
     border-left: none;
     border-radius: 20px; /* Rounded edges for the search bar */
     padding-left: 10px; /* Add padding to align text */
-    height: 38px; /* Adjust height to match the icon size */
+    height: 30px; /* Adjust height to match the input group size */
     padding-top: 0; /* Ensure vertical alignment */
     padding-bottom: 0; /* Ensure vertical alignment */
 }
@@ -154,6 +165,8 @@ nav ul li a:hover {
 #search-results .list-group-item:hover {
     background-color: #f1f1f1;
 }
+
+
 
 
 main {
@@ -637,7 +650,7 @@ footer {
     padding-top: 20px;
     padding-bottom: 20px;
     border-radius: 10px; /* Optional: Add rounded corners */
-    margin-top: 70px; /* Add margin to create space below the navbar */
+    margin-top: 45px; /* Reduce margin to make the content closer to the navbar */
 }
 
 .background-container .row {

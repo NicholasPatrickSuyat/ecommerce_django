@@ -4,8 +4,8 @@
 
 {% block content %}
   <div class="container mt-5">
-    <h2 class="text-center mb-4">Profile</h2>
-    <form method="post" class="mt-4">
+    <h2 class="text-center mb-4 text-primary">Profile</h2>
+    <form method="post" class="mt-4 shadow p-4 rounded bg-light">
       {% csrf_token %}
       <div class="row">
         <div class="col-md-6">
@@ -28,11 +28,86 @@
         </div>
       </div>
       <div class="text-center mt-3">
-        <button type="submit" class="btn btn-primary btn-lg">Update</button>
+        <button type="submit" class="btn btn-primary btn-lg rounded-pill">Update</button>
       </div>
     </form>
     <div class="text-center mt-4">
-        <a href="{% url 'user:order_history' %}" class="btn btn-secondary btn-lg">Order History</a>
+        <a href="{% url 'user:order_history' %}" class="btn btn-secondary btn-lg rounded-pill">Order History</a>
     </div>
   </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  body {
+    background: linear-gradient(to right, #0066ff, #00ccff);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .container {
+    max-width: 600px;
+    margin-top: 50px;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    color: white;
+  }
+
+  .form-control {
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 1.2rem;
+  }
+
+  .btn-primary, .btn-secondary {
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-size: 1.2rem;
+  }
+
+  .form-group label {
+    font-weight: bold;
+  }
+
+  .shadow {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .rounded {
+    border-radius: 20px;
+  }
+
+  .bg-light {
+    background-color: #f8f9fa !important;
+  }
+
+  .text-primary {
+    color: #007bff !important;
+  }
+
+  .text-secondary {
+    color: #6c757d !important;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  p a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  p a:hover {
+    text-decoration: underline;
+  }
+
+  .btn-lg {
+    font-size: 1.2rem;
+    padding: 10px 30px;
+    border-radius: 50px;
+  }
+</style>
 {% endblock %}

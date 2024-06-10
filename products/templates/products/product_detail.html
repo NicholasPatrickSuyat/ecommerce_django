@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container-fluid mt-5 product-detail-container">
     <div class="row">
         <div class="col-md-6">
             <div class="product-image-container">
@@ -30,23 +30,6 @@
                 <button type="submit" class="btn btn-primary btn-block">Add to Cart</button>
             </form>
         </div>
-        <div class="col-12 mt-4">
-            <div class="info-section">
-                <h4 class="section-title">Shipping Information</h4>
-                <p>{{ product_page.shipping }}</p>
-            </div>
-            <div class="info-section mt-4">
-                <h4 class="section-title">Order Image</h4>
-                {% if product_page.order_image %}
-                    <img src="{{ product_page.order_image.url }}" class="img-fluid rounded" alt="Order Image">
-                {% else %}
-                    <p>No image available.</p>
-                {% endif %}
-            </div>
-            <div class="info-section mt-4">
-                <h4 class="section-title">Total Price: ${{ product_page.total_price }}</h4>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -63,6 +46,12 @@ function updateProductDetails() {
 </script>
 
 <style>
+    .product-detail-container {
+        max-width: 100%;
+        padding: 0 15px;
+        margin-top: 70px; /* Adjust the value to create space below the navbar */
+    }
+
     .product-image-container {
         position: relative;
         overflow: hidden;
@@ -70,7 +59,7 @@ function updateProductDetails() {
     }
 
     .product-image-container img {
-        width: 100%;
+        width: 100%; /* Adjust the image width */
         height: auto;
         transition: transform 0.2s ease;
     }
@@ -105,21 +94,8 @@ function updateProductDetails() {
         width: 100px;
     }
 
-    .info-section {
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .section-title {
-        font-size: 1.5rem;
-        color: #333;
-        margin-bottom: 10px;
-    }
-
     .btn-primary {
-        background-color: #007bff;
+        background-color: #00af26;
         border: none;
         padding: 12px 20px;
         font-size: 1rem;
@@ -128,8 +104,39 @@ function updateProductDetails() {
     }
 
     .btn-primary:hover {
-        background-color: #0056b3;
+        background-color: #01792f;
         transform: scale(1.02);
+    }
+
+    .right-column {
+        margin-top: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 940px) {
+        .product-detail-container {
+            flex-direction: column;
+            margin-top: 60px;
+        }
+
+        .left-column,
+        .right-column {
+            width: 100%;
+        }
+
+        .left-column img {
+            width: 300px;
+            right: 0;
+            top: -65px;
+            left: initial;
+        }
+    }
+
+    @media (max-width: 535px) {
+        .left-column img {
+            width: 220px;
+            top: -85px;
+        }
     }
 </style>
 {% endblock %}

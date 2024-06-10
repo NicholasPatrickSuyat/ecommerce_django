@@ -3,285 +3,182 @@
 {% load static %}
 
 {% block title %}
-about
+About
 {% endblock %}
 
 {% block content %}
 <!DOCTYPE html>
-
-<style>
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #004085;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #333;
-}
-
-.info-page-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.info-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.info-title {
-    font-size: 36px;
-    font-weight: 700;
-    color: #007bff;
-}
-
-.info-subtitle {
-    font-size: 20px;
-    color: #555;
-}
-
-.overview-section, .features-section, .applications-section, .cta-section {
-    margin-bottom: 40px;
-}
-
-.overview-section .overview-content, .features-section .features-content, .applications-section .applications-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.overview-text, .overview-image, .feature, .application {
-    flex: 1;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-.overview-image img, .feature img, .application img {
-    max-width: 100%;
-    border-radius: 10px;
-}
-
-.features-content .feature, .applications-content .application {
-    flex-basis: 30%;
-    text-align: center;
-}
-
-.feature img, .application img {
-    max-width: 200px;
-    margin-bottom: 10px;
-}
-
-.features-section h3, .applications-section h3 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #007bff;
-}
-
-.features-section p, .applications-section p {
-    font-size: 16px;
-    color: #666;
-}
-
-.cta-section {
-    text-align: center;
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-.cta-button {
-    display: inline-block;
-    padding: 15px 30px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.cta-button:hover {
-    background-color: #0056b3;
-}
-
-.uv-cure-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.uv-cure-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.uv-cure-title {
-    font-size: 36px;
-    font-weight: 700;
-    color: #007bff;
-}
-
-.uv-cure-subtitle {
-    font-size: 20px;
-    color: #555;
-}
-
-.uv-cure-overview, .uv-cure-features, .uv-cure-applications, .uv-cure-videos, .uv-cure-cta {
-    margin-bottom: 40px;
-}
-
-.uv-cure-overview-content, .uv-cure-features-content, .uv-cure-applications-content, .uv-cure-video-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.uv-cure-overview-text, .uv-cure-overview-image, .feature, .application, .video {
-    flex: 1;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-.uv-cure-overview-image img, .feature img, .application img, .video iframe {
-    max-width: 100%;
-    border-radius: 10px;
-}
-
-.uv-cure-features-content .feature, .uv-cure-applications-content .application {
-    flex-basis: 30%;
-    text-align: center;
-}
-
-.feature img, .application img {
-    max-width: 200px;
-    margin-bottom: 10px;
-}
-
-.uv-cure-features h3, .uv-cure-applications h3, .uv-cure-videos h3 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #007bff;
-}
-
-.feature p, .application p {
-    font-size: 16px;
-    color: #666;
-}
-
-.uv-cure-video-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.video {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.uv-cure-cta {
-    text-align: center;
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-.cta-button {
-    display: inline-block;
-    padding: 15px 30px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 500;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.cta-button:hover {
-    background-color: #0056b3;
-}
-
-</style>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Avant</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: black;
+            color: white; /* Make all text white */
+        }
+
+        .fade-in {
+            animation: fadeIn 2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .scale-down {
+            animation: scaleDown 2s ease-out forwards;
+        }
+
+        @keyframes scaleDown {
+            0% {
+                transform: scale(2);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .avant-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .avant-text img {
+            width: 100%;
+            height: auto;
+        }
+
+        .content-container {
+            padding: 50px;
+            background-color: rgb(0, 0, 0);
+        }
+
+        .content-container h1, .content-container h2, .content-container h3, .content-container p {
+            margin: 20px 0;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards;
+            animation-delay: 1s;
+        }
+
+        .product img, .partners img {
+            max-width: 100%;
+            border-radius: 10px;
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        .product, .partners {
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s, border-color 0.3s;
+            border-radius: 50px; /* Rounded edges for buttons */
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards;
+            animation-delay: 2s;
+            color: white; /* Make button text white */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e7e7e7;
+            color: black; /* Make footer text black */
+        }
+
+        .header img {
+            max-width: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header class="header">
-        <img src="{% static 'path_to_logo_image' %}" alt="Avant Logo" class="logo">
-    </header>
-    <main class="content">
+    <div class="avant-container">
+        <div class="avant-text scale-down">
+            <img src="{% static 'images/logo/avant-transparent.png' %}" alt="AVANT">
+        </div>
+    </div>
+    <main class="content-container">
         <section class="introduction">
-            <h1>Welcome to Avant</h1>
-            <p>
+            <h1 class="fade-in">Welcome to Avant</h1>
+            <p class="fade-in">
                 At Avant, we are at the forefront of revolutionizing the coatings industry with our patented UV curable polymer coating systems. Founded in [Year], Avant was born out of a vision to create an unparalleled solution for industrial coatings, one that not only meets but exceeds the ever-growing environmental standards.
             </p>
-            <p>
+            <p class="fade-in">
                 Our innovative coatings are an exceptional alternative to traditional compliant industrial coatings, offering a trifecta of benefits: they are Cleaner, Stronger, and Faster. Our products are VOC and HAP free, ensuring minimal environmental impact while maintaining superior quality. They offer remarkable chemical and weather resistance, making them durable and reliable. Additionally, our UV curable coatings cure on-demand in mere minutes, significantly reducing downtime and increasing efficiency.
             </p>
         </section>
 
         <section class="partners">
-            <h2>Our Partners</h2>
-            <p>We are proud to partner with two leading companies in the industry: <a href="https://www.cleanarmor.com/">Clean Armor</a> and <a href="https://mainstreetcustomfinishing.com/">Mainstreet Custom Finishing</a>. Together, we are committed to delivering high-quality, sustainable solutions that drive the industry forward.</p>
+            <h2 class="fade-in">Our Partners</h2>
+            <p class="fade-in">We are proud to partner with two leading companies in the industry: <a href="https://www.cleanarmor.com/">Clean Armor</a> and <a href="https://mainstreetcustomfinishing.com/">Mainstreet Custom Finishing</a>. Together, we are committed to delivering high-quality, sustainable solutions that drive the industry forward.</p>
         </section>
 
         <section class="products">
-            <h2>Our Products</h2>
+            <h2 class="fade-in">Our Products</h2>
             <div class="product">
-                <img src="{% static 'path_to_uv_lights_image' %}" alt="UV Lights">
-                <h3>UV Lights</h3>
-                <p>Discover our state-of-the-art UV lights, designed to work seamlessly with our UV curable coatings for immediate, on-demand curing.</p>
-                <a href="shop_now_link" class="btn btn-primary rounded-pill shop-now-btn">Shop Now</a>
+                <img src="{% static 'path_to_uv_lights_image' %}" alt="UV Lights" class="fade-in">
+                <h3 class="fade-in">UV Lights</h3>
+                <p class="fade-in">Discover our state-of-the-art UV lights, designed to work seamlessly with our UV curable coatings for immediate, on-demand curing.</p>
+                <a href="shop_now_link" class="btn btn-primary rounded-pill shop-now-btn fade-in">Shop Now</a>
             </div>
             <div class="product">
-                <img src="{% static 'path_to_uv_resin_image' %}" alt="UV Curable Resin">
-                <h3>UV Curable Resin</h3>
-                <p>Experience the next generation of resin with our UV curable options that offer superior strength and environmental compliance.</p>
-                <a href="shop_now_link" class="btn btn-primary rounded-pill shop-now-btn">Shop Now</a>
+                <img src="{% static 'path_to_uv_resin_image' %}" alt="UV Curable Resin" class="fade-in">
+                <h3 class="fade-in">UV Curable Resin</h3>
+                <p class="fade-in">Experience the next generation of resin with our UV curable options that offer superior strength and environmental compliance.</p>
+                <a href="shop_now_link" class="btn btn-primary rounded-pill shop-now-btn fade-in">Shop Now</a>
             </div>
             <div class="product">
-                <img src="{% static 'path_to_custom_kits_image' %}" alt="Custom Touch-Up Kits">
-                <h3>Custom Touch-Up Kits</h3>
-                <p>Our custom touch-up kits are perfect for UV repairs, providing quick and effective solutions for any touch-up needs.</p>
-                <a href="shop_now_link" class="btn btn-primary rounded-pill shop-now-btn">Shop Now</a>
+                <img src="{% static 'path_to_custom_kits_image' %}" alt="Custom Touch-Up Kits" class="fade-in">
+                <h3 class="fade-in">Custom Touch-Up Kits</h3>
+                <p class="fade-in">Our custom touch-up kits are perfect for UV repairs, providing quick and effective solutions for any touch-up needs.</p>
+                <a href="shop_now_link" class="btn btn-primary rounded-pill shop-now-btn fade-in">Shop Now</a>
             </div>
         </section>
 
         <section class="mission">
-            <h2>Our Mission</h2>
-            <p>At Avant, we are dedicated to transforming the coatings industry through innovation and sustainability. Our mission is to provide products that are not only environmentally friendly but also superior in performance and efficiency. We believe in no compromises and are committed to delivering solutions that are cleaner, stronger, and faster, setting a new standard for industrial coatings.</p>
+            <h2 class="fade-in">Our Mission</h2>
+            <p class="fade-in">At Avant, we are dedicated to transforming the coatings industry through innovation and sustainability. Our mission is to provide products that are not only environmentally friendly but also superior in performance and efficiency. We believe in no compromises and are committed to delivering solutions that are cleaner, stronger, and faster, setting a new standard for industrial coatings.</p>
         </section>
     </main>
-    <footer class="footer">
+    <footer class="footer fade-in">
         <p>Explore our website to learn more about our products and how they can benefit your business. Partner with Avant today and be a part of the revolution in the coatings industry.</p>
         <p>Contact us today to see how Avant can provide the solutions you need.</p>
     </footer>
 </body>
 </html>
-
 {% endblock %}
-
-
-
