@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.conf import settings
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
-from django.urls import reverse
-from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from decimal import Decimal
 from .models import Cart, DeliveryAddress, DeliveryStatus
 from products.models import Products, ProductSize
 from user.models import Order
-from .forms import GuestCheckoutForm, CheckoutForm, DeliveryAddressForm
+from .forms import GuestCheckoutForm, CheckoutForm, DeliveryAddressForm, StripePaymentForm
 from paypal.standard.forms import PayPalPaymentsForm
+import stripe
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def cart_view(request):
     cart_items = []
@@ -75,7 +78,6 @@ def remove_from_cart(request, product_id):
             request.session['cart'] = cart
     return redirect('cart:cart')
 
-
 def update_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
@@ -94,7 +96,6 @@ def update_cart(request, product_id):
             request.session['cart'] = cart
     return redirect('cart:cart')
 
-
 def checkout_view(request):
     if request.user.is_authenticated:
         return logged_in_checkout_view(request)
@@ -112,6 +113,9 @@ def logged_in_checkout_view(request):
             shipping_address.save()
             
             cart_items = Cart.objects.filter(user=request.user)
+            if not cart_items.exists():
+                return redirect('cart:cart')  # Redirect to cart if there are no items
+            
             total_price = 0
             orders = []
             for item in cart_items:
@@ -176,13 +180,13 @@ def logged_in_checkout_view(request):
             }
 
             form = PayPalPaymentsForm(initial=paypal_dict)
-            return render(request, 'cart/process_payment.html', {'form': form, 'total_price': total_price})
+            stripe_payment_form = StripePaymentForm()  # Add Stripe form
+            return render(request, 'cart/process_payment.html', {'form': form, 'stripe_payment_form': stripe_payment_form, 'total_price': total_price})
 
     else:
         form = CheckoutForm()
         address_form = DeliveryAddressForm()
     return render(request, 'cart/checkout.html', {'form': form, 'address_form': address_form, 'user': request.user})
-
 
 def guest_checkout_view(request):
     if request.method == 'POST':
@@ -192,6 +196,9 @@ def guest_checkout_view(request):
             email = form.cleaned_data['email']
             shipping_address = address_form.save()
             cart = request.session.get('cart', {})
+            if not cart:
+                return redirect('cart:cart')  # Redirect to cart if there are no items
+            
             total_price = 0
             orders = []
             for product_id, details in cart.items():
@@ -249,7 +256,6 @@ def guest_checkout_view(request):
         address_form = DeliveryAddressForm()
     return render(request, 'cart/guest_checkout.html', {'form': form, 'address_form': address_form})
 
-
 def process_payment(request):
     total_price = Decimal(request.session.get('total_price'))  # Retrieve the total price from the session and convert to Decimal
     order_id = request.session.get('order_id')
@@ -271,7 +277,44 @@ def process_payment(request):
     }
 
     form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, 'cart/process_payment.html', {'order': order, 'form': form, 'total_price': total_price})
+    stripe_payment_form = StripePaymentForm()  # Add Stripe form
+    return render(request, 'cart/process_payment.html', {
+        'order': order,
+        'form': form,
+        'stripe_payment_form': stripe_payment_form,
+        'total_price': total_price,
+        'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY,
+    })
+
+def process_stripe_payment(request):
+    if request.method == 'POST':
+        stripe_token = request.POST.get('stripeToken')
+        total_price = Decimal(request.session.get('total_price'))  # Retrieve the total price from the session and convert to Decimal
+        order_id = request.session.get('order_id')
+        if not order_id:
+            return redirect('cart:cart')  # or handle this case as needed
+
+        order = get_object_or_404(Order, id=order_id)
+
+        try:
+            # Create a charge: this will charge the user's card
+            charge = stripe.Charge.create(
+                amount=int(total_price * 100),  # Amount in cents
+                currency="usd",
+                source=stripe_token,
+                description="Order {}".format(order.id)
+            )
+
+            # Handle post-payment tasks, e.g., mark the order as paid
+            # You can add your own logic here
+
+            return redirect('cart:payment_done')
+
+        except stripe.error.CardError as e:
+            # The card has been declined
+            return redirect('cart:payment_canceled')
+
+    return redirect('cart:cart')
 
 def payment_done(request):
     return render(request, 'cart/payment_success.html')
@@ -298,6 +341,10 @@ def guest_checkout_success_view(request):
 # from user.models import Order
 # from .forms import GuestCheckoutForm, CheckoutForm, DeliveryAddressForm
 # from paypal.standard.forms import PayPalPaymentsForm
+# import stripe
+
+# # Initialize Stripe API
+# stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # def cart_view(request):
 #     cart_items = []
@@ -431,7 +478,7 @@ def guest_checkout_success_view(request):
 #             }
 
 #             form = PayPalPaymentsForm(initial=paypal_dict)
-#             return render(request, 'cart/process_payment.html', {'form': form, 'total_price': total_price})
+#             return render(request, 'cart/process_payment.html', {'form': form, 'total_price': total_price, 'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY})
 
 #     else:
 #         form = CheckoutForm()
@@ -480,7 +527,7 @@ def guest_checkout_success_view(request):
 #             }
 
 #             form = PayPalPaymentsForm(initial=paypal_dict)
-#             return render(request, 'cart/process_payment.html', {'form': form, 'total_price': total_price})
+#             return render(request, 'cart/process_payment.html', {'form': form, 'total_price': total_price, 'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY})
 
 #     else:
 #         form = GuestCheckoutForm()
@@ -508,57 +555,76 @@ def guest_checkout_success_view(request):
 #     }
 
 #     form = PayPalPaymentsForm(initial=paypal_dict)
-#     return render(request, 'cart/process_payment.html', {'order': order, 'form': form, 'total_price': total_price})
+#     return render(request, 'cart/process_payment.html', {'order': order, 'form': form, 'total_price': total_price, 'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY})
+
+# def process_stripe_payment(request):
+#     if request.method == 'POST':
+#         token = request.POST.get('stripeToken')
+#         total_price = Decimal(request.session.get('total_price'))
+#         order_id = request.session.get('order_id')
+
+#         if not token or not order_id:
+#             return redirect('cart:cart')  # or handle this case as needed
+
+#         order = get_object_or_404(Order, id=order_id)
+#         first_name = request.session.get('first_name')
+#         last_name = request.session.get('last_name')
+#         shipping_address_id = request.session.get('shipping_address')
+#         shipping_address = get_object_or_404(DeliveryAddress, id=shipping_address_id)
+
+#         try:
+#             charge = stripe.Charge.create(
+#                 amount=int(total_price * 100),  # Amount in cents
+#                 currency='usd',
+#                 source=token,
+#                 description=f'Order {order.id}'
+#             )
+
+#             if charge.status == 'succeeded':
+#                 context = {
+#                     'first_name': first_name,
+#                     'last_name': last_name,
+#                     'orders': [order],
+#                     'total_price': total_price,
+#                     'shipping_address': shipping_address,
+#                 }
+#                 email_content = render_to_string('emails/order_confirmation.html', context)
+#                 plain_message = strip_tags(email_content)
+
+#                 # Send order confirmation email to the user
+#                 email = EmailMultiAlternatives(
+#                     subject='Order Confirmation',
+#                     body=plain_message,
+#                     from_email=settings.EMAIL_HOST_USER,
+#                     to=[order.user.email if order.user else order.guest_email]
+#                 )
+#                 email.attach_alternative(email_content, "text/html")
+#                 email.send()
+
+#                 # Send order notification email to the seller
+#                 seller_email = EmailMultiAlternatives(
+#                     subject='New Order',
+#                     body=plain_message,
+#                     from_email=settings.EMAIL_HOST_USER,
+#                     to=[settings.SELLER_EMAIL]
+#                 )
+#                 seller_email.attach_alternative(email_content, "text/html")
+#                 seller_email.send()
+
+#                 # Clear the cart
+#                 if request.user.is_authenticated:
+#                     Cart.objects.filter(user=request.user).delete()
+#                 else:
+#                     request.session['cart'] = {}
+
+#                 return redirect('cart:payment_done')
+
+#         except stripe.error.CardError as e:
+#             return redirect('cart:payment_canceled')  # or handle this case as needed
+
+#     return redirect('cart:cart')
 
 # def payment_done(request):
-#     order_id = request.session.get('order_id')
-#     total_price = request.session.get('total_price')
-#     first_name = request.session.get('first_name')
-#     last_name = request.session.get('last_name')
-#     shipping_address_id = request.session.get('shipping_address')
-
-#     if not order_id or not total_price or not first_name or not last_name or not shipping_address_id:
-#         return redirect('cart:cart')  # or handle this case as needed
-
-#     order = get_object_or_404(Order, id=order_id)
-#     shipping_address = get_object_or_404(DeliveryAddress, id=shipping_address_id)
-    
-#     context = {
-#         'first_name': first_name,
-#         'last_name': last_name,
-#         'orders': [order],
-#         'total_price': total_price,
-#         'shipping_address': shipping_address,
-#     }
-#     email_content = render_to_string('emails/order_confirmation.html', context)
-#     plain_message = strip_tags(email_content)
-
-#     # Send order confirmation email to the user
-#     email = EmailMultiAlternatives(
-#         subject='Order Confirmation',
-#         body=plain_message,
-#         from_email=settings.EMAIL_HOST_USER,
-#         to=[order.user.email if order.user else order.guest_email]
-#     )
-#     email.attach_alternative(email_content, "text/html")
-#     email.send()
-
-#     # Send order notification email to the seller
-#     seller_email = EmailMultiAlternatives(
-#         subject='New Order',
-#         body=plain_message,
-#         from_email=settings.EMAIL_HOST_USER,
-#         to=[settings.SELLER_EMAIL]
-#     )
-#     seller_email.attach_alternative(email_content, "text/html")
-#     seller_email.send()
-
-#     # Clear the cart
-#     if request.user.is_authenticated:
-#         Cart.objects.filter(user=request.user).delete()
-#     else:
-#         request.session['cart'] = {}
-
 #     return render(request, 'cart/payment_success.html')
 
 # def payment_canceled(request):
@@ -566,3 +632,4 @@ def guest_checkout_success_view(request):
 
 # def guest_checkout_success_view(request):
 #     return render(request, 'cart/guest_checkout_success.html')
+

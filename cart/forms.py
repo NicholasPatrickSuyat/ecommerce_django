@@ -24,3 +24,6 @@ class DeliveryAddressForm(forms.ModelForm):
             'country': forms.TextInput(attrs={'class': 'form-control'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+class StripePaymentForm(forms.Form):
+    stripeToken = forms.CharField()

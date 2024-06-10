@@ -5,16 +5,18 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img id="product-image" src="{{ product.images.first.image.url }}" class="img-fluid" alt="{{ product.title }}">
+            <div class="product-image-container">
+                <img id="product-image" src="{{ product.images.first.image.url }}" class="img-fluid rounded" alt="{{ product.title }}">
+            </div>
         </div>
         <div class="col-md-6">
-            <h2>{{ product.title }}</h2>
-            <p>{{ product.description }}</p>
-            <p>Price: $<span id="product-price">{{ product.sizes.first.price }}</span></p>
+            <h2 class="product-title">{{ product.title }}</h2>
+            <p class="product-description">{{ product.description }}</p>
+            <p class="product-price">Price: $<span id="product-price">{{ product.sizes.first.price }}</span></p>
             <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="size">Size:</label>
+                    <label for="size" class="form-label">Size:</label>
                     <select name="size" id="size" class="form-control" onchange="updateProductDetails()">
                         {% for size in product.sizes.all %}
                         <option value="{{ size.id }}" data-price="{{ size.price }}" data-image="{{ size.size_image.url }}">{{ size.size }}</option>
@@ -22,22 +24,28 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control" style="width: 80px;">
+                    <label for="quantity" class="form-label">Quantity:</label>
+                    <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control quantity-input">
                 </div>
-                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                <button type="submit" class="btn btn-primary btn-block">Add to Cart</button>
             </form>
         </div>
         <div class="col-12 mt-4">
-            <h4>Shipping Information</h4>
-            <p>{{ product_page.shipping }}</p>
-            <h4>Order Image</h4>
-            {% if product_page.order_image %}
-                <img src="{{ product_page.order_image.url }}" class="img-fluid" alt="Order Image">
-            {% else %}
-                <p>No image available.</p>
-            {% endif %}
-            <h4>Total Price: ${{ product_page.total_price }}</h4>
+            <div class="info-section">
+                <h4 class="section-title">Shipping Information</h4>
+                <p>{{ product_page.shipping }}</p>
+            </div>
+            <div class="info-section mt-4">
+                <h4 class="section-title">Order Image</h4>
+                {% if product_page.order_image %}
+                    <img src="{{ product_page.order_image.url }}" class="img-fluid rounded" alt="Order Image">
+                {% else %}
+                    <p>No image available.</p>
+                {% endif %}
+            </div>
+            <div class="info-section mt-4">
+                <h4 class="section-title">Total Price: ${{ product_page.total_price }}</h4>
+            </div>
         </div>
     </div>
 </div>
@@ -53,4 +61,75 @@ function updateProductDetails() {
     document.getElementById('product-image').src = imageUrl;
 }
 </script>
+
+<style>
+    .product-image-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+
+    .product-image-container img {
+        width: 100%;
+        height: auto;
+        transition: transform 0.2s ease;
+    }
+
+    .product-image-container:hover img {
+        transform: scale(1.03);
+    }
+
+    .product-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .product-description {
+        font-size: 1.1rem;
+        color: #666;
+    }
+
+    .product-price {
+        font-size: 1.5rem;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .quantity-input {
+        width: 100px;
+    }
+
+    .info-section {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        padding: 12px 20px;
+        font-size: 1rem;
+        transition: background-color 0.3s, transform 0.3s;
+        border-radius: 8px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: scale(1.02);
+    }
+</style>
 {% endblock %}

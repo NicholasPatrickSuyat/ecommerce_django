@@ -12,3 +12,4 @@ django-debug-toolbar # Debugging tool for Django applications
 requests
 paypalrestsdk
 django-paypal
+stripe
