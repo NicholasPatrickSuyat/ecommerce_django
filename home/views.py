@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import CompanyVideo  # Import the CompanyVideo model
 from products.models import Products  # Import the Products model
+from django.http import JsonResponse
 
 def home_view(request):
     videos = CompanyVideo.objects.all()  # Fetch all videos from the database
@@ -33,3 +34,20 @@ def patents(request):
 
 def warranty(request):
     return render(request, 'home/warranty.html')
+
+
+def search(request):
+    query = request.GET.get('q')
+    results = []
+    if query:
+        results = Products.objects.filter(title__icontains=query)  # Adjust the filter to match your needs
+    return render(request, 'search_results.html', {'query': query, 'results': results})
+
+def search_recommendations(request):
+    query = request.GET.get('q', '')
+    if query:
+        products = Products.objects.filter(title__icontains=query)[:5]  # Limit to 5 results
+        results = [{'id': product.id, 'title': product.title} for product in products]
+    else:
+        results = []
+    return JsonResponse(results, safe=False)

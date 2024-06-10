@@ -45,6 +45,7 @@ header {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Navbar styles */
 nav {
     position: fixed;
     top: 0;
@@ -60,6 +61,7 @@ nav ul {
     margin: 0;
     display: flex;
     justify-content: center;
+    align-items: center; /* Center items vertically */
 }
 
 nav ul li {
@@ -82,6 +84,77 @@ nav ul li a:hover {
     width: 40px; /* Adjust the size of the navbar logo */
     margin-right: 10px; /* Add some space between the logo and the text */
 }
+
+/* Search container styles */
+#search-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Align to the right */
+    position: relative; /* Add position relative */
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    border-radius: 20px; /* Rounded edges for the search bar */
+    overflow: hidden; /* Ensure rounded corners are not cut off */
+}
+
+.input-group-prepend {
+    background-color: transparent; /* Make background transparent */
+    border: none; /* Remove border */
+}
+
+.input-group-prepend .input-group-text {
+    background-color: transparent; /* Make background transparent */
+    border: none; /* Remove border */
+    padding-left: 5px; /* Adjust padding for alignment */
+}
+
+#search-input {
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 20px; /* Rounded edges for the search bar */
+    padding-left: 10px; /* Add padding to align text */
+    height: 38px; /* Adjust height to match the icon size */
+    padding-top: 0; /* Ensure vertical alignment */
+    padding-bottom: 0; /* Ensure vertical alignment */
+}
+
+#search-input::placeholder {
+    text-align: center; /* Center the placeholder text */
+}
+
+#search-input:focus {
+    box-shadow: none; /* Remove box shadow on focus */
+}
+
+/* Search results styles */
+#search-results {
+    position: absolute;
+    top: calc(100% + 2px); /* Position right below the search box */
+    left: 0; /* Align to the search box */
+    width: 100%; /* Ensure the width matches the search box */
+    z-index: 1000;
+    background-color: white;
+    border: 1px;
+    border-radius: 0 0 20px 20px; /* Rounded edges for the search results */
+    max-height: 200px; /* Add max height for better visibility */
+    overflow-y: auto; /* Add overflow auto to enable scrolling */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for better visibility */
+}
+
+#search-results .list-group-item {
+    cursor: pointer;
+    padding: 10px;
+    color: #333;
+    border: none; /* Remove border from list items */
+}
+
+#search-results .list-group-item:hover {
+    background-color: #f1f1f1;
+}
+
 
 main {
     flex: 1;

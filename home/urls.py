@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home_view, learn_more_1, learn_more_2, learn_more_3, learn_more_4, about, terms, privacy, patents, warranty
+from .views import home_view, learn_more_1, learn_more_2, learn_more_3, learn_more_4, about, terms, privacy, patents, warranty, search, search_recommendations
 
 app_name = 'home'
 
@@ -14,5 +14,7 @@ urlpatterns = [
     path('privacy/', privacy, name='privacy'),
     path('patents/', patents, name='patents'),
     path('warranty/', warranty, name='warranty'),
+    path('search/', search, name='search'),
+    path('search/recommendations/', search_recommendations, name='search_recommendations'),
 
 ]
