@@ -8,6 +8,15 @@
         {{ form.as_p }}
         <h3>Delivery Address</h3>
         {{ address_form.as_p }}
+        <h3>Shipping Options</h3>
+        <div class="form-group">
+            <label for="shipping_option">Select Shipping Option:</label>
+            <select name="shipping_option" id="shipping_option" class="form-control">
+                {% for option in shipping_options %}
+                    <option value="{{ option.id }}">{{ option.name }} - ${{ option.cost }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Proceed to Payment</button>
     </form>
 </div>

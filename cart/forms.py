@@ -1,10 +1,12 @@
 from django import forms
 from .models import DeliveryAddress
+from products.models import ShippingOption
 
 class CheckoutForm(forms.Form):
     first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    
 
 class GuestCheckoutForm(forms.Form):
     first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -24,6 +26,3 @@ class DeliveryAddressForm(forms.ModelForm):
             'country': forms.TextInput(attrs={'class': 'form-control'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
         }
-
-class StripePaymentForm(forms.Form):
-    stripeToken = forms.CharField()

@@ -2,9 +2,17 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+class ShippingOption(models.Model):
+    name = models.CharField(max_length=100)
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.name
+
 class Products(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
+    shipping_options = models.ManyToManyField(ShippingOption, related_name='products')
 
     def __str__(self):
         return self.title
