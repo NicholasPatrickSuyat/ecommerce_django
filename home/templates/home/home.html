@@ -11,7 +11,7 @@ Home - My Company
     <div class="container text-center mt-5">
         <div class="row">
             <div class="col-12">
-                <img src="{% static 'images/logo/logo_001.png' %}" class="img-fluid logo-image logo-fade-in">
+                <img src="{% static 'images/logo/logo_main.png' %}" class="img-fluid logo-image logo-fade-in">
             </div>
             <div class="col-12 mt-3">
                 <h1 class="company-name">Avant</h1>
@@ -68,8 +68,7 @@ Home - My Company
 
 <!-- Carousel Section -->
 <div class="carousel-container mt-5">
-    <!-- Container with margin-top to avoid touching the navbar -->
-    <div class="carousel-track">
+    <div class="carousel-track" id="carousel-track">
         {% for product in products %}
             <div class="card mb-4">
                 <img src="{{ product.images.first.image.url }}" class="card-img-top">
@@ -78,16 +77,25 @@ Home - My Company
                 </div>
             </div>
         {% endfor %}
-        {% for product in products %}
-            <div class="card mb-4">
-                <img src="{{ product.image.url }}" class="card-img-top">
-                <div class="overlay">
-                    <a href="{% url 'products:product_list' %}" class="view-button">Shop</a>
-                </div>
-            </div>
-        {% endfor %}
     </div>
 </div>
+
+<!-- Include the JavaScript directly in the HTML -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const track = document.getElementById('carousel-track');
+        const cards = Array.from(track.children);
+        const cardWidth = cards[0].offsetWidth;
+        const trackWidth = track.offsetWidth;
+        const cardsNeeded = Math.ceil(trackWidth / cardWidth) * 2; // Ensures double fill
+
+        for (let i = 0; i < cardsNeeded; i++) {
+            const clone = cards[i % cards.length].cloneNode(true);
+            track.appendChild(clone);
+        }
+    });
+</script>
+
 
 
 {% endblock %}

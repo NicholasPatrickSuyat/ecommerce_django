@@ -256,8 +256,9 @@ footer {
 
 /* Custom styles for home page */
 .logo-image {
-    max-width: 600px; /* Increase the size of the home page logo */
+    max-width: 300px; /* Increase the size of the home page logo */
     margin: 0 auto; /* Center the logo */
+    display: block;
 }
 
 .company-name {
@@ -265,14 +266,14 @@ footer {
     font-weight: bold;
     color: rgb(255, 255, 255); /* Change text color to black */
     font-family: 'San Francisco'; /* San Francisco font */
-    margin-top: -175px; /* Move the company name closer to the logo */
+    margin-top: -20px; /* Adjust the margin for better spacing */
 }
 
 .tagline {
-    font-size: 5rem; /* Make the tagline larger */
+    font-size: 2.5rem; /* Make the tagline larger */
     color: rgb(255, 255, 255); /* Change text color to black */
     font-family: 'San Francisco'; /* San Francisco font */
-    margin-top: -125px; /* Adjust the margin for better spacing */
+    margin-top: -10px; /* Adjust the margin for better spacing */
 }
 
 .learn-more-btn {
@@ -364,9 +365,10 @@ footer {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-50%);
     }
 }
+
 
 /* Styles for the boxes */
 .box-container {

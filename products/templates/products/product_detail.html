@@ -13,15 +13,17 @@
             <h2 class="product-title">{{ product.title }}</h2>
             <p class="product-description">{{ product.description }}</p>
             <p class="product-price">Price: $<span id="product-price">{{ product.sizes.first.price }}</span></p>
-            <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
+            <form id="add-to-cart-form" method="post" action="{% url 'cart:add_to_cart' product.id %}">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="size" class="form-label">Size:</label>
-                    <select name="size" id="size" class="form-control" onchange="updateProductDetails()">
+                    <div class="size-selector">
                         {% for size in product.sizes.all %}
-                        <option value="{{ size.id }}" data-price="{{ size.price }}" data-image="{{ size.size_image.url }}">{{ size.size }}</option>
+                        <input type="radio" name="size" id="size-{{ size.id }}" value="{{ size.id }}" class="size-option" data-price="{{ size.price }}" data-image="{{ size.size_image.url }}" onchange="updateProductDetails()">
+                        <label for="size-{{ size.id }}" class="size-label">{{ size.size }}</label>
                         {% endfor %}
-                    </select>
+                    </div>
+                    <p id="size-error" class="text-danger" style="display: none;">Select a size</p>
                 </div>
                 <div class="form-group">
                     <label for="quantity" class="form-label">Quantity:</label>
@@ -35,14 +37,26 @@
 
 <script>
 function updateProductDetails() {
-    var sizeSelect = document.getElementById('size');
-    var selectedOption = sizeSelect.options[sizeSelect.selectedIndex];
+    var selectedOption = document.querySelector('input[name="size"]:checked');
     var price = selectedOption.getAttribute('data-price');
     var imageUrl = selectedOption.getAttribute('data-image');
 
     document.getElementById('product-price').innerText = price;
     document.getElementById('product-image').src = imageUrl;
+
+    // Hide the error message if a size is selected
+    document.getElementById('size-error').style.display = 'none';
 }
+
+document.getElementById('add-to-cart-form').addEventListener('submit', function(event) {
+    var selectedOption = document.querySelector('input[name="size"]:checked');
+    if (!selectedOption) {
+        // Show the error message
+        document.getElementById('size-error').style.display = 'block';
+        // Prevent the form from submitting
+        event.preventDefault();
+    }
+});
 </script>
 
 <style>
@@ -56,10 +70,12 @@ function updateProductDetails() {
         position: relative;
         overflow: hidden;
         border-radius: 10px;
+        max-width: 500px; /* Restrict the width to a medium size */
+        margin: 0 auto; /* Center the image */
     }
 
     .product-image-container img {
-        width: 100%; /* Adjust the image width */
+        width: 100%; /* Ensure the image fills the container */
         height: auto;
         transition: transform 0.2s ease;
     }
@@ -81,7 +97,7 @@ function updateProductDetails() {
 
     .product-price {
         font-size: 1.5rem;
-        color: #007bff;
+        color: #4659c5;
         margin-bottom: 20px;
     }
 
@@ -95,21 +111,55 @@ function updateProductDetails() {
     }
 
     .btn-primary {
-        background-color: #00af26;
+        background-color: #4659c5;
         border: none;
         padding: 12px 20px;
         font-size: 1rem;
         transition: background-color 0.3s, transform 0.3s;
-        border-radius: 8px;
+        border-radius: 25px; /* Make the button round */
+        width: auto; /* Adjust width */
+        display: block;
+        margin: 0 auto; /* Center the button */
     }
 
     .btn-primary:hover {
-        background-color: #01792f;
+        background-color: #33439b;
         transform: scale(1.02);
     }
 
     .right-column {
         margin-top: 20px;
+    }
+
+    .size-selector {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .size-option {
+        display: none;
+    }
+
+    .size-label {
+        background-color: #f8f9fa;
+        border: 2px solid #000000;
+        border-radius: 50%;
+        color: #000000;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        height: 40px;
+        width: 40px;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .size-option:checked + .size-label {
+        background-color: #817c7c;
+        color: white;
+        transform: scale(1.1);
     }
 
     /* Responsive */
