@@ -33,3 +33,5 @@ def checkout(request):
         request.session['cart'] = {}  # Clear the cart after checkout
         return redirect('products:product_list')
     return render(request, 'products/checkout.html')
+
+

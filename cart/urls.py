@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import cart_view, add_to_cart, remove_from_cart, update_cart, checkout_view, payment_done, payment_canceled, guest_checkout_success_view, payment_error
+from .views_order_management import order_detail_view, order_list_view
 
 app_name = 'cart'
 
@@ -13,5 +14,8 @@ urlpatterns = [
     path('payment-cancelled/', payment_canceled, name='payment_canceled'),
     path('guest-checkout/success/', guest_checkout_success_view, name='guest_checkout_success'),
     path('payment-error/', payment_error, name='payment_error'),
-    # path('send_order_confirmation_email/', send_order_confirmation_email_view, name='send_order_confirmation_email'),
+    path('orders/', order_list_view, name='order_list'),
+    path('orders/<int:order_id>/', order_detail_view, name='order_detail'),
 ]
+
+

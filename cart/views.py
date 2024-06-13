@@ -21,10 +21,54 @@ logger = logging.getLogger(__name__)
 CustomUser = get_user_model()
 
 def create_invoice_view(request, order, email):
+    logger.debug(f"Creating invoice for order {order.id} and email {email}")
     invoice = create_invoice(order, email)
     if invoice and invoice.send():
+        logger.debug(f"Invoice created and sent successfully for order {order.id}")
         return True
+    logger.error(f"Failed to create and send invoice for order {order.id}")
     return False
+
+def send_order_confirmation(orders, user_email, shipping_address, shipping_option, total_payment, shipping_cost):
+    subject = 'Order Confirmation'
+    context = {
+        'first_name': orders[0].user.first_name if orders[0].user.first_name else '',
+        'last_name': orders[0].user.last_name if orders[0].user.last_name else '',
+        'orders': orders,
+        'total_price': sum(order.size.price * order.quantity for order in orders),
+        'shipping_address': shipping_address,
+        'shipping_option': shipping_option.name,  # Add shipping option name
+        'shipping_cost': shipping_cost,  # Add shipping cost
+        'total_payment': total_payment,
+    }
+    email_content = render_to_string('emails/order_confirmation.html', context)
+    plain_message = strip_tags(email_content)
+
+    try:
+        # Send email to the customer
+        customer_email = EmailMultiAlternatives(
+            subject=subject,
+            body=plain_message,
+            from_email=settings.EMAIL_HOST_USER,
+            to=[user_email]
+        )
+        customer_email.attach_alternative(email_content, "text/html")
+        customer_email.send()
+        logger.info(f"Order confirmation email sent to customer: {user_email}")
+
+        # Send email to the seller
+        seller_email = EmailMultiAlternatives(
+            subject='New Order',
+            body=plain_message,
+            from_email=settings.EMAIL_HOST_USER,
+            to=[settings.EMAIL_HOST_USER]
+        )
+        seller_email.attach_alternative(email_content, "text/html")
+        seller_email.send()
+        logger.info(f"Order confirmation email sent to seller: {settings.EMAIL_HOST_USER}")
+
+    except Exception as e:
+        logger.error(f"Error sending order confirmation email: {e}")
 
 def cart_view(request):
     cart_items = []
@@ -145,11 +189,19 @@ def logged_in_checkout_view(request):
                 )
                 orders.append(order)
 
+            # Check if orders are created
+            if orders:
+                print("Orders created successfully.")
+
             request.session['order_id'] = str(orders[0].id)
             request.session['total_price'] = str(total_price)
 
             if create_invoice_view(request, orders[0], request.user.email):
                 cart_items.delete()
+
+                # Send order confirmation email
+                send_order_confirmation(orders, request.user.email, shipping_address, shipping_option, total_price, shipping_option.cost)
+
                 return redirect('cart:payment_done')
             else:
                 return render(request, 'cart/payment_cancel.html', {'error': 'Failed to create and send invoice'})
@@ -169,6 +221,7 @@ def logged_in_checkout_view(request):
         'PAYPAL_CLIENT_ID': settings.PAYPAL_CLIENT_ID,
         'user': request.user
     })
+
 
 def guest_checkout_view(request):
     if request.method == 'POST':
@@ -211,6 +264,10 @@ def guest_checkout_view(request):
 
             if create_invoice_view(request, orders[0], email):
                 request.session['cart'] = {}
+
+                # Send order confirmation email
+                send_order_confirmation(orders, email, shipping_address, shipping_option, total_price, shipping_option.cost)
+
                 return redirect('cart:payment_done')
             else:
                 return render(request, 'cart/payment_cancel.html', {'error': 'Failed to create and send invoice'})
@@ -229,7 +286,6 @@ def guest_checkout_view(request):
         'total_price': total_price,
         'PAYPAL_CLIENT_ID': settings.PAYPAL_CLIENT_ID
     })
-
 
 def payment_done(request):
     if request.user.is_authenticated:
