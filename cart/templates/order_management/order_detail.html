@@ -1,16 +1,11 @@
-{% extends "home/base.html" %}
-
+{% extends "base_generic.html" %}
 {% block content %}
-  <h2>Order {{ order.id }}</h2>
-  <ul>
-    <li>User: {{ order.user }}</li>
-    <li>Guest Email: {{ order.guest_email }}</li>
-    <li>Product: {{ order.product.title }}</li>
-    <li>Size: {{ order.size.size }}</li>
-    <li>Quantity: {{ order.quantity }}</li>
-    <li>Shipping Address: {{ order.shipping_address }}</li>
-    <li>Shipping Option: {{ order.shipping_option.name }}</li>
-    <li>Total Cost: {{ order.total_cost }}</li>
-    <li>Order Date: {{ order.order_date }}</li>
-  </ul>
+  <h2>Order Detail</h2>
+  <p><strong>Order ID:</strong> {{ order.id }}</p>
+  <p><strong>User:</strong> {{ order.user.username if order.user else order.guest_email }}</p>
+  <p><strong>Product:</strong> {{ order.product.title }}</p>
+  <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+  <p><strong>Order Date:</strong> {{ order.order_date }}</p>
+  <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
+  <p><strong>Shipping Option:</strong> {{ order.shipping_option.name }}</p>
 {% endblock %}

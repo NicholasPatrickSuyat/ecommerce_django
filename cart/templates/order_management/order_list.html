@@ -1,34 +1,29 @@
-{% extends "home/base.html" %}
-
+{% extends "base_generic.html" %}
 {% block content %}
-  <h2>All Orders</h2>
-  <table class="table table-striped">
+  <h2>Order List</h2>
+  <table>
     <thead>
       <tr>
         <th>Order ID</th>
         <th>User</th>
-        <th>Guest Email</th>
         <th>Product</th>
         <th>Quantity</th>
-        <th>Total Cost</th>
         <th>Order Date</th>
-        <th>Actions</th>
+        <th>Shipping Address</th>
+        <th>Shipping Option</th>
       </tr>
     </thead>
     <tbody>
       {% for order in orders %}
-      <tr>
-        <td>{{ order.id }}</td>
-        <td>{{ order.user }}</td>
-        <td>{{ order.guest_email }}</td>
-        <td>{{ order.product.title }}</td>
-        <td>{{ order.quantity }}</td>
-        <td>{{ order.total_cost }}</td>
-        <td>{{ order.order_date }}</td>
-        <td>
-          <a href="{% url 'cart:order_detail' order.id %}" class="btn btn-primary">View Details</a>
-        </td>
-      </tr>
+        <tr>
+          <td><a href="{% url 'cart:order_detail' order.id %}">{{ order.id }}</a></td>
+          <td>{{ order.user.username if order.user else order.guest_email }}</td>
+          <td>{{ order.product.title }}</td>
+          <td>{{ order.quantity }}</td>
+          <td>{{ order.order_date }}</td>
+          <td>{{ order.shipping_address }}</td>
+          <td>{{ order.shipping_option.name }}</td>
+        </tr>
       {% endfor %}
     </tbody>
   </table>

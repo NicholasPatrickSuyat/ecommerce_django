@@ -44,10 +44,10 @@ class Cart(models.Model):
         else:
             return f"Cart {self.id} for guest {self.guest_email}"
 
-
 class PaymentMethod(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
+    

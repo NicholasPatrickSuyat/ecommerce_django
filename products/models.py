@@ -1,5 +1,3 @@
-# products/models.py
-
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -50,7 +48,6 @@ class ProductsPage(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        # Use the first size's price for total_price if it exists
         first_size = self.product.sizes.first()
         if first_size:
             self.total_price = first_size.price * self.quantity

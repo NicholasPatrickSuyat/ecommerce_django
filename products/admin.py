@@ -1,5 +1,3 @@
-# products/admin.py
-
 from django.contrib import admin
 from .models import Products, ProductImage, ProductSize, ProductsPage, ShippingOption
 

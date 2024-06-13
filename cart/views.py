@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 from django.utils.crypto import get_random_string
 from .models import Cart, DeliveryAddress, DeliveryStatus
 from products.models import Products, ProductSize, ShippingOption
-from user.models import Order
+from user.models import Order, OrderItem
 from .forms import GuestCheckoutForm, CheckoutForm, DeliveryAddressForm
 from .paypal_utils import create_invoice
 import logging
@@ -32,13 +32,13 @@ def create_invoice_view(request, order, email):
 def send_order_confirmation(orders, user_email, shipping_address, shipping_option, total_payment, shipping_cost):
     subject = 'Order Confirmation'
     context = {
-        'first_name': orders[0].user.first_name if orders[0].user.first_name else '',
-        'last_name': orders[0].user.last_name if orders[0].user.last_name else '',
+        'first_name': orders[0].user.first_name if orders[0].user and orders[0].user.first_name else '',
+        'last_name': orders[0].user.last_name if orders[0].user and orders[0].user.last_name else '',
         'orders': orders,
-        'total_price': sum(order.size.price * order.quantity for order in orders),
+        'total_price': sum(order.total_cost() for order in orders),
         'shipping_address': shipping_address,
-        'shipping_option': shipping_option.name,  # Add shipping option name
-        'shipping_cost': shipping_cost,  # Add shipping cost
+        'shipping_option': shipping_option.name,
+        'shipping_cost': shipping_cost,
         'total_payment': total_payment,
     }
     email_content = render_to_string('emails/order_confirmation.html', context)
@@ -163,6 +163,11 @@ def logged_in_checkout_view(request):
         form = CheckoutForm(request.POST)
         address_form = DeliveryAddressForm(request.POST)
         shipping_option_id = request.POST.get('shipping_method')
+        
+        if not shipping_option_id:
+            logger.error("Missing shipping option ID in POST data")
+            return render(request, 'cart/checkout.html', {'error': 'Missing shipping option ID in POST data'})
+
         shipping_option = get_object_or_404(ShippingOption, id=shipping_option_id)
 
         if form.is_valid() and address_form.is_valid():
@@ -179,13 +184,18 @@ def logged_in_checkout_view(request):
             for item in cart_items:
                 size = get_object_or_404(ProductSize, id=item.size_id)
                 total_price += size.price * item.quantity
+
                 order = Order.objects.create(
                     user=request.user,
-                    product=item.product,
-                    size=size,
-                    quantity=item.quantity,
                     shipping_address=shipping_address.address_line1,
                     shipping_option=shipping_option
+                )
+
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    size=size,
+                    quantity=item.quantity
                 )
                 orders.append(order)
 
@@ -198,10 +208,7 @@ def logged_in_checkout_view(request):
 
             if create_invoice_view(request, orders[0], request.user.email):
                 cart_items.delete()
-
-                # Send order confirmation email
                 send_order_confirmation(orders, request.user.email, shipping_address, shipping_option, total_price, shipping_option.cost)
-
                 return redirect('cart:payment_done')
             else:
                 return render(request, 'cart/payment_cancel.html', {'error': 'Failed to create and send invoice'})
@@ -222,12 +229,16 @@ def logged_in_checkout_view(request):
         'user': request.user
     })
 
-
 def guest_checkout_view(request):
     if request.method == 'POST':
         form = GuestCheckoutForm(request.POST)
         address_form = DeliveryAddressForm(request.POST)
         shipping_option_id = request.POST.get('shipping_method')
+        
+        if not shipping_option_id:
+            logger.error("Missing shipping option ID in POST data")
+            return render(request, 'cart/guest_checkout.html', {'error': 'Missing shipping option ID in POST data'})
+
         shipping_option = get_object_or_404(ShippingOption, id=shipping_option_id)
 
         if form.is_valid() and address_form.is_valid():
@@ -249,13 +260,18 @@ def guest_checkout_view(request):
                 size = get_object_or_404(ProductSize, id=details['size_id'])
                 item_total_price = size.price * details['quantity']
                 total_price += item_total_price
+
                 order = Order.objects.create(
                     user=user,
-                    product=product,
-                    size=size,
-                    quantity=details['quantity'],
                     shipping_address=shipping_address.address_line1,
                     shipping_option=shipping_option
+                )
+
+                OrderItem.objects.create(
+                    order=order,
+                    product=product,
+                    size=size,
+                    quantity=details['quantity']
                 )
                 orders.append(order)
 
@@ -264,10 +280,7 @@ def guest_checkout_view(request):
 
             if create_invoice_view(request, orders[0], email):
                 request.session['cart'] = {}
-
-                # Send order confirmation email
                 send_order_confirmation(orders, email, shipping_address, shipping_option, total_price, shipping_option.cost)
-
                 return redirect('cart:payment_done')
             else:
                 return render(request, 'cart/payment_cancel.html', {'error': 'Failed to create and send invoice'})

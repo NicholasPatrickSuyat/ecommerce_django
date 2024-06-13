@@ -1,3 +1,5 @@
+# user/models.py
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -19,9 +21,6 @@ class UserProfile(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_orders', null=True, blank=True)
     guest_email = models.EmailField(null=True, blank=True)
-    product = models.ForeignKey('products.Products', on_delete=models.CASCADE, related_name='product_orders')
-    size = models.ForeignKey('products.ProductSize', on_delete=models.CASCADE, null=True, blank=True)
-    quantity = models.IntegerField(default=1)
     order_date = models.DateTimeField(auto_now_add=True)
     shipping_address = models.TextField()
     shipping_option = models.ForeignKey('products.ShippingOption', on_delete=models.SET_NULL, null=True, blank=True)
@@ -33,4 +32,17 @@ class Order(models.Model):
             return f"Order {self.id} by guest {self.guest_email}"
 
     def total_cost(self):
-        return self.size.price * self.quantity + (self.shipping_option.cost if self.shipping_option else 0)
+        return sum(item.total_cost() for item in self.items.all()) + (self.shipping_option.cost if self.shipping_option else 0)
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey('products.Products', on_delete=models.CASCADE)
+    size = models.ForeignKey('products.ProductSize', on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} of {self.product.title} - {self.size.size}"
+
+    def total_cost(self):
+        return self.size.price * self.quantity

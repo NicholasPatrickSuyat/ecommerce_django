@@ -1,29 +1,46 @@
+# user/admin.py
+
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, UserProfile, Order
+from .models import CustomUser, UserProfile, Order, OrderItem
 
-class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'shipping_address', 'is_staff', 'is_active')
-    search_fields = ('username', 'email')
-    readonly_fields = ('date_joined', 'last_login')
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    search_fields = ('username', 'email', 'first_name', 'last_name')
 
-    fieldsets = (
-        (None, {'fields': ('username', 'email', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'shipping_address')}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')}),
-    )
+    def get_object(self, request, object_id, from_field=None):
+        obj = super().get_object(request, object_id, from_field)
+        if obj and not hasattr(obj, 'profile'):
+            UserProfile.objects.create(user=obj)
+        return obj
 
-admin.site.register(CustomUser, CustomUserAdmin)
-
+@admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'bio', 'shipping_address')
-    search_fields = ('user__username', 'bio')
+    list_display = ('user', 'shipping_address')
+    search_fields = ('user__username', 'user__email')
 
-admin.site.register(UserProfile, UserProfileAdmin)
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 1
 
+@admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'guest_email', 'product', 'quantity', 'total_cost', 'order_date')
-    search_fields = ('user__username', 'guest_email', 'product__title')
+    list_display = ('id', 'user', 'order_date', 'shipping_address', 'shipping_option', 'total_cost')
+    search_fields = ('user__username', 'user__email', 'items__product__title', 'items__size__size')
+    list_filter = ('order_date', 'shipping_option')
+    inlines = [OrderItemInline]
 
-admin.site.register(Order, OrderAdmin)
+    def total_cost(self, obj):
+        return obj.total_cost()
+
+    total_cost.short_description = 'Total Cost'
+
+@admin.register(OrderItem)
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ('order', 'product', 'size', 'quantity', 'total_cost')
+    search_fields = ('order__user__username', 'product__title', 'size__size')
+
+    def total_cost(self, obj):
+        return obj.total_cost()
+
+    total_cost.short_description = 'Total Cost'

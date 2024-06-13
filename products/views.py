@@ -30,8 +30,6 @@ def add_to_cart(request, product_id):
 
 def checkout(request):
     if request.method == 'POST':
-        request.session['cart'] = {}  # Clear the cart after checkout
+        request.session['cart'] = {}
         return redirect('products:product_list')
     return render(request, 'products/checkout.html')
-
-
