@@ -1,8 +1,78 @@
 {% extends "home/base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-white mb-4">Contact Us</h2>
+<style>
+    .contact-container {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-container h2 {
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+    }
+
+    .contact-container .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .contact-container .form-group label {
+        color: #000000;
+        font-size: 1.2rem;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-container .form-group input,
+    .contact-container .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+
+    .contact-container .form-group input:focus,
+    .contact-container .form-group textarea:focus {
+        border-color: #80bdff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+    }
+
+    .contact-container button {
+        font-size: 1.25rem;
+        padding: 0.75rem 1.5rem;
+    }
+
+    @media (max-width: 576px) {
+        .contact-container {
+            padding: 1rem;
+        }
+
+        .contact-container h2 {
+            font-size: 1.5rem;
+        }
+
+        .contact-container .form-group label {
+            font-size: 1rem;
+        }
+
+        .contact-container .form-group input,
+        .contact-container .form-group textarea {
+            font-size: 0.9rem;
+        }
+
+        .contact-container button {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+        }
+    }
+</style>
+
+<div class="container mt-5 contact-container">
+    <h2 class="text-white mb-4 text-center">Contact Us</h2>
     <form method="post" novalidate>
         {% csrf_token %}
         <div class="form-group">
@@ -21,7 +91,9 @@
             {{ form.message.label_tag }}
             {{ form.message }}
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg rounded-pill mt-3">Submit</button>
+        </div>
     </form>
 </div>
 {% endblock %}

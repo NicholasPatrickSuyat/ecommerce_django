@@ -1,0 +1,12 @@
+<!-- cart/templates/cart/payment_error.html -->
+{% extends "home/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center text-danger">Payment Error</h2>
+    <p class="text-center">There was an error processing your payment. Please try again later or contact support if the issue persists.</p>
+    <div class="text-center">
+        <a href="{% url 'cart:cart' %}" class="btn btn-primary">Back to Cart</a>
+    </div>
+</div>
+{% endblock %}

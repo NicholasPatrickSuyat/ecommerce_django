@@ -4,4 +4,6 @@
 /__pycache__/
 __pycache__/
 db.sqlite3
-/staticfiles/
+/staticfiles/__pycache__/
+*.pyc
+db.sqlite3

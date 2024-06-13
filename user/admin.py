@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, UserProfile
+from .models import CustomUser, UserProfile, Order
 
 class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'shipping_address', 'is_staff', 'is_active')
@@ -21,3 +21,9 @@ class UserProfileAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'bio')
 
 admin.site.register(UserProfile, UserProfileAdmin)
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'guest_email', 'product', 'quantity', 'total_cost', 'order_date')
+    search_fields = ('user__username', 'guest_email', 'product__title')
+
+admin.site.register(Order, OrderAdmin)

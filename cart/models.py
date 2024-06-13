@@ -33,9 +33,9 @@ class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='carts', null=True, blank=True)
     guest_email = models.EmailField(null=True, blank=True)
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
-    size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)  # Ensure size is added
+    size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    shipping_option = models.ForeignKey(ShippingOption, on_delete=models.SET_NULL, null=True, blank=True)  # New field
+    shipping_option = models.ForeignKey(ShippingOption, on_delete=models.SET_NULL, null=True, blank=True)
     added_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

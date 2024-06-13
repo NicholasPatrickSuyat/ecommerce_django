@@ -1,5 +1,15 @@
 {% extends "home/base.html" %}
+{% load static %}
+
 {% block content %}
-<h2>Payment Canceled</h2>
-<p>Your payment was canceled. Please try again.</p>
+<div class="container mt-5 text-center">
+    <div class="card shadow-lg border-0" style="background-color: white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <div class="card-body">
+            <h2 class="text-dark mb-4">Payment Canceled</h2>
+            <p class="mb-3 text-dark">It looks like your payment was canceled. No worries, you can try again or reach out to our support team for help.</p>
+            <a href="{% url 'cart:checkout' %}" class="btn btn-primary">Return to Checkout</a>
+            <a href="{% url 'home:home' %}" class="btn btn-secondary ml-2">Continue Shopping</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

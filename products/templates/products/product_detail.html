@@ -3,34 +3,54 @@
 
 {% block content %}
 <div class="container-fluid mt-5 product-detail-container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="product-image-container">
-                <img id="product-image" src="{{ product.images.first.image.url }}" class="img-fluid rounded" alt="{{ product.title }}">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <h2 class="product-title">{{ product.title }}</h2>
-            <p class="product-description">{{ product.description }}</p>
-            <p class="product-price">Price: $<span id="product-price">{{ product.sizes.first.price }}</span></p>
-            <form id="add-to-cart-form" method="post" action="{% url 'cart:add_to_cart' product.id %}">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="size" class="form-label">Size:</label>
-                    <div class="size-selector">
-                        {% for size in product.sizes.all %}
-                        <input type="radio" name="size" id="size-{{ size.id }}" value="{{ size.id }}" class="size-option" data-price="{{ size.price }}" data-image="{{ size.size_image.url }}" onchange="updateProductDetails()">
-                        <label for="size-{{ size.id }}" class="size-label">{{ size.size }}</label>
-                        {% endfor %}
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="product-image-container shadow">
+                        <img id="product-image" src="{{ product.images.first.image.url }}" class="img-fluid rounded" alt="{{ product.title }}">
                     </div>
-                    <p id="size-error" class="text-danger" style="display: none;">Select a size</p>
                 </div>
-                <div class="form-group">
-                    <label for="quantity" class="form-label">Quantity:</label>
-                    <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control quantity-input">
+                <div class="col-md-6">
+                    <div class="product-info-container shadow p-4 rounded">
+                        <h2 class="product-title">{{ product.title }}</h2>
+                        <p class="product-price">Price: $<span id="product-price">{{ product.sizes.first.price }}</span></p>
+                        <form id="add-to-cart-form" method="post" action="{% url 'cart:add_to_cart' product.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="size" class="form-label">Size:</label>
+                                <div class="size-selector">
+                                    {% for size in product.sizes.all %}
+                                    <input type="radio" name="size" id="size-{{ size.id }}" value="{{ size.id }}" class="size-option" data-price="{{ size.price }}" data-image="{{ size.size_image.url }}" onchange="updateProductDetails()">
+                                    <label for="size-{{ size.id }}" class="size-label">{{ size.size }}</label>
+                                    {% endfor %}
+                                </div>
+                                <p id="size-error" class="text-danger" style="display: none;">Select a size</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity" class="form-label">Quantity:</label>
+                                <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control quantity-input">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Add to Cart</button>
+                        </form>
+                        <h3 class="mt-4">About this item</h3>
+                        <p class="product-description">{{ product.description }}</p>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Add to Cart</button>
-            </form>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="comparison-chart-container shadow p-4 rounded">
+                        {% if product.comparison_chart_image %}
+                        <img src="{{ product.comparison_chart_image.url }}" class="img-fluid rounded" alt="Comparison Chart">
+                        {% else %}
+                        <p>No comparison chart available.</p>
+                        {% endif %}
+                        <h3 class="mt-4">Comparison Description</h3>
+                        <p class="comparison-description">{{ product.comparison_description }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -63,15 +83,35 @@ document.getElementById('add-to-cart-form').addEventListener('submit', function(
     .product-detail-container {
         max-width: 100%;
         padding: 0 15px;
-        margin-top: 70px; /* Adjust the value to create space below the navbar */
+        margin-top: 10px; /* Adjust the value to create space below the navbar */
     }
 
     .product-image-container {
         position: relative;
         overflow: hidden;
         border-radius: 10px;
-        max-width: 500px; /* Restrict the width to a medium size */
+        max-width: 100%; /* Adjust the width to be responsive */
         margin: 0 auto; /* Center the image */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow */
+        margin-bottom: 20px; /* Add margin to separate from the next container */
+    }
+
+    .product-info-container {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow */
+        margin-bottom: 20px; /* Add margin to separate from the next container */
+    }
+
+    .comparison-chart-container {
+        width: 100%;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow */
+        padding: 20px;
+        margin-bottom: 20px; /* Add margin to separate from the next container */
+    }
+
+    .comparison-chart-container img {
+        margin-bottom: 20px; /* Add margin to separate from the description */
     }
 
     .product-image-container img {
@@ -91,6 +131,11 @@ document.getElementById('add-to-cart-form').addEventListener('submit', function(
     }
 
     .product-description {
+        font-size: 1.1rem;
+        color: #666;
+    }
+
+    .comparison-description {
         font-size: 1.1rem;
         color: #666;
     }

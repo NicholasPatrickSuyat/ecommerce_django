@@ -1,157 +1,59 @@
-{% load custom_filters %}
+{% extends "home/base.html" %}
+{% load static %}
+{% load custom_filters %} <!-- Add this line to load custom filters -->
 
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .header {
-            background-color: #007bff;
-            color: #ffffff;
-            padding: 10px 0;
-            text-align: center;
-            border-radius: 5px 5px 0 0;
-        }
-        .content {
-            padding: 20px;
-        }
-        .footer {
-            text-align: center;
-            padding: 10px 0;
-            color: #666;
-        }
-        .footer a {
-            color: #007bff;
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h2>Order Confirmation</h2>
-        </div>
-        <div class="content">
-            <p>Dear {{ first_name }} {{ last_name }},</p>
-            <p>Thank you for your purchase.</p>
-            <p><strong>Order Details:</strong></p>
-            <ul>
-                {% for order in orders %}
-                <li>
-                    <strong>Product:</strong> {{ order.product.title }}<br>
-                    <strong>Size:</strong> {{ order.size.size }}<br>
-                    <strong>Quantity:</strong> {{ order.quantity }}<br>
-                    <strong>Price:</strong> ${{ order.size.price }}<br>
-                    <strong>Total:</strong> ${{ order.size.price|floatformat:2 }} * {{ order.quantity }} = ${{ order.size.price|multiply:order.quantity|floatformat:2 }}<br>
-                </li>
-                {% endfor %}
-            </ul>
-            <p><strong>Shipping Address:</strong></p>
-            <ul>
-                <li>{{ shipping_address.address_line1 }}</li>
-                <li>{{ shipping_address.address_line2 }}</li>
-                <li>{{ shipping_address.city }}, {{ shipping_address.state }} {{ shipping_address.postal_code }}</li>
-                <li>{{ shipping_address.country }}</li>
-                <li><strong>Phone:</strong> {{ shipping_address.phone_number }}</li>
-            </ul>
-            <p><strong>Shipping Option:</strong> {{ shipping_option }} (${{ shipping_cost }})</p>
-            <p><strong>Total Payment:</strong> ${{ total_price }}</p>
-        </div>
-        <div class="footer">
-            <p>If you have any questions, feel free to <a href="mailto:avantuvcoatings@gmail.com">contact us</a>.</p>
-            <p>Thank you for shopping with us!</p>
-        </div>
-    </div>
-</body>
-</html>
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Order Confirmation</h2>
+    <p>Thank you for your purchase! Here are the details of your order:</p>
+    
+    <h4>Order Summary</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Size</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in orders %}
+            <tr>
+                <td>{{ item.product.title }}</td>
+                <td>{{ item.size.size }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.size.price }}</td>
+                <td>${{ item.size.price|multiply:item.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-right"><strong>Subtotal:</strong></td>
+                <td>${{ total_price }}</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="text-right"><strong>Shipping Cost:</strong></td>
+                <td>${{ shipping_cost }}</td>
+            </tr>
+            <tr>
+                <td colspan="4" class="text-right"><strong>Total Payment:</strong></td>
+                <td>${{ total_payment }}</td>
+            </tr>
+        </tfoot>
+    </table>
 
+    <h4>Shipping Information</h4>
+    <p>{{ shipping_address.address_line1 }}<br>
+    {% if shipping_address.address_line2 %}{{ shipping_address.address_line2 }}<br>{% endif %}
+    {{ shipping_address.city }}, {{ shipping_address.state }} {{ shipping_address.postal_code }}<br>
+    {{ shipping_address.country }}</p>
 
-<!-- EMAIL AFTER PAYMENT ONLY(USE THIS AFTER DEPLOYMENT)-->
+    <h4>Shipping Method</h4>
+    <p>{{ shipping_option.name }} - ${{ shipping_option.cost }}</p>
 
-
-<!-- {% load custom_filters %}
-
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .header {
-            background-color: #007bff;
-            color: #ffffff;
-            padding: 10px 0;
-            text-align: center;
-            border-radius: 5px 5px 0 0;
-        }
-        .content {
-            padding: 20px;
-        }
-        .footer {
-            text-align: center;
-            padding: 10px 0;
-            color: #666;
-        }
-        .footer a {
-            color: #007bff;
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h2>Order Confirmation</h2>
-        </div>
-        <div class="content">
-            <p>Dear {{ first_name }} {{ last_name }},</p>
-            <p>Thank you for your purchase.</p>
-            <p><strong>Order Details:</strong></p>
-            <ul>
-                {% for order in orders %}
-                <li>
-                    <strong>Product:</strong> {{ order.product.title }}<br>
-                    <strong>Size:</strong> {{ order.size.size }}<br>
-                    <strong>Quantity:</strong> {{ order.quantity }}<br>
-                    <strong>Price:</strong> ${{ order.size.price }}<br>
-                    <strong>Total:</strong> ${{ order.size.price|floatformat:2 }} * {{ order.quantity }} = ${{ order.size.price|multiply:order.quantity|floatformat:2 }}<br>
-                </li>
-                {% endfor %}
-            </ul>
-            <p><strong>Shipping Address:</strong></p>
-            <ul>
-                <li>{{ shipping_address.address_line1 }}</li>
-                <li>{{ shipping_address.address_line2 }}</li>
-                <li>{{ shipping_address.city }}, {{ shipping_address.state }} {{ shipping_address.postal_code }}</li>
-                <li>{{ shipping_address.country }}</li>
-                <li><strong>Phone:</strong> {{ shipping_address.phone_number }}</li>
-            </ul>
-            <p><strong>Shipping Option:</strong> {{ shipping_option }} (${{ shipping_cost }})</p>
-            <p><strong>Total Payment:</strong> ${{ total_price }}</p>
-        </div>
-        <div class="footer">
-            <p>If you have any questions, feel free to <a href="mailto:avantuvcoatings@gmail.com">contact us</a>.</p>
-            <p>Thank you for shopping with us!</p>
-        </div>
-    </div>
-</body>
-</html> -->
+    <p>If you have any questions about your order, please contact us at {{ seller_email }}.</p>
+</div>
+{% endblock %}
