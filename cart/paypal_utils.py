@@ -10,7 +10,7 @@ def create_invoice(order, email):
 
     invoice = paypalrestsdk.Invoice({
         'merchant_info': {
-            "email": "merchant@example.com",  # Replace with your merchant email
+            "email": settings.PAYPAL_RECEIVER_EMAIL,  # Replace with your merchant email
         },
         'billing_info': [{
             "email": email,

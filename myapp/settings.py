@@ -181,7 +181,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Media files (User uploads) settings for AWS S3
 MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-#Stripe for Debit/Credit
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
-STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
