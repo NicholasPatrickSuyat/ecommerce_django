@@ -21,11 +21,11 @@ class Order(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_orders', null=True, blank=True)
     guest_email = models.EmailField(null=True, blank=True)
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='product_orders')
-    size = models.ForeignKey(ProductSize, on_delete=models.CASCADE, null=True, blank=True)  # Ensure size is tracked
+    size = models.ForeignKey(ProductSize, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.IntegerField(default=1)
     order_date = models.DateTimeField(auto_now_add=True)
     shipping_address = models.TextField()
-    shipping_option = models.ForeignKey(ShippingOption, on_delete=models.SET_NULL, null=True, blank=True)  # New field
+    shipping_option = models.ForeignKey(ShippingOption, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         if self.user:

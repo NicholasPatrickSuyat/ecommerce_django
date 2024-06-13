@@ -1,23 +1,94 @@
 {% extends "home/base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Guests Checkout Information</h2>
-    <form method="post">
+    <h2 class="text-white">Checkout</h2>
+    <form id="shipping-form" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <h3>Delivery Address</h3>
         {{ address_form.as_p }}
-        <h3>Shipping Options</h3>
-        <div class="form-group">
-            <label for="shipping_option">Select Shipping Option:</label>
-            <select name="shipping_option" id="shipping_option" class="form-control">
-                {% for option in shipping_options %}
-                    <option value="{{ option.id }}">{{ option.name }} - ${{ option.cost }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+        <label for="shipping-method">Shipping Method:</label>
+        <select id="shipping-method" name="shipping_method" class="form-control" required>
+            {% for option in shipping_options %}
+                <option value="{{ option.id }}" data-cost="{{ option.cost }}">{{ option.name }} - ${{ option.cost }}</option>
+            {% endfor %}
+        </select>
+        <button type="button" id="proceed-to-payment" class="btn btn-success mt-3">Proceed to Payment</button>
     </form>
+    
+    <div id="paypal-button-container" class="mt-3"></div>
+
+    <!-- Load the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id={{ PAYPAL_CLIENT_ID }}&components=buttons,funding-eligibility"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('proceed-to-payment').addEventListener('click', function(e) {
+                e.preventDefault();
+        
+                const form = document.getElementById('shipping-form');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+        
+                const formData = new FormData(form);
+                const address = formData.get('address_line1');
+                const city = formData.get('city');
+                const state = formData.get('state');
+                const postal_code = formData.get('postal_code');
+                const country = formData.get('country');
+                const shippingOption = document.getElementById('shipping-method').selectedOptions[0];
+                const shippingCost = parseFloat(shippingOption.getAttribute('data-cost'));
+                const productTotal = parseFloat('{{ total_price }}');
+                const totalAmount = (productTotal + shippingCost).toFixed(2);
+        
+                paypal.Buttons({
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            intent: 'CAPTURE',
+                            purchase_units: [{
+                                amount: {
+                                    currency_code: 'USD',
+                                    value: totalAmount,
+                                    breakdown: {
+                                        item_total: {
+                                            currency_code: 'USD',
+                                            value: productTotal.toFixed(2)
+                                        },
+                                        shipping: {
+                                            currency_code: 'USD',
+                                            value: shippingCost.toFixed(2)
+                                        }
+                                    }
+                                },
+                                shipping: {
+                                    address: {
+                                        address_line_1: address,
+                                        admin_area_2: city,
+                                        admin_area_1: state,
+                                        postal_code: postal_code,
+                                        country_code: country
+                                    }
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            window.location.href = "{% url 'cart:payment_done' %}";
+                        });
+                    },
+                    onCancel: function(data) {
+                        window.location.href = "{% url 'cart:payment_canceled' %}";
+                    },
+                    onError: function(err) {
+                        window.location.href = "{% url 'cart:payment_error' %}";
+                    }
+                }).render('#paypal-button-container');
+            });
+        });
+    </script>
 </div>
 {% endblock %}
