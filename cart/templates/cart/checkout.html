@@ -4,16 +4,10 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-white">Checkout</h2>
-    <form id="shipping-form" method="post">
+    <form id="checkout-form" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         {{ address_form.as_p }}
-        <label for="shipping-method">Shipping Method:</label>
-        <select id="shipping-method" name="shipping_method" class="form-control" required>
-            {% for option in shipping_options %}
-                <option value="{{ option.id }}" data-cost="{{ option.cost }}">{{ option.name }} - ${{ option.cost }}</option>
-            {% endfor %}
-        </select>
         <button type="button" id="proceed-to-payment" class="btn btn-success mt-3">Proceed to Payment</button>
     </form>
     
@@ -26,24 +20,26 @@
         document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('proceed-to-payment').addEventListener('click', function(e) {
                 e.preventDefault();
-        
-                const form = document.getElementById('shipping-form');
+    
+                const form = document.getElementById('checkout-form');
                 if (!form.checkValidity()) {
                     form.reportValidity();
                     return;
                 }
-        
+    
                 const formData = new FormData(form);
+    
+                // Add this line to make sure the form submits to the correct URL
+                form.action = "{% url 'cart:payment_done' %}";
+    
                 const address = formData.get('address_line1');
                 const city = formData.get('city');
                 const state = formData.get('state');
                 const postal_code = formData.get('postal_code');
                 const country = formData.get('country');
-                const shippingOption = document.getElementById('shipping-method').selectedOptions[0];
-                const shippingCost = parseFloat(shippingOption.getAttribute('data-cost'));
                 const productTotal = parseFloat('{{ total_price }}');
-                const totalAmount = (productTotal + shippingCost).toFixed(2);
-        
+                const totalAmount = productTotal.toFixed(2);
+    
                 paypal.Buttons({
                     createOrder: function(data, actions) {
                         return actions.order.create({
@@ -56,10 +52,6 @@
                                         item_total: {
                                             currency_code: 'USD',
                                             value: productTotal.toFixed(2)
-                                        },
-                                        shipping: {
-                                            currency_code: 'USD',
-                                            value: shippingCost.toFixed(2)
                                         }
                                     }
                                 },
@@ -77,11 +69,11 @@
                     },
                     onApprove: function(data, actions) {
                         return actions.order.capture().then(function(details) {
-                            window.location.href = "{% url 'cart:payment_done' %}";
+                            form.submit();  // Ensure form is submitted to the correct URL
                         });
                     },
                     onCancel: function(data) {
-                        window.location.href = "{% url 'cart:payment_canceled' %}";
+                        window.location.href = "{% url 'cart:payment_cancelled' %}";
                     },
                     onError: function(err) {
                         window.location.href = "{% url 'cart:payment_error' %}";

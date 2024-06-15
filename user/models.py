@@ -1,11 +1,9 @@
-# user/models.py
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
-    shipping_address = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.username
@@ -16,24 +14,29 @@ class UserProfile(models.Model):
     shipping_address = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.user.username + "'s Profile"
+        return f"{self.user.username}'s Profile"
 
 class Order(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_orders', null=True, blank=True)
+    STATUS_CHOICES = [
+        ('PENDING', 'Pending'),
+        ('SHIPPED', 'Shipped'),
+        ('DELIVERED', 'Delivered'),
+        ('CANCELLED', 'Cancelled'),
+    ]
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
     guest_email = models.EmailField(null=True, blank=True)
-    order_date = models.DateTimeField(auto_now_add=True)
+    order_date = models.DateTimeField(default=timezone.now)
+    ordered_date = models.DateTimeField(default=timezone.now)  # Added ordered_date field
     shipping_address = models.TextField()
-    shipping_option = models.ForeignKey('products.ShippingOption', on_delete=models.SET_NULL, null=True, blank=True)
+    paypal_invoice_id = models.CharField(max_length=255, blank=True, null=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='PENDING')
 
     def __str__(self):
-        if self.user:
-            return f"Order {self.id} by {self.user.username}"
-        else:
-            return f"Order {self.id} by guest {self.guest_email}"
+        return f"Order {self.id} by {self.user.username if self.user else self.guest_email}"
 
     def total_cost(self):
-        return sum(item.total_cost() for item in self.items.all()) + (self.shipping_option.cost if self.shipping_option else 0)
-
+        return sum(item.total_cost() for item in self.items.all())
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')

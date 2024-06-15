@@ -39,7 +39,10 @@ def profile(request):
 
 @login_required
 def order_history(request):
-    orders = Order.objects.filter(user=request.user)
+    orders = Order.objects.filter(user=request.user).order_by('-order_date')
+    if not orders.exists():
+        message = "You have no order history."
+        return render(request, 'user/order_history.html', {'message': message})
     return render(request, 'user/order_history.html', {'orders': orders})
 
 def login_view(request):

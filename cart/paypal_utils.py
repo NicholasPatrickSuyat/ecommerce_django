@@ -1,61 +1,53 @@
 import paypalrestsdk
+import logging
 from django.conf import settings
 
+logger = logging.getLogger(__name__)
+
 def create_invoice(order, email):
+    print("create_invoice function called")  # Add this line
+    logger.debug("create_invoice function called")  # Log to ensure function is called
+    
+    # Configure PayPal SDK
     paypalrestsdk.configure({
-        "mode": "sandbox",  # or "live" if in production
+        "mode": settings.PAYPAL_MODE,  # 'sandbox' or 'live'
         "client_id": settings.PAYPAL_CLIENT_ID,
         "client_secret": settings.PAYPAL_CLIENT_SECRET,
     })
 
-    items = [{
-        "name": order.product.title,
-        "quantity": order.quantity,
-        "unit_price": {
-            "currency": "USD",
-            "value": str(order.size.price)
-        }
-    }]
-
-    total_product_cost = order.size.price * order.quantity
-    shipping_cost = order.shipping_option.cost
-
+    # Create the invoice
     invoice = paypalrestsdk.Invoice({
         'merchant_info': {
-            "email": settings.PAYPAL_RECEIVER_EMAIL,  # Replace with your merchant email
+            "email": settings.PAYPAL_RECEIVER_EMAIL,
         },
         'billing_info': [{
             "email": email,
         }],
-        'items': items,
-        'shipping_info': {
-            'first_name': order.user.first_name,
-            'last_name': order.user.last_name,
-            'address': {
-                'line1': order.shipping_address,
-                'city': '',  # Add city if available
-                'state': '',  # Add state if available
-                'postal_code': '',  # Add postal code if available
-                'country_code': 'US'  # Replace with appropriate country code
+        'items': [{
+            "name": item.product.title,
+            "quantity": item.quantity,
+            "unit_price": {
+                "currency": "USD",
+                "value": str(item.size.price)
             }
-        },
-        'shipping_cost': {
-            'amount': {
-                'currency': 'USD',
-                'value': str(shipping_cost)
-            }
-        },
-        'total_amount': {
-            'currency': 'USD',
-            'value': str(total_product_cost + shipping_cost)
-        },
-        'note': 'Thank you for your purchase!',
+        } for item in order.items.all()],
+        'note': f"Order ID: {order.id}",
         'payment_term': {
-            "term_type": "NET_45"
+            'term_type': 'NET_30'
         }
     })
 
-    if invoice.create():
-        return invoice
-    else:
+    try:
+        if invoice.create():
+            print(f"Invoice created successfully for order {order.id}, Invoice ID: {invoice.id}")  # Add this line
+            logger.info(f"Invoice created successfully for order {order.id}")
+            logger.debug(f"Invoice ID: {invoice.id}")
+            return invoice.id  # Return the invoice ID to be stored in the order
+        else:
+            print(f"Error creating invoice for order {order.id}: {invoice.error}")  # Add this line
+            logger.error(f"Error creating invoice for order {order.id}: {invoice.error}")
+            return None
+    except Exception as e:
+        print(f"Exception occurred while creating invoice for order {order.id}: {str(e)}")  # Add this line
+        logger.error(f"Exception occurred while creating invoice for order {order.id}: {str(e)}")
         return None

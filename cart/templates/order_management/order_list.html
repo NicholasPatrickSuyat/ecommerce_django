@@ -1,30 +1,43 @@
-{% extends "base_generic.html" %}
+{% extends "home/base.html" %}
+
 {% block content %}
-  <h2>Order List</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Order ID</th>
-        <th>User</th>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Order Date</th>
-        <th>Shipping Address</th>
-        <th>Shipping Option</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for order in orders %}
-        <tr>
-          <td><a href="{% url 'cart:order_detail' order.id %}">{{ order.id }}</a></td>
-          <td>{{ order.user.username if order.user else order.guest_email }}</td>
-          <td>{{ order.product.title }}</td>
-          <td>{{ order.quantity }}</td>
-          <td>{{ order.order_date }}</td>
-          <td>{{ order.shipping_address }}</td>
-          <td>{{ order.shipping_option.name }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Order List</h2>
+    {% if orders %}
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>
+                        {% if order.user %}
+                            {{ order.user.username }}
+                        {% else %}
+                            {{ order.guest_email }}
+                        {% endif %}
+                    </td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.get_status_display }}</td>
+                    <td>
+                        <a href="{% url 'cart:order_detail' order.id %}" class="btn btn-info btn-sm">View</a>
+                        <a href="{% url 'cart:order_update' order.id %}" class="btn btn-warning btn-sm">Update</a>
+                        <a href="{% url 'cart:order_delete' order.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+</div>
 {% endblock %}

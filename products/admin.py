@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Products, ProductImage, ProductSize, ProductsPage, ShippingOption
+from .models import Products, ProductImage, ProductSize, ProductsPage
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
@@ -14,16 +14,11 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'description')
     search_fields = ('title',)
     inlines = [ProductImageInline, ProductSizeInline]
-    filter_horizontal = ('shipping_options',)
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'shipping_options', 'comparison_chart_image', 'comparison_description')
+            'fields': ('title', 'description', 'comparison_chart_image', 'comparison_description')
         }),
     )
-
-@admin.register(ShippingOption)
-class ShippingOptionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'cost')
 
 @admin.register(ProductsPage)
 class ProductsPageAdmin(admin.ModelAdmin):

@@ -1,11 +1,33 @@
-{% extends "base_generic.html" %}
+{% extends 'home/base.html' %}
 {% block content %}
-  <h2>Order Detail</h2>
-  <p><strong>Order ID:</strong> {{ order.id }}</p>
-  <p><strong>User:</strong> {{ order.user.username if order.user else order.guest_email }}</p>
-  <p><strong>Product:</strong> {{ order.product.title }}</p>
-  <p><strong>Quantity:</strong> {{ order.quantity }}</p>
-  <p><strong>Order Date:</strong> {{ order.order_date }}</p>
-  <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
-  <p><strong>Shipping Option:</strong> {{ order.shipping_option.name }}</p>
+<h2>Order Details</h2>
+<p><strong>Order ID:</strong> {{ order.id }}</p>
+<p><strong>User:</strong>
+    {% if order.user %}
+        {{ order.user.username }}
+    {% else %}
+        {{ order.guest_email }}
+    {% endif %}
+</p>
+<p><strong>Status:</strong> {{ order.get_status_display }}</p>
+<p><strong>Date:</strong> {{ order.order_date }}</p>
+<p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
+<h3>Items</h3>
+<table>
+    <tr>
+        <th>Product</th>
+        <th>Size</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+    {% for item in order_items %}
+    <tr>
+        <td>{{ item.product.title }}</td>
+        <td>{{ item.size.size }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.size.price }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<p><strong>Total Cost:</strong> {{ total_cost }}</p>
 {% endblock %}

@@ -1,5 +1,3 @@
-# user/admin.py
-
 from django.contrib import admin
 from .models import CustomUser, UserProfile, Order, OrderItem
 
@@ -25,9 +23,9 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'order_date', 'shipping_address', 'shipping_option', 'total_cost')
+    list_display = ('id', 'user', 'ordered_date', 'order_date', 'shipping_address', 'total_cost')
     search_fields = ('user__username', 'user__email', 'items__product__title', 'items__size__size')
-    list_filter = ('order_date', 'shipping_option')
+    list_filter = ('ordered_date',)
     inlines = [OrderItemInline]
 
     def total_cost(self, obj):

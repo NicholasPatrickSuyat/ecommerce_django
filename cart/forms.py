@@ -1,15 +1,24 @@
+# forms.py
+
 from django import forms
 from .models import DeliveryAddress
+from user.models import Order
 
 class CheckoutForm(forms.Form):
     first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    use_default_shipping = forms.BooleanField(required=False, widget=forms.CheckboxInput())
+    use_default_billing = forms.BooleanField(required=False, widget=forms.CheckboxInput())
+    same_billing_address = forms.BooleanField(required=False, widget=forms.CheckboxInput())
 
 class GuestCheckoutForm(forms.Form):
     first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    use_default_shipping = forms.BooleanField(required=False, widget=forms.CheckboxInput())
+    use_default_billing = forms.BooleanField(required=False, widget=forms.CheckboxInput())
+    same_billing_address = forms.BooleanField(required=False, widget=forms.CheckboxInput())
 
 class DeliveryAddressForm(forms.ModelForm):
     class Meta:
@@ -28,3 +37,8 @@ class DeliveryAddressForm(forms.ModelForm):
             ]),
             'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone Number'}),
         }
+
+class OrderStatusForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['status']
