@@ -95,9 +95,13 @@
             </div>
             <div class="footer-column">
                 <h4>Support</h4>
-                <a href="{% url 'contact:contact' %}" target="_blank">Contact Avant</a>
+                <a href="{% url 'contact:contact' %}" target="_blank">Technical Support</a>
                 <a href="{% url 'user:login' %}" target="_blank">Account</a>
+                <a href="{% url 'home:order_status' %}" target="_blank">Order Status</a> 
+                <a href="{% url 'home:faqs' %}" target="_blank">FAQs</a>
+                <a href="{% url 'home:user_manuals' %}" target="_blank">User Manuals</a>
             </div>
+            
             <div class="footer-column">
                 <h4>Company</h4>
                 <a href="https://mainstreetcustomfinishing.com/careers" target="_blank">Career Opportunities</a>
@@ -108,15 +112,16 @@
                 <h4>Follow Us</h4>
                 <a href="https://www.facebook.com" target="_blank">Facebook</a>
                 <a href="https://www.twitter.com" target="_blank">Twitter</a>
-                <a href="https://www.youtube.com/@cleanarmor" target="_blank">YouTube</a>
+                <a href="https://www.youtube.com/channel/UCiccB-YiVBMEeSI-6oWyixQ" target="_blank">YouTube</a>
             </div>
             <div class="footer-column">
                 <h4>Contact Us</h4>
                 <p><a href="mailto:avantuvcoatings@gmail.com">avantuvcoatings@gmail.com</a></p>
+                <a href="{% url 'contact:contact' %}" target="_blank">Contact Avant</a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 AVANT. All rights reserved.</p>
+            <p>&copy; 2024 AVANT UV COATINGS. All rights reserved.</p>
         </div>
     </footer>
   
@@ -161,3 +166,5 @@
     </script>
 </body>
 </html>
+
+

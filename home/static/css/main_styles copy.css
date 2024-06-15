@@ -100,7 +100,6 @@ nav ul li a:hover {
     height: 100%; /* Ensure the search container takes the full height of the nav */
 }
 
-
 .input-group {
     display: flex;
     align-items: center;

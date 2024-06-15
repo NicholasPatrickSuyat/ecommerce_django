@@ -35,6 +35,17 @@ def patents(request):
 def warranty(request):
     return render(request, 'home/warranty.html')
 
+def user_manuals(request):
+    return render(request, 'home/user_manuals.html')
+
+def faq_view(request):
+    
+    return render(request, 'home/faqs.html', {})
+
+def order_status_view(request):
+   
+    return render(request, 'home/order_status.html', {})
+
 
 def search(request):
     query = request.GET.get('q')

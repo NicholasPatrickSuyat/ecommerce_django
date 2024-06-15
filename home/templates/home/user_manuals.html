@@ -1,0 +1,88 @@
+{% extends "home/base.html" %}
+
+{% load static %}
+
+{% block title %}
+User Manuals
+{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 80px; padding-bottom: 40px;"> <!-- Increased padding for top and bottom -->
+    <h1>User Manuals and Safety Guidelines</h1>
+    <p>
+        Clean Armor Products are primarily designed for commercial applications but are now also accessible to individuals who wish to use them for small shop and hobby purposes. 
+        It is essential to follow proper application methods to achieve the desired results. By purchasing this product, you confirm that you have reviewed the Safety Data Sheet (SDS) and Technical Data Sheet (TDS), 
+        which are available through the blue buttons above. We strongly recommend checking out our video selection, which demonstrates the correct application techniques for these products.
+    </p>
+    <p>
+        <strong>Shipping Information:</strong> All Clean Armor products have a shelf life of one year. To ensure you receive the freshest products possible, all orders are produced and bottled exclusively upon receipt. 
+        Therefore, orders are typically shipped within five business days.
+    </p>
+    <div class="manual-links">
+        <div class="manual-link-container">
+            <a href="https://assets-global.website-files.com/5f97527c73288e751b30e261/63893b24ccef254092244087_Wood%20700%20TDS.pdf" target="_blank" class="apple-button">Technical Manual</a>
+            <span style="margin: 0 10px;"></span>
+            <a href="https://assets-global.website-files.com/5f97527c73288e751b30e261/62effc423d1cea5c3424985b_Wood%20700%20SDS.pdf" target="_blank" class="apple-button">Safety Manual</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<style>
+    /* General styles */
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        color: #333;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto; /* Removed top margin since navbar is fixed */
+        padding: 20px;
+        margin-bottom: 60px; /* Increased bottom margin */
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        color: #000;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 1rem;
+        line-height: 1.6;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .manual-links {
+        display: flex;
+        justify-content: center;
+        align-items: center; /* Center align items vertically */
+        gap: 20px; /* Adjusted gap between links */
+        text-align: center;
+        margin-top: 20px; /* Added margin-top to space links further from text */
+    }
+
+    .manual-link-container {
+        text-align: center;
+    }
+
+    .apple-button {
+        padding: 10px 20px;
+        background-color: #0071e3;
+        color: #fff;
+        font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .apple-button:hover {
+        background-color: #005bb5;
+        transform: scale(1.05);
+    }
+</style>
