@@ -354,10 +354,4 @@ def paypal_webhook(request):
 def test_logging_view(request):
     return HttpResponse("Logging test complete. Check your logs.")
 
-def order_summary(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    return render(request, 'cart/order_summary.html', {'order': order})
 
-def view_cart_data(request):
-    cart = request.session.get('cart', {})
-    return JsonResponse(cart)

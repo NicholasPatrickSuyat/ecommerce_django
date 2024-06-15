@@ -1,33 +1,39 @@
 {% extends 'home/base.html' %}
 {% block content %}
-<h2>Order Details</h2>
-<p><strong>Order ID:</strong> {{ order.id }}</p>
-<p><strong>User:</strong>
-    {% if order.user %}
-        {{ order.user.username }}
-    {% else %}
-        {{ order.guest_email }}
-    {% endif %}
-</p>
-<p><strong>Status:</strong> {{ order.get_status_display }}</p>
-<p><strong>Date:</strong> {{ order.order_date }}</p>
-<p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
-<h3>Items</h3>
-<table>
-    <tr>
-        <th>Product</th>
-        <th>Size</th>
-        <th>Quantity</th>
-        <th>Price</th>
-    </tr>
-    {% for item in order_items %}
-    <tr>
-        <td>{{ item.product.title }}</td>
-        <td>{{ item.size.size }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ item.size.price }}</td>
-    </tr>
-    {% endfor %}
-</table>
-<p><strong>Total Cost:</strong> {{ total_cost }}</p>
+<div style="max-width: 800px; margin: 50px auto 0; padding: 20px; border: 1px solid #ccc; border-radius: 10px;">
+    <h2 style="text-align: center; margin-bottom: 20px;">Order Details</h2>
+    <p><strong>Order ID:</strong> {{ order.id }}</p>
+    <p><strong>User:</strong>
+        {% if order.user %}
+            {{ order.user.username }}
+        {% else %}
+            {{ order.guest_email }}
+        {% endif %}
+    </p>
+    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+    <p><strong>Date:</strong> {{ order.order_date }}</p>
+    <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
+    <h3 style="margin-top: 20px;">Items</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <thead>
+            <tr>
+                <th style="border: 1px solid #ccc; padding: 10px;">Product</th>
+                <th style="border: 1px solid #ccc; padding: 10px;">Size</th>
+                <th style="border: 1px solid #ccc; padding: 10px;">Quantity</th>
+                <th style="border: 1px solid #ccc; padding: 10px;">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.product.title }}</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.size.size }}</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.quantity }}</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.size.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><strong>Total Cost:</strong> {{ total_cost }}</p>
+</div>
 {% endblock %}

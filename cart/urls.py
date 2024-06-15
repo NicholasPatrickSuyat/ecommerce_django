@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     cart_view, add_to_cart, remove_from_cart, update_cart, checkout_view, payment_done, 
     payment_cancelled, guest_checkout_view, payment_error, order_list_view, 
-    order_detail_view, order_update_view, custom_permission_denied_view, order_delete_view, paypal_webhook, test_logging_view,order_summary,view_cart_data
+    order_detail_view, order_update_view, custom_permission_denied_view, order_delete_view, paypal_webhook, test_logging_view
 )
 from django.conf.urls import handler403
 
@@ -26,6 +26,6 @@ urlpatterns = [
     path('permission-denied/', custom_permission_denied_view, name='permission_denied'),
     path('paypal-webhook/', paypal_webhook, name='paypal_webhook'),
     path('test-logging/', test_logging_view, name='test_logging'),
-    path('order-summary/<int:order_id>/', order_summary, name='order_summary'),
-    path('view-cart-data/', view_cart_data, name='view_cart_data'),
+    
+    
 ]

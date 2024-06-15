@@ -1,21 +1,22 @@
 {% extends "home/base.html" %}
-
 {% block content %}
-  <h2>Order History</h2>
-  {% if message %}
-    <p>{{ message }}</p>
-  {% else %}
-    <ul>
-      {% for order in orders %}
-        <li>
-          Order ID: {{ order.id }} - Status: {{ order.get_status_display }} - Total: {{ order.total_cost }} USD
-          <ul>
-            {% for item in order.items.all %}
-              <li>{{ item.quantity }} x {{ item.product.title }} ({{ item.size.size }}) - {{ item.total_cost }} USD</li>
+<div style="max-width: 1000px; margin: 50px auto 0; padding: 20px;">
+    <h2 style="text-align: center; margin-bottom: 20px;">Order History</h2>
+    {% if message %}
+        <p style="text-align: center;">{{ message }}</p>
+    {% else %}
+        <ul style="list-style: none; padding: 0;">
+            {% for order in orders %}
+                <li style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                    Order ID: {{ order.id }} - Status: {{ order.get_status_display }} - Total: {{ order.total_cost }} USD
+                    <ul style="list-style: none; padding: 0; margin-top: 10px;">
+                        {% for item in order.items.all %}
+                            <li style="border: 1px solid #ccc; padding: 10px; margin-bottom: 5px;">{{ item.quantity }} x {{ item.product.title }} ({{ item.size.size }}) - {{ item.total_cost }} USD</li>
+                        {% endfor %}
+                    </ul>
+                </li>
             {% endfor %}
-          </ul>
-        </li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+        </ul>
+    {% endif %}
+</div>
 {% endblock %}

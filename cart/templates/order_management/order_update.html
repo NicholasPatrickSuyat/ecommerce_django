@@ -1,9 +1,11 @@
 {% extends 'home/base.html' %}
 {% block content %}
-<h2>Update Order Status</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update</button>
-</form>
+<div style="max-width: 600px; margin: 50px auto 0; padding: 20px; border: 1px solid #ccc; border-radius: 10px;">
+    <h2 style="text-align: center; margin-bottom: 20px;">Update Order Status</h2>
+    <form method="post" style="margin-bottom: 20px;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Update</button>
+    </form>
+</div>
 {% endblock %}

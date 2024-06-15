@@ -1,43 +1,42 @@
 {% extends "home/base.html" %}
-
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Order List</h2>
+<div style="max-width: 1000px; margin: 50px auto 0; padding: 20px;">
+    <h2 style="text-align: center; margin-bottom: 20px;">Order List</h2>
     {% if orders %}
-        <table class="table table-dark table-striped">
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
             <thead>
                 <tr>
-                    <th>Order ID</th>
-                    <th>User</th>
-                    <th>Order Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th style="border: 1px solid #ccc; padding: 10px;">Order ID</th>
+                    <th style="border: 1px solid #ccc; padding: 10px;">User</th>
+                    <th style="border: 1px solid #ccc; padding: 10px;">Order Date</th>
+                    <th style="border: 1px solid #ccc; padding: 10px;">Status</th>
+                    <th style="border: 1px solid #ccc; padding: 10px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for order in orders %}
                 <tr>
-                    <td>{{ order.id }}</td>
-                    <td>
+                    <td style="border: 1px solid #ccc; padding: 10px;">{{ order.id }}</td>
+                    <td style="border: 1px solid #ccc; padding: 10px;">
                         {% if order.user %}
                             {{ order.user.username }}
                         {% else %}
                             {{ order.guest_email }}
                         {% endif %}
                     </td>
-                    <td>{{ order.order_date }}</td>
-                    <td>{{ order.get_status_display }}</td>
-                    <td>
-                        <a href="{% url 'cart:order_detail' order.id %}" class="btn btn-info btn-sm">View</a>
-                        <a href="{% url 'cart:order_update' order.id %}" class="btn btn-warning btn-sm">Update</a>
-                        <a href="{% url 'cart:order_delete' order.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    <td style="border: 1px solid #ccc; padding: 10px;">{{ order.order_date }}</td>
+                    <td style="border: 1px solid #ccc; padding: 10px;">{{ order.get_status_display }}</td>
+                    <td style="border: 1px solid #ccc; padding: 10px;">
+                        <a href="{% url 'cart:order_detail' order.id %}" style="background-color: #17a2b8; color: white; padding: 5px 10px; border: none; border-radius: 5px; text-decoration: none;">View</a>
+                        <a href="{% url 'cart:order_update' order.id %}" style="background-color: #ffc107; color: white; padding: 5px 10px; border: none; border-radius: 5px; text-decoration: none;">Update</a>
+                        <a href="{% url 'cart:order_delete' order.id %}" style="background-color: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 5px; text-decoration: none;">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p>No orders found.</p>
+        <p style="text-align: center;">No orders found.</p>
     {% endif %}
 </div>
 {% endblock %}
