@@ -1,34 +1,22 @@
 {% extends "home/base.html" %}
-{% load static %}
-
 {% block content %}
-  <div class="container mt-5">
-    <h2 class="text-center mb-4">Order History</h2>
-    {% if orders %}
-      <table class="table table-dark table-striped">
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Order Date</th>
-            <th>Shipping Address</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for order in orders %}
-            <tr>
-              <td>{{ order.id }}</td>
-              <td>{{ order.product.title }}</td>
-              <td>{{ order.quantity }}</td>
-              <td>{{ order.order_date }}</td>
-              <td>{{ order.shipping_address }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+<div style="max-width: 1000px; margin: 50px auto 0; padding: 20px;">
+    <h2 style="text-align: center; margin-bottom: 20px;">Order History</h2>
+    {% if message %}
+        <p style="text-align: center;">{{ message }}</p>
     {% else %}
-      <p class="text-center">You have no order history.</p>
+        <ul style="list-style: none; padding: 0;">
+            {% for order in orders %}
+                <li style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                    Order ID: {{ order.id }} - Status: {{ order.get_status_display }} - Total: {{ order.total_cost }} USD
+                    <ul style="list-style: none; padding: 0; margin-top: 10px;">
+                        {% for item in order.items.all %}
+                            <li style="border: 1px solid #ccc; padding: 10px; margin-bottom: 5px;">{{ item.quantity }} x {{ item.product.title }} ({{ item.size.size }}) - {{ item.total_cost }} USD</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
     {% endif %}
-  </div>
+</div>
 {% endblock %}

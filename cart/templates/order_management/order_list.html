@@ -1,35 +1,42 @@
 {% extends "home/base.html" %}
-
 {% block content %}
-  <h2>All Orders</h2>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Order ID</th>
-        <th>User</th>
-        <th>Guest Email</th>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Total Cost</th>
-        <th>Order Date</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for order in orders %}
-      <tr>
-        <td>{{ order.id }}</td>
-        <td>{{ order.user }}</td>
-        <td>{{ order.guest_email }}</td>
-        <td>{{ order.product.title }}</td>
-        <td>{{ order.quantity }}</td>
-        <td>{{ order.total_cost }}</td>
-        <td>{{ order.order_date }}</td>
-        <td>
-          <a href="{% url 'cart:order_detail' order.id %}" class="btn btn-primary">View Details</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div style="max-width: 1000px; margin: 50px auto 0; padding: 20px;">
+    <h2 style="text-align: center; margin-bottom: 20px;">Order List</h2>
+    {% if orders %}
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ccc; padding: 10px;">Order ID</th>
+                    <th style="border: 1px solid #ccc; padding: 10px;">User</th>
+                    <th style="border: 1px solid #ccc; padding: 10px;">Order Date</th>
+                    <th style="border: 1px solid #ccc; padding: 10px;">Status</th>
+                    <th style="border: 1px solid #ccc; padding: 10px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td style="border: 1px solid #ccc; padding: 10px;">{{ order.id }}</td>
+                    <td style="border: 1px solid #ccc; padding: 10px;">
+                        {% if order.user %}
+                            {{ order.user.username }}
+                        {% else %}
+                            {{ order.guest_email }}
+                        {% endif %}
+                    </td>
+                    <td style="border: 1px solid #ccc; padding: 10px;">{{ order.order_date }}</td>
+                    <td style="border: 1px solid #ccc; padding: 10px;">{{ order.get_status_display }}</td>
+                    <td style="border: 1px solid #ccc; padding: 10px;">
+                        <a href="{% url 'cart:order_detail' order.id %}" style="background-color: #17a2b8; color: white; padding: 5px 10px; border: none; border-radius: 5px; text-decoration: none;">View</a>
+                        <a href="{% url 'cart:order_update' order.id %}" style="background-color: #ffc107; color: white; padding: 5px 10px; border: none; border-radius: 5px; text-decoration: none;">Update</a>
+                        <a href="{% url 'cart:order_delete' order.id %}" style="background-color: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 5px; text-decoration: none;">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align: center;">No orders found.</p>
+    {% endif %}
+</div>
 {% endblock %}

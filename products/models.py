@@ -1,12 +1,11 @@
-# products/models.py
-
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-class ShippingOption(models.Model):
-    name = models.CharField(max_length=100)
-    cost = models.DecimalField(max_digits=10, decimal_places=2)
+
+class Section(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -14,9 +13,9 @@ class ShippingOption(models.Model):
 class Products(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
-    shipping_options = models.ManyToManyField(ShippingOption, related_name='products')
     comparison_chart_image = models.ImageField(upload_to='static/images/products/comparison_charts/', blank=True, null=True)
     comparison_description = models.TextField(blank=True, null=True)
+    section = models.ForeignKey(Section, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -50,7 +49,6 @@ class ProductsPage(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        # Use the first size's price for total_price if it exists
         first_size = self.product.sizes.first()
         if first_size:
             self.total_price = first_size.price * self.quantity

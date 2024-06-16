@@ -1,16 +1,39 @@
-{% extends "home/base.html" %}
-
+{% extends 'home/base.html' %}
 {% block content %}
-  <h2>Order {{ order.id }}</h2>
-  <ul>
-    <li>User: {{ order.user }}</li>
-    <li>Guest Email: {{ order.guest_email }}</li>
-    <li>Product: {{ order.product.title }}</li>
-    <li>Size: {{ order.size.size }}</li>
-    <li>Quantity: {{ order.quantity }}</li>
-    <li>Shipping Address: {{ order.shipping_address }}</li>
-    <li>Shipping Option: {{ order.shipping_option.name }}</li>
-    <li>Total Cost: {{ order.total_cost }}</li>
-    <li>Order Date: {{ order.order_date }}</li>
-  </ul>
+<div style="max-width: 800px; margin: 50px auto 0; padding: 20px; border: 1px solid #ccc; border-radius: 10px;">
+    <h2 style="text-align: center; margin-bottom: 20px;">Order Details</h2>
+    <p><strong>Order ID:</strong> {{ order.id }}</p>
+    <p><strong>User:</strong>
+        {% if order.user %}
+            {{ order.user.username }}
+        {% else %}
+            {{ order.guest_email }}
+        {% endif %}
+    </p>
+    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+    <p><strong>Date:</strong> {{ order.order_date }}</p>
+    <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
+    <h3 style="margin-top: 20px;">Items</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <thead>
+            <tr>
+                <th style="border: 1px solid #ccc; padding: 10px;">Product</th>
+                <th style="border: 1px solid #ccc; padding: 10px;">Size</th>
+                <th style="border: 1px solid #ccc; padding: 10px;">Quantity</th>
+                <th style="border: 1px solid #ccc; padding: 10px;">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.product.title }}</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.size.size }}</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.quantity }}</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.size.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><strong>Total Cost:</strong> {{ total_cost }}</p>
+</div>
 {% endblock %}

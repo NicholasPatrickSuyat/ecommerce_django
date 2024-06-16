@@ -1,30 +1,67 @@
 {% extends "home/base.html" %}
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-white mb-4 text-center">Our Products</h2>
-    <div class="row">
-        {% for product in products %}
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-img-container">
-                    <img src="{{ product.images.first.image.url }}" class="card-img-top" alt="{{ product.title }}">
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title">{{ product.title }}</h5>
-                    <p class="card-text text-muted">From ${{ product.sizes.first.price }}</p>
-                    <a href="{% url 'products:product_detail' product.id %}" class="btn btn-primary rounded-pill">View</a>
+<div class="container-fluid mt-5">
+    <h2 class="text-dark mb-4 text-center">Shop All</h2>
+    {% for section in sections %}
+    <div class="section-container mb-5">
+        <a href="{% url 'products:products_by_section' section.id %}" class="section-name-link">
+            <h3 class="section-name text-center">{{ section.name }}</h3>
+        </a>
+        <hr class="section-divider">
+        <div class="row">
+            {% for product in section.products_set.all %}
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-img-container">
+                        <img src="{{ product.images.first.image.url }}" class="card-img-top" alt="{{ product.title }}">
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <p class="card-text text-muted">From ${{ product.sizes.first.price }}</p>
+                        <a href="{% url 'products:product_detail' product.id %}" class="btn btn-primary rounded-pill">View</a>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
 </div>
 
 <style>
+    .container-fluid {
+        width: 95%;
+    }
+
+    .section-container {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+        min-height: 500px; /* Adjust this value to make the container longer */
+    }
+
+    .section-name-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .section-name {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .section-divider {
+        margin: 0 0 20px;
+        border-top: 2px solid #ffffff;
+    }
+
     .card {
         border-radius: 10px;
         overflow: hidden;
         transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
     }
 
     .card:hover {
@@ -35,7 +72,7 @@
     .card-img-container {
         height: 200px;
         overflow: hidden;
-        border-bottom: 1px solid #f1f1f1;
+        border-bottom: 1px solid #696969;
     }
 
     .card-img-container img {
@@ -60,7 +97,7 @@
 
     .card-text {
         font-size: 1rem;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
 
     .btn-primary {
@@ -75,5 +112,6 @@
         background-color: #0056b3;
         transform: scale(1.05);
     }
+
 </style>
 {% endblock %}

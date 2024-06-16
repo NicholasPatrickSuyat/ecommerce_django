@@ -1,0 +1,11 @@
+<!-- cart/templates/cart/order_summary.html -->
+{% extends "home/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Order Summary</h2>
+    <p>Order ID: {{ order.id }}</p>
+    <p>Status: {{ order.status }}</p>
+    <!-- Add more details as needed -->
+</div>
+{% endblock %}
