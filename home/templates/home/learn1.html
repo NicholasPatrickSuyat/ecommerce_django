@@ -1,22 +1,238 @@
 {% extends "home/base.html" %}
-
 {% load static %}
 
 {% block title %}
-Learn More - Avant
+AVANT UV Coatings
 {% endblock %}
 
 {% block content %}
-<div class="learn-more-container">
-    <h1 class="learn-more-title">Learn More About Our Products</h1>
-    <div class="learn-more-image">
-        <img src="{% static 'images/backgrounds/background_001.jpg' %}" alt="Learn More Image">
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #fff;
+        color: #000;
+        font-size: 22px;
+    }
+    .content-container {
+        padding: 50px;
+    }
+    .header {
+        text-align: center;
+        padding: 50px 0;
+        background-color: #fff;
+        margin-bottom: 20px;
+    }
+    .header h1 {
+        font-size: 5rem;
+        color: #333;
+        margin: 0;
+    }
+    .section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+    .section img {
+        width: 45%;
+        height: auto;
+        border-radius: 10px;
+    }
+    .section-text {
+        width: 50%;
+        font-size: 1.6rem;
+        line-height: 1.8;
+        text-align: left;
+        padding-left: 20px; /* Add padding to move text slightly to the right */
+    }
+    .info-section {
+        background-color: #f8f8f8;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .center-text {
+        text-align: center;
+        margin: 100px 0; /* Extend the gap section */
+        
+    }
+    .center-text h2 {
+        margin-bottom: 20px;
+    }
+    .center-paragraph {
+        max-width: 1500px; /* Adjusted value for slightly less crammed text */
+        margin: 0 auto;
+        text-align: justify;
+    }
+    .black-section {
+        background-color: #000;
+        color: #fff;
+        padding: 50px 0;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        left: 0;
+        right: 0;
+    }
+    .black-section img {
+        display: block;
+        margin: 0 auto;
+        width: 70%;
+        border-radius: 10px;
+    }
+    .black-section .section-text {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .training-link {
+        text-align: center;
+        color: #ccc;
+        margin: 20px 0;
+    }
+    .training-link a {
+        color: #007aff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .training-link a:hover {
+        text-decoration: underline;
+    }
+    .shop-button, .training-button, .contact-button, .account-button {
+        display: inline-block;
+        background-color: #007aff;
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        transition: background-color 0.3s;
+    }
+    .shop-button:hover, .training-button:hover, .contact-button:hover, .account-button:hover {
+        background-color: #005bb5;
+    }
+    .account-contact-section {
+        text-align: center;
+        padding: 40px;
+        background-color: #f8f8f8;
+        color: #000;
+        margin: 50px 0;
+        border-radius: 10px;
+    }
+    .account-contact-section h2, .account-contact-section p {
+        margin: 20px 0;
+    }
+    .account-contact-section ul {
+        text-align: center;
+        list-style-position: inside;
+        padding: 0;
+    }
+    .account-contact-section ul li {
+        margin: 10px 0;
+    }
+    .pricing-box {
+        background-color: #000;
+        color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        font-size: 1.6rem;
+        line-height: 1.8;
+    }
+    .pricing-box p, .pricing-box ul, .pricing-box li {
+        margin: 10px 0;
+        line-height: 1.8;
+    }
+    .product-info-box {
+        display: flex;
+        background-color: #000;
+        color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        align-items: center;
+    }
+    .product-info-box img {
+        width: 45%;
+        border-radius: 10px;
+    }
+    .product-info-box .section-text {
+        width: 50%;
+        margin-left: 20px;
+    }
+</style>
+
+<div class="content-container">
+    <div class="header">
+        <h1>AVANT UV COATINGS</h1>
     </div>
-    <p class="learn-more-description">
-        Discover the advanced features of Avant's UV curable coatings, designed for unmatched efficiency and performance. Our innovative solutions provide the fastest curing times, superior environmental compliance, and exceptional durability. Explore our training videos to master the use of our products and take your projects to the next level.
-    </p>
-    <div class="learn-more-button-container" style="text-align: center; margin-top: 20px;">
-        <a href="{% url 'training:training' %}" class="btn btn-primary btn-lg">Learn More About Training</a>
+
+    <div class="info-section">
+        <div class="section-text">
+            <p>Our patented UV curable polymer coatings systems are an amazing alternative to existing compliant industrial coatings. In a world fast approaching more stringent environmental laws, instead of a watered-down coatings system, we’ve decided to revolutionize the coatings industry. Our solution is no compromise with coatings that are Cleaner, being VOC and HAP free, Stronger, with both chemical and weather resistance, and Faster with immediate on-demand UV curing in minutes.</p>
+            <p>Industries Served:</p>
+            <ul>
+                <li>Aerospace</li>
+                <li>Marine</li>
+                <li>Automotive</li>
+                <li>Commercial (Wood, Composites, Metal, Classical Instruments)</li>
+            </ul>
+            <p>Avant UV coatings specialize in wood coatings that range from classical instruments like pianos and guitars to other wood substrates such as solid wood veneers. All UV sealants and finishes can be applied with traditional spray equipment for production.</p>
+            <p>Avant UV Coatings offers top coats in gloss, semi-gloss, and satin matte. Custom sheens are available by custom order. Get in contact for a custom order. <a href="/contact">Contact us</a>. Check out our store today.</p>
+            <a href="/store" class="shop-button">Go to Store</a>
+        </div>
+    </div>
+
+    <div class="center-text">
+        <h2>How It Works</h2>
+        <div class="center-paragraph">
+            <p>To use AVANT UV coatings, start by preparing the surface, ensuring it is clean and dry, free from any dust, grease, or debris. Evenly apply the AVANT UV coating to the surface, making sure not to over-apply. Allow the coating to settle for about 30 seconds to 1 minute, depending on the specific product you're using. Once the coating has evened out, shine a UV light on it to cure the coating thoroughly, ensuring all areas, including corners and edges, are covered. Check that the entire surface is fully cured to avoid any uncured spots. Finally, depending on your project, sand, polish, or proceed with the next step to achieve the desired finish. Following these steps will ensure a smooth and durable application of AVANT UV coatings.</p>
+        </div>
+        <a href="/training" class="training-button">Training Page</a>
+    </div>
+
+    <div class="black-section">
+        <img src="{% static 'images/backgrounds/product comps.png' %}" alt="Product Comparison">
+        <div class="product-info-box">
+            <div class="section-text">
+                <p>What makes Avant UV Coatings better than other products? Our advanced formulation ensures superior performance, durability, and finish quality. Experience the best with Avant. Our patented coatings systems have a low carbon footprint, providing cost savings while supporting a good environmental posture. There is no hazardous disposal requirement for our coatings; just cure any unused product and follow your state and local waste disposal ordinances for non-hazardous material.</p>
+            </div>
+            <img src="{% static 'images/backgrounds/Screenshot.png' %}" alt="Additional Info">
+        </div>
+        <div class="product-info-box">
+            <img src="{% static 'images/your_image2.jpg' %}" alt="Another Image">
+            <div class="section-text">
+                <p>Our coating systems require no expensive emissions control equipment needed for solvent-based and VOC-based products. They provide air quality improvements as they have no Volatile Organic Compounds (VOC), zero Hazardous Air Pollutants (HAP), and produce very low atomization. This environmentally friendly system offers a regulatory compliant solution usable almost anywhere, safer for human contact exposure and the surrounding environment.</p>
+            </div>
+        </div>
+        <div class="pricing-box">
+            <h2>Pricing</h2>
+            <p>Our wood finishes average < $0.40 per SqFt at 1 mil coverage.</p>
+            <p>When comparing the cost of our products you should consider the concentrated nature of Clean Armor and how much more coverage you will get when compared to traditional finishes.</p>
+            <p>Available Sizes:</p>
+            <ul>
+                <li>1 Quart (.95L)</li>
+                <li>1 Gallon (3.78L)</li>
+                <li>5 Gallon (18.9L)</li>
+            </ul>
+            <p>COST OF MATERIALS - EQUIVALENT: Saves Time and Money. Our Concentrated Coatings Have 3+ Times the Coverage Compared to Traditional Finishes.</p>
+            <a href="/store" class="shop-button">Shop Now</a>
+        </div>
+    </div>
+
+    <div class="account-contact-section">
+        <h2>Create an Account</h2>
+        <p>Join Avant today to access exclusive benefits and stay updated with the latest developments in the coatings industry. Creating an account is quick and easy, and it provides you with numerous advantages:</p>
+        <ul>
+            <li>Exclusive access to new products and promotions</li>
+            <li>Personalized recommendations and support</li>
+            <li>Faster checkout and order tracking</li>
+            <li>Members-only discounts and offers</li>
+        </ul>
+        <p>If you have any questions or need further assistance, please don't hesitate to contact us. We're here to help!</p>
+        <a href="/signup" class="account-button">Create an Account</a>
+        <a href="/contact" class="contact-button">Contact Us</a>
     </div>
 </div>
 {% endblock %}
