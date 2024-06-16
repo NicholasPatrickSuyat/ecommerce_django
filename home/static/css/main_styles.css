@@ -670,15 +670,16 @@ footer {
 
 .background-container {
     position: relative;
-    background-image: url("../images/backgrounds/background_002.jpg"); /* Adjust the path based on your directory structure */
+    background-image: url("../images/backgrounds/black.jpeg"); /* Adjust the path based on your directory structure */
     background-size: cover;
     background-position: center;
     border-top: 5px solid #ffffff; /* Adjust the border color and width as needed */
     border-bottom: 5px solid #ffffff; /* Adjust the border color and width as needed */
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 60px; /* Increased from 20px to 60px */
+    padding-bottom: 60px; /* Increased from 20px to 60px */
     border-radius: 10px; /* Optional: Add rounded corners */
     margin-top: 45px; /* Reduce margin to make the content closer to the navbar */
+    min-height: 400px; /* Set a minimum height to ensure consistent height */
 }
 
 .background-container .row {
@@ -695,6 +696,8 @@ footer {
     height: 100%;
     z-index: 0;
 }
+
+
 
 .video-background-container {
     position: relative;
@@ -739,6 +742,7 @@ footer {
 .video-content .learn-more-btn {
     margin-bottom: 100px; /* Remove margin for the button */
 }
+
 
 .background-container .overlay {
     position: absolute;

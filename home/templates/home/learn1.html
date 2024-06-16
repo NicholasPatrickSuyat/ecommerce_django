@@ -179,8 +179,8 @@ AVANT UV Coatings
                 <li>Commercial (Wood, Composites, Metal, Classical Instruments)</li>
             </ul>
             <p>Avant UV coatings specialize in wood coatings that range from classical instruments like pianos and guitars to other wood substrates such as solid wood veneers. All UV sealants and finishes can be applied with traditional spray equipment for production.</p>
-            <p>Avant UV Coatings offers top coats in gloss, semi-gloss, and satin matte. Custom sheens are available by custom order. Get in contact for a custom order. <a href="/contact">Contact us</a>. Check out our store today.</p>
-            <a href="/store" class="shop-button">Go to Store</a>
+            <p>Avant UV Coatings offers top coats in gloss, semi-gloss, and satin matte. Custom sheens are available by custom order. Get in contact for a custom order. <a href="{% url 'contact:contact' %}">Contact us</a>. Check out our store today.</p>
+            <a href="{% url 'products:product_list' %}" class="shop-button">Go to Store</a>
         </div>
     </div>
 
@@ -201,7 +201,7 @@ AVANT UV Coatings
             <img src="{% static 'images/backgrounds/Screenshot.png' %}" alt="Additional Info">
         </div>
         <div class="product-info-box">
-            <img src="{% static 'images/your_image2.jpg' %}" alt="Another Image">
+            <img src="{% static 'images/backgrounds/black.jpeg' %}" alt="Another Image">
             <div class="section-text">
                 <p>Our coating systems require no expensive emissions control equipment needed for solvent-based and VOC-based products. They provide air quality improvements as they have no Volatile Organic Compounds (VOC), zero Hazardous Air Pollutants (HAP), and produce very low atomization. This environmentally friendly system offers a regulatory compliant solution usable almost anywhere, safer for human contact exposure and the surrounding environment.</p>
             </div>
@@ -217,7 +217,7 @@ AVANT UV Coatings
                 <li>5 Gallon (18.9L)</li>
             </ul>
             <p>COST OF MATERIALS - EQUIVALENT: Saves Time and Money. Our Concentrated Coatings Have 3+ Times the Coverage Compared to Traditional Finishes.</p>
-            <a href="/store" class="shop-button">Shop Now</a>
+            <a href="{% url 'products:product_list' %}" class="shop-button">Shop Now</a>
         </div>
     </div>
 
@@ -231,7 +231,7 @@ AVANT UV Coatings
             <li>Members-only discounts and offers</li>
         </ul>
         <p>If you have any questions or need further assistance, please don't hesitate to contact us. We're here to help!</p>
-        <a href="/signup" class="account-button">Create an Account</a>
+        <a href="{% url 'user:register' %}" class="account-button">Create an Account</a>
         <a href="/contact" class="contact-button">Contact Us</a>
     </div>
 </div>
