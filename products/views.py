@@ -1,10 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Products, ProductsPage, ProductSize
+from .models import Products, ProductsPage, ProductSize, Section
 from cart.models import Cart
 
 def product_list(request):
-    products = Products.objects.all()
-    return render(request, 'products/product_list.html', {'products': products})
+    sections = Section.objects.all()
+    return render(request, 'products/product_list.html', {'sections': sections})
+
+def products_by_section(request, section_id):
+    section = get_object_or_404(Section, id=section_id)
+    products = section.products_set.all()
+    return render(request, 'products/products_by_section.html', {'section': section, 'products': products})
 
 def product_detail(request, product_id):
     product = get_object_or_404(Products, id=product_id)

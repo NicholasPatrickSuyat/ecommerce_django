@@ -14,6 +14,28 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="https://avant-ecommerce.s3.amazonaws.com/static/css/main_styles.css?v=1.0">
+    <style>
+        .navbar-nav .nav-link, .navbar-brand {
+            color: #fff !important; /* White text */
+        }
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.1); /* Light border for toggler */
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* White icon */
+        }
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background-color: #333; /* Dark background for dropdown */
+                border-radius: 0 0 10px 10px; /* Rounded bottom corners */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow */
+                margin-top: 10px; /* Add margin to dropdown */
+            }
+            .navbar-nav .nav-item .nav-link {
+                padding: 15px; /* Spacing for dropdown items */
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Background color container -->
@@ -21,17 +43,15 @@
 
     <!-- Navbar or other shared elements -->
     {% block navbar %}
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'images/logo/logo_main.png' %}" alt="Logo" class="navbar-logo">
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item active d-flex align-items-center">
-                    <a class="navbar-brand" href="#">
-                        <img src="{% static 'images/logo/logo_main.png' %}" alt="Logo" class="navbar-logo">
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home:home' %}">Home</a>
                 </li>
@@ -166,5 +186,3 @@
     </script>
 </body>
 </html>
-
-

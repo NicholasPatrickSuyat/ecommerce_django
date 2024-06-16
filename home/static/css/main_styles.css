@@ -86,9 +86,39 @@ nav ul li a:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
+.navbar-brand, .navbar-nav .nav-link {
+    color: #fff !important; /* White text */
+}
+
 .navbar-logo {
     width: 30px; /* Adjust the size of the navbar logo */
     margin-right: 10px; /* Add some space between the logo and the text */
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.1); /* Light border for toggler */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* White icon */
+}
+
+.navbar-collapse {
+    background-color: rgba(51, 51, 51, 0.9); /* Dark transparent background for dropdown */
+    border-radius: 0 0 10px 10px; /* Rounded bottom corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow */
+    position: relative;
+    z-index: 1000;
+}
+
+.navbar-nav .nav-item .nav-link {
+    padding: 15px; /* Spacing for dropdown items */
+}
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        margin-top: 10px; /* Add margin to dropdown */
+    }
 }
 
 /* Search container styles */
@@ -99,7 +129,6 @@ nav ul li a:hover {
     position: relative; /* Add position relative */
     height: 100%; /* Ensure the search container takes the full height of the nav */
 }
-
 
 .input-group {
     display: flex;
@@ -166,9 +195,6 @@ nav ul li a:hover {
 #search-results .list-group-item:hover {
     background-color: #f1f1f1;
 }
-
-
-
 
 main {
     flex: 1;
@@ -369,7 +395,6 @@ footer {
         transform: translateX(-50%);
     }
 }
-
 
 /* Styles for the boxes */
 .box-container {
