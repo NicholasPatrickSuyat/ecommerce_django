@@ -46,6 +46,13 @@ def order_status_view(request):
    
     return render(request, 'home/order_status.html', {})
 
+def product_info(request):
+    
+    return render(request, 'home/product_info.html')
+
+def index_view(request):
+    return render(request, 'home/index.html')
+
 
 def search(request):
     query = request.GET.get('q')

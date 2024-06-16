@@ -1,0 +1,414 @@
+{% extends "home/base.html" %}
+
+{% load static %}
+
+{% block title %}
+About
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avant UV Coatings Kits</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header, section {
+            width: 100%;
+            padding: 60px 20px;
+            text-align: center;
+            background-color: #000;
+        }
+
+        h1, h2, h3 {
+            font-weight: 500;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 3em;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            margin-top: 20px;
+        }
+
+        .section-header h1 {
+            margin-bottom: 10px;
+        }
+
+        .content-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            text-align: left;
+        }
+
+        .content-section img {
+            width: 100%;
+            max-width: 400px;
+            margin-right: 40px;
+        }
+
+        .content-section .text {
+            max-width: 600px;
+        }
+
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 60px 20px;
+            text-align: left;
+        }
+
+        .info-section .column {
+            width: 45%;
+        }
+
+        .info-section .column:not(:last-child) {
+            margin-right: 40px;
+        }
+
+        .info-section h2 {
+            font-size: 1.5em;
+        }
+
+        .info-section p {
+            margin-bottom: 20px;
+        }
+
+        .price-comparison-title {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .price-comparison-title h2 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .price-comparison {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px 20px 60px 20px;
+            background-color: #000;
+        }
+
+        .price-box {
+            background-color: #333;
+            border-radius: 10px;
+            padding: 60px;
+            margin: 0 20px;
+            text-align: left;
+            max-width: 400px;
+            flex-grow: 1;
+        }
+
+        .price-box img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .price-box h3 {
+            font-size: 1.8em;
+            margin-top: 20px;
+        }
+
+        .price-box p {
+            margin: 10px 0;
+        }
+
+        .price-box .price {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+
+        .price-box .buy-now {
+            background-color: #007aff;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .kit-materials, .handheld-light {
+            padding: 60px 20px;
+            text-align: left;
+        }
+
+        .kit-materials {
+            background-color: #fff;
+            color: #000;
+            border-radius: 10px;
+            padding: 80px 40px;
+            margin: 0 auto;
+            max-width: 1000px;
+        }
+
+        .kit-materials .text, .handheld-light .text {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .kit-materials p {
+            font-size: 1.2em;
+        }
+
+        .kits-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 40px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .kit-box {
+            max-width: 30%;
+            flex-grow: 1;
+            margin: 0 10px;
+            text-align: left;
+        }
+
+        .kit-box h3 {
+            font-size: 1.8em;
+            margin-top: 20px;
+            color: #000;
+        }
+
+        .kit-box p {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .handheld-light {
+            display: flex;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
+        .handheld-light img {
+            margin-right: 40px;
+        }
+
+        .handheld-light .shop-now {
+            background-color: #007aff;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .final-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .final-section h1 {
+            font-size: 3.5em;
+            margin-bottom: 50px;
+        }
+
+        .final-section .shop-now {
+            background-color: #007aff;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 50px;
+        }
+
+        .spacer {
+            height: 200px;
+            background-color: #000;
+        }
+
+        .grouped-section {
+            text-align: left;
+            padding: 60px 20px;
+        }
+
+        .grouped-section h2, .grouped-section h3 {
+            color: #000;
+        }
+
+        .grouped-section p {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header class="section-header">
+        <h1>Avant UV Coatings Kits</h1>
+        <h2>Everything you need to know!</h2>
+        <img src="images/backgrounds/kitsedit.png" alt="Avant UV Coatings Kit">
+    </header>
+
+    <div class="spacer"></div>
+
+    <section class="content-section">
+        <img src="images/backgrounds/kitsedit.png" alt="Avant UV Coatings Kit">
+        <div class="text">
+            <h2>Avant UV Coatings Touch-Up Kit</h2>
+            <p>The Avant UV Coatings Touch-Up Kit is designed for professionals and hobbyists needing to repair and maintain UV coatings with precision and ease. This all-in-one kit includes everything required to perform high-quality touch-ups on UV-coated surfaces.</p>
+        </div>
+    </section>
+
+    <div class="spacer"></div>
+
+    <section class="info-section">
+        <div class="column">
+            <h2>The Insides</h2>
+            <p>The Avant UV Coatings Touch-Up Kit includes essential tools for repairing and touching up UV coatings. This comprehensive kit features a small jar of UV paste, a syringe of UV curable touch-up paste, a handheld curing light, sanding block and paper, essential tools, and cleaning alcohol, all neatly packaged in a lightweight, portable case.</p>
+
+            <h2>Includes</h2>
+            <p>UV Paste Jar and Syringe: A small jar and syringe of UV curable touch-up paste for precise repairs.<br>Handheld Curing Light: A compact UV curing light to ensure the paste cures quickly and effectively.<br>Sanding Block and Paper: For smoothing surfaces before and after application of the UV paste.<br>Essential Tools: Includes razors, Dixie cups, and other tools needed for application and mixing.<br>IPA Alcohol: Isopropyl alcohol for cleaning resin and preparing surfaces.<br>Lightweight Carry Case: A portable, easy-to-carry case to keep all components organized and ready for use.</p>
+        </div>
+
+        <div class="column">
+            <h2>Uses</h2>
+            <p>This kit is designed for convenience and efficiency, providing all the tools needed to make professional-grade repairs and touch-ups on a variety of UV coated surfaces. Whether you’re working on furniture, automotive parts, or fine crafts, the Avant UV Coatings Touch-Up Kit ensures you have the right tools for a flawless finish.</p>
+            <ul>
+                <li>Comprehensive Tool Set: The kit includes high-quality tools designed for precision and durability, making it perfect for repairing and enhancing furniture, automotive parts, and delicate crafts.</li>
+                <li>Versatile Applications: Whether you’re working on wooden furniture, car surfaces, or intricate crafts, our kit provides the versatility needed to achieve a seamless and flawless finish.</li>
+                <li>User-Friendly: Each tool is designed with ease of use in mind, allowing both professionals and DIY enthusiasts to achieve expert-level results without the need for extensive training.</li>
+                <li>Durability and Quality: The Avant UV Coatings Touch-Up Kit is built to last, with materials that withstand frequent use and deliver consistent, high-quality results.</li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="spacer"></div>
+
+    <section class="grouped-section kit-materials">
+        <h2>Kit Materials</h2>
+        <p>The Avant UV Coatings Touch-Up Kit is available in a basic size, perfect for general repairs and touch-ups. For those with specific needs, custom kit options are available—please contact Avant UV Coatings to tailor a kit to your exact requirements.</p>
+        <div class="kits-section">
+            <div class="kit-box">
+                <h3>Starter Kit</h3>
+                <p>The Starter Kit is ideal for small-scale projects and individual use. It contains all the essential tools needed for minor touch-ups and repairs on UV-coated surfaces.</p>
+            </div>
+            <div class="kit-box">
+                <h3>Intermediate Kit</h3>
+                <p>The Intermediate Kit is designed for medium-sized projects and frequent use. It provides a more comprehensive set of tools for a variety of repair and maintenance tasks on UV-coated surfaces.</p>
+            </div>
+            <div class="kit-box">
+                <h3>Pro Kit</h3>
+                <p>The Pro Kit is perfect for large-scale projects and professional use. It offers an extensive set of high-quality tools and materials to handle complex and large touch-up and repair tasks on UV-coated surfaces.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="price-comparison-title">
+        <h2>Price Comparison</h2>
+    </div>
+    <section class="price-comparison">
+        <div class="price-box">
+            <img src="images/backgrounds/smallbox.jpeg" alt="Starter Kit">
+            <h3>Starter Kit</h3>
+            <h4>Small</h4>
+            <p>Ideal for small-scale projects and individual use.</p>
+            <ul>
+                <li>Essential tools included</li>
+                <li>Portable carry case</li>
+                <li>Perfect for minor touch-ups</li>
+                <li>Affordable price</li>
+                <li>Easy to use</li>
+                <li>Compact and lightweight</li>
+                <li>High precision</li>
+                <li>Quick application</li>
+                <li>Durable materials</li>
+            </ul>
+            <p class="price">$49.99</p>
+            <a href="#" class="buy-now">Buy Now</a>
+        </div>
+
+        <div class="price-box">
+            <img src="images/backgrounds/medlbox.jpeg" alt="Intermediate Kit">
+            <h3>Intermediate Kit</h3>
+            <h4>Medium</h4>
+            <p>Designed for medium-sized projects and frequent use.</p>
+            <ul>
+                <li>Comprehensive tool set</li>
+                <li>Includes UV curing light</li>
+                <li>Durable and versatile</li>
+                <li>High-quality materials</li>
+                <li>For both amateurs and professionals</li>
+                <li>Efficient and effective</li>
+                <li>Easy to handle</li>
+                <li>Improves productivity</li>
+                <li>Cost-effective</li>
+            </ul>
+            <p class="price">$99.99</p>
+            <a href="#" class="buy-now">Buy Now</a>
+        </div>
+
+        <div class="price-box">
+            <img src="images/backgrounds/largelbox.jpeg" alt="Pro Kit">
+            <h3>Pro Kit</h3>
+            <h4>Large</h4>
+            <p>Perfect for large-scale projects and professional use.</p>
+            <ul>
+                <li>High-quality tools included</li>
+                <li>Extensive set for complex tasks</li>
+                <li>Built to last</li>
+                <li>Professional-grade performance</li>
+                <li>Robust and durable</li>
+                <li>Comprehensive and complete</li>
+                <li>Top-notch quality</li>
+                <li>Time-saving</li>
+                <li>Reliable results</li>
+            </ul>
+            <p class="price">$149.99</p>
+            <a href="#" class="buy-now">Buy Now</a>
+        </div>
+    </section>
+
+    <div class="spacer"></div>
+
+    <section class="handheld-light">
+        <img src="images/backgrounds/kitlight.jpeg" alt="Handheld Light">
+        <div class="text">
+            <h2>Includes Handheld Light</h2>
+            <p>Handheld Curing Lights are expertly designed for curing low energy, fast cure resins, such as those from Clean Armor®</p>
+            <p>The Avant UV Coatings H24 Handheld Curing Lights are purpose-built for curing low energy resins. Available in the 24W model, these ergonomic lights feature adjustable handles and flexible mounting options for optimal curing efficiency.</p>
+            <a href="#" class="shop-now">Shop UV Lights</a>
+        </div>
+    </section>
+
+    <div class="spacer"></div>
+
+    <section class="final-section">
+        <h1>GET YOUR KIT NOW!</h1>
+        <a href="#" class="shop-now">Shop Now</a>
+    </section>
+
+    <div class="spacer"></div>
+</body>
+</html>
+{% endblock %}
