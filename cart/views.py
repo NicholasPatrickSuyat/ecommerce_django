@@ -345,7 +345,7 @@ def paypal_webhook(request):
                 logger.debug(f"Processing capture ID: {capture_id}, Order ID: {order_id}")
 
                 if order_id:
-                    order = get_object_or_404(Order, ref_code=order_id)
+                    order = get_object_or_404(Order, paypal_invoice_id=order_id)
                     order.status = 'COMPLETED'
                     order.save()
                     logger.info(f"Order {order_id} marked as completed.")
@@ -359,7 +359,7 @@ def paypal_webhook(request):
                 logger.debug(f"Processing order approval for Order ID: {order_id}")
 
                 if order_id:
-                    order = get_object_or_404(Order, ref_code=order_id)
+                    order = get_object_or_404(Order, paypal_invoice_id=order_id)
                     order.status = 'APPROVED'
                     order.save()
                     logger.info(f"Order {order_id} marked as approved.")
@@ -381,6 +381,5 @@ def paypal_webhook(request):
     else:
         logger.warning("Invalid request method")
         return JsonResponse({'status': 'invalid request'}, status=400)
-
 def test_logging_view(request):
     return HttpResponse("Logging test complete. Check your logs.")
