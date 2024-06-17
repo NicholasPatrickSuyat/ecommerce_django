@@ -40,8 +40,6 @@ def create_order(user, shipping_address, cart_items):
     order.save()
     return order
 
-
-
 def create_invoice_view(request, order, email):
     invoice_id = create_invoice(order, email)
     return invoice_id
@@ -224,7 +222,6 @@ def guest_checkout_view(request):
         'PAYPAL_CLIENT_ID': settings.PAYPAL_CLIENT_ID
     })
 
-
 def payment_done(request):
     try:
         if request.method == "POST":
@@ -284,7 +281,6 @@ def payment_done(request):
     except Exception as e:
         return redirect('cart:payment_error')
 
-
 def payment_cancelled(request):
     return render(request, 'cart/payment_cancel.html', {'error': 'Payment was cancelled'})
 
@@ -306,7 +302,6 @@ def order_detail_view(request, id):
         'order_items': order_items,
         'total_cost': total_cost
     })
-
 
 @user_is_admin
 def order_update_view(request, id):
@@ -353,5 +348,3 @@ def paypal_webhook(request):
 
 def test_logging_view(request):
     return HttpResponse("Logging test complete. Check your logs.")
-
-
