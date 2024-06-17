@@ -168,7 +168,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
-        'your_app_name': {
+        'cart': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,
