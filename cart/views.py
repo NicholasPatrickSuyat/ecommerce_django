@@ -333,28 +333,45 @@ def custom_permission_denied_view(request, exception=None):
 def paypal_webhook(request):
     if request.method == 'POST':
         try:
-            # Log the raw body of the incoming request for debugging
-            logger.debug(f"Raw request body: {request.body}")
-
             data = json.loads(request.body)
-            logger.debug(f"Webhook received: {data}")
+            logger.debug(f"Webhook received: {json.dumps(data, indent=2)}")
 
-            order_id = data.get('resource', {}).get('invoice_id')
-            status = data.get('event_type')
+            event_type = data.get('event_type')
+            resource = data.get('resource')
 
-            if order_id and status == 'PAYMENT.SALE.COMPLETED':
-                try:
+            if event_type == 'PAYMENT.CAPTURE.COMPLETED':
+                capture_id = resource.get('id')
+                order_id = resource.get('supplementary_data', {}).get('related_ids', {}).get('order_id')
+                logger.debug(f"Processing capture ID: {capture_id}, Order ID: {order_id}")
+
+                if order_id:
                     order = get_object_or_404(Order, ref_code=order_id)
                     order.status = 'COMPLETED'
                     order.save()
-                    logger.info(f"Order {order_id} completed successfully.")
+                    logger.info(f"Order {order_id} marked as completed.")
                     return JsonResponse({'status': 'success'}, status=200)
-                except Exception as e:
-                    logger.error(f"Error updating order status: {e}")
-                    return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+                else:
+                    logger.warning("Order ID not found in the resource.")
+                    return JsonResponse({'status': 'invalid data', 'message': 'Order ID not found'}, status=400)
+
+            elif event_type == 'CHECKOUT.ORDER.APPROVED':
+                order_id = resource.get('id')
+                logger.debug(f"Processing order approval for Order ID: {order_id}")
+
+                if order_id:
+                    order = get_object_or_404(Order, ref_code=order_id)
+                    order.status = 'APPROVED'
+                    order.save()
+                    logger.info(f"Order {order_id} marked as approved.")
+                    return JsonResponse({'status': 'success'}, status=200)
+                else:
+                    logger.warning("Order ID not found in the resource.")
+                    return JsonResponse({'status': 'invalid data', 'message': 'Order ID not found'}, status=400)
+
             else:
-                logger.warning(f"Invalid data received: {data}")
-                return JsonResponse({'status': 'invalid data'}, status=400)
+                logger.warning(f"Unhandled event type: {event_type}")
+                return JsonResponse({'status': 'invalid event type'}, status=400)
+
         except json.JSONDecodeError as e:
             logger.error(f"JSON decode error: {e}")
             return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
