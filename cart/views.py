@@ -28,7 +28,8 @@ def create_order(user, shipping_address, cart_items):
         user=user,
         shipping_address=shipping_address,
         order_date=timezone.now(),
-        status='PENDING'  # Set the initial status to 'PENDING'
+        status='PENDING',  # Set the initial status to 'PENDING'
+        paypal_invoice_id="some_invoice_id"  # Set the PayPal invoice ID here
     )
     total_cost = 0
     for item in cart_items:
@@ -42,6 +43,7 @@ def create_order(user, shipping_address, cart_items):
     order.total_cost = total_cost
     order.save()
     return order
+
 
 def create_invoice_view(request, order, email):
     invoice_id = create_invoice(order, email)
@@ -149,13 +151,16 @@ def logged_in_checkout_view(request):
             if not cart_items.exists():
                 return redirect('cart:cart')
 
+            # Create order without the paypal_invoice_id initially
             order = create_order(request.user, shipping_address, cart_items)
 
+            # Generate the invoice and update the order with the paypal_invoice_id
             invoice_id = create_invoice_view(request, order, request.user.email)
             if invoice_id:
-                order.ref_code = invoice_id
+                order.paypal_invoice_id = invoice_id
                 order.save()
 
+            # Clear the cart
             cart_items.delete()
             request.session['order_id'] = str(order.id)
             request.session['total_price'] = str(order.total_cost())
@@ -173,6 +178,7 @@ def logged_in_checkout_view(request):
         'PAYPAL_CLIENT_ID': settings.PAYPAL_CLIENT_ID,
         'user': request.user
     })
+
 
 def guest_checkout_view(request):
     if request.method == 'POST':
@@ -201,13 +207,16 @@ def guest_checkout_view(request):
                     'quantity': details['quantity']
                 })
 
+            # Create order without the paypal_invoice_id initially
             order = create_order(user, shipping_address, cart_items)
 
+            # Generate the invoice and update the order with the paypal_invoice_id
             invoice_id = create_invoice_view(request, order, email)
             if invoice_id:
-                order.ref_code = invoice_id
+                order.paypal_invoice_id = invoice_id
                 order.save()
 
+            # Clear the cart
             request.session['cart'] = {}
             request.session['order_id'] = str(order.id)
             request.session['total_price'] = str(order.total_cost())
@@ -224,6 +233,7 @@ def guest_checkout_view(request):
         'total_price': total_price,
         'PAYPAL_CLIENT_ID': settings.PAYPAL_CLIENT_ID
     })
+
 
 def payment_done(request):
     try:
@@ -381,5 +391,7 @@ def paypal_webhook(request):
     else:
         logger.warning("Invalid request method")
         return JsonResponse({'status': 'invalid request'}, status=400)
+
+
 def test_logging_view(request):
     return HttpResponse("Logging test complete. Check your logs.")
