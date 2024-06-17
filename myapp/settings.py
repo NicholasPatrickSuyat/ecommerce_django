@@ -13,7 +13,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 # DEBUG = True
 
-ALLOWED_HOSTS = ['avant-ecommerce-206cb7546b88.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
