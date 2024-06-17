@@ -13,3 +13,6 @@ requests
 paypalrestsdk
 django-paypal
 stripe
+gunicorn
+django-heroku
+dj_database_url
