@@ -17,6 +17,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 import json
 from django.utils import timezone
+import logging
+
+logger = logging.getLogger(__name__)
 
 CustomUser = get_user_model()
 
@@ -330,20 +333,36 @@ def custom_permission_denied_view(request, exception=None):
 def paypal_webhook(request):
     if request.method == 'POST':
         try:
+            # Log the raw body of the incoming request for debugging
+            logger.debug(f"Raw request body: {request.body}")
+
             data = json.loads(request.body)
-            order_id = data.get('resource').get('invoice_id')
+            logger.debug(f"Webhook received: {data}")
+
+            order_id = data.get('resource', {}).get('invoice_id')
             status = data.get('event_type')
 
             if order_id and status == 'PAYMENT.SALE.COMPLETED':
-                order = get_object_or_404(Order, id=order_id)
-                order.status = 'COMPLETED'
-                order.save()
-                return JsonResponse({'status': 'success'}, status=200)
+                try:
+                    order = get_object_or_404(Order, ref_code=order_id)
+                    order.status = 'COMPLETED'
+                    order.save()
+                    logger.info(f"Order {order_id} completed successfully.")
+                    return JsonResponse({'status': 'success'}, status=200)
+                except Exception as e:
+                    logger.error(f"Error updating order status: {e}")
+                    return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
             else:
+                logger.warning(f"Invalid data received: {data}")
                 return JsonResponse({'status': 'invalid data'}, status=400)
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON decode error: {e}")
+            return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
         except Exception as e:
-            return JsonResponse({'status': 'error'}, status=500)
+            logger.error(f"Exception processing webhook: {e}")
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     else:
+        logger.warning("Invalid request method")
         return JsonResponse({'status': 'invalid request'}, status=400)
 
 def test_logging_view(request):
