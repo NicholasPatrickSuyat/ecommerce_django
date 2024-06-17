@@ -378,6 +378,20 @@ def paypal_webhook(request):
                     logger.warning("Order ID not found in the resource.")
                     return JsonResponse({'status': 'invalid data', 'message': 'Order ID not found'}, status=400)
 
+            elif event_type == 'CHECKOUT.ORDER.COMPLETED':
+                order_id = resource.get('id')
+                logger.debug(f"Processing order completion for Order ID: {order_id}")
+
+                if order_id:
+                    order = get_object_or_404(Order, paypal_invoice_id=order_id)
+                    order.status = 'COMPLETED'
+                    order.save()
+                    logger.info(f"Order {order_id} marked as completed.")
+                    return JsonResponse({'status': 'success'}, status=200)
+                else:
+                    logger.warning("Order ID not found in the resource.")
+                    return JsonResponse({'status': 'invalid data', 'message': 'Order ID not found'}, status=400)
+
             else:
                 logger.warning(f"Unhandled event type: {event_type}")
                 return JsonResponse({'status': 'invalid event type'}, status=400)
