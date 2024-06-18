@@ -101,43 +101,44 @@
     </div>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-column">
-                <h4>About</h4>
-                <a href="{% url 'home:terms' %}">Terms of Service</a>
-                <a href="{% url 'home:privacy' %}">Privacy</a>
-                <a href="{% url 'home:patents' %}">Patents</a>
-                <a href="{% url 'home:warranty' %}">Warranty</a>
-            </div>
-            <div class="footer-column">
-                <h4>Support</h4>
-                <a href="{% url 'contact:contact' %}" >Technical Support</a>
-                <a href="{% url 'user:login' %}">Account</a>
-                <a href="{% url 'home:order_status' %}">Order Status</a> 
-                <a href="{% url 'home:faqs' %}">FAQs</a>
-                <a href="{% url 'home:user_manuals' %}">User Manuals</a>
-            </div>
-            
-            <div class="footer-column">
-                <h4>Company</h4>
-                <a href="https://mainstreetcustomfinishing.com/careers">Career Opportunities</a>
-                <a href="{% url 'products:product_list' %}">Shop</a>
-                <a href="{% url 'training:training' %}">Learn</a>
-            </div>
-            <div class="footer-column">
-                <h4>Follow Us</h4>
-                <a href="https://www.facebook.com">Facebook</a>
-                <a href="https://www.twitter.com">Twitter</a>
-                <a href="https://www.youtube.com/channel/UCiccB-YiVBMEeSI-6oWyixQ">YouTube</a>
-            </div>
-            <div class="footer-column">
-                <h4>Contact Us</h4>
-                <p><a href="mailto:avantuvcoatings@gmail.com">avantuvcoatings@gmail.com</a></p>
-                <a href="{% url 'contact:contact' %}">Contact Avant</a>
+    <footer class="mt-5">
+        <div class="footer-container container">
+            <div class="row">
+                <div class="col-6 col-md-3">
+                    <h4>About</h4>
+                    <a href="{% url 'home:terms' %}">Terms of Service</a>
+                    <a href="{% url 'home:privacy' %}">Privacy</a>
+                    <a href="{% url 'home:patents' %}">Patents</a>
+                    <a href="{% url 'home:warranty' %}">Warranty</a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <h4>Support</h4>
+                    <a href="{% url 'contact:contact' %}">Technical Support</a>
+                    <a href="{% url 'user:login' %}">Account</a>
+                    <a href="{% url 'home:order_status' %}">Order Status</a>
+                    <a href="{% url 'home:faqs' %}">FAQs</a>
+                    <a href="{% url 'home:user_manuals' %}">User Manuals</a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <h4>Company</h4>
+                    <a href="https://mainstreetcustomfinishing.com/careers">Career Opportunities</a>
+                    <a href="{% url 'products:product_list' %}">Shop</a>
+                    <a href="{% url 'training:training' %}">Learn</a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <h4>Follow Us</h4>
+                    <a href="https://www.facebook.com">Facebook</a>
+                    <a href="https://www.twitter.com">Twitter</a>
+                    <a href="https://www.youtube.com/channel/UCiccB-YiVBMEeSI-6oWyixQ">YouTube</a>
+                </div>
+                <div class="col-12 col-md-3 mt-3 mt-md-0">
+                    <h4>Contact Us</h4>
+                    <p><a href="mailto:avantuvcoatings@gmail.com">avantuvcoatings@gmail.com</a></p>
+                    <a href="{% url 'contact:contact' %}">Contact Avant</a>
+                </div>
             </div>
         </div>
-        <div class="footer-bottom">
+        <div class="footer-bottom text-center py-3">
             <p>&copy; 2024 AVANT UV COATINGS. All rights reserved.</p>
         </div>
     </footer>
