@@ -50,12 +50,22 @@ AVANT UV Coatings
         font-size: 1.6rem;
         line-height: 1.8;
         text-align: left;
-        padding-left: 20px; /* Add padding to move text slightly to the right */
+        padding: 20px; /* Adjusted padding */
+        box-sizing: border-box;
     }
     .info-section {
         background-color: #f8f8f8;
         padding: 20px;
         border-radius: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .info-section .section-text, .info-section img {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 20px;
     }
     .center-text {
         text-align: center;
@@ -176,6 +186,10 @@ AVANT UV Coatings
         .section img, .product-info-box img, .section-text, .product-info-box .section-text {
             width: 100%;
             padding-left: 0;
+        }
+        .info-section .section-text, .info-section img {
+            max-width: 100%;
+            padding: 10px;
         }
     }
 </style>
