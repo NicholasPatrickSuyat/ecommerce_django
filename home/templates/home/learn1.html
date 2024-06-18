@@ -32,17 +32,21 @@ AVANT UV Coatings
     }
     .section {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 30px;
     }
     .section img {
-        width: 45%;
+        width: 100%;
+        max-width: 45%;
         height: auto;
         border-radius: 10px;
+        margin-bottom: 20px;
     }
     .section-text {
-        width: 50%;
+        width: 100%;
+        max-width: 50%;
         font-size: 1.6rem;
         line-height: 1.8;
         text-align: left;
@@ -56,13 +60,12 @@ AVANT UV Coatings
     .center-text {
         text-align: center;
         margin: 100px 0; /* Extend the gap section */
-        
     }
     .center-text h2 {
         margin-bottom: 20px;
     }
     .center-paragraph {
-        max-width: 1500px; /* Adjusted value for slightly less crammed text */
+        max-width: 100%;
         margin: 0 auto;
         text-align: justify;
     }
@@ -146,6 +149,7 @@ AVANT UV Coatings
     }
     .product-info-box {
         display: flex;
+        flex-wrap: wrap;
         background-color: #000;
         color: #fff;
         padding: 20px;
@@ -154,12 +158,25 @@ AVANT UV Coatings
         align-items: center;
     }
     .product-info-box img {
-        width: 45%;
+        width: 100%;
+        max-width: 45%;
         border-radius: 10px;
+        margin-bottom: 20px;
     }
     .product-info-box .section-text {
-        width: 50%;
+        width: 100%;
+        max-width: 50%;
         margin-left: 20px;
+    }
+    @media (max-width: 768px) {
+        .section, .product-info-box {
+            flex-direction: column;
+            text-align: center;
+        }
+        .section img, .product-info-box img, .section-text, .product-info-box .section-text {
+            width: 100%;
+            padding-left: 0;
+        }
     }
 </style>
 
