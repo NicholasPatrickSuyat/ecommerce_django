@@ -21,6 +21,7 @@ Classical Instruments UV Coatings
     }
     .header {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         background-color: black;
         color: #fff;
@@ -37,10 +38,10 @@ Classical Instruments UV Coatings
         text-shadow: 2px 2px 4px #000;
         text-align: left;
         font-weight: bold;
+        margin-bottom: 20px;
     }
     .header-description {
         font-size: 1.5rem;
-        margin-top: 20px;
         text-align: left;
         font-weight: normal;
     }
@@ -50,6 +51,7 @@ Classical Instruments UV Coatings
     }
     .info-container {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
         align-items: flex-start;
         background-color: #f0f0f0;
@@ -118,6 +120,7 @@ Classical Instruments UV Coatings
         width: 80%;
         max-width: 1000px;
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
     }
     .display-info-box .display-text {
@@ -155,6 +158,52 @@ Classical Instruments UV Coatings
     }
     .section a:hover {
         text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .header {
+            flex-direction: column;
+            text-align: center;
+        }
+        .header img {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .header-text {
+            font-size: 2.5rem;
+        }
+        .header-description {
+            font-size: 1.2rem;
+        }
+        .info-container {
+            flex-direction: column;
+            width: 100%;
+            padding: 20px;
+        }
+        .info-text, .info-image {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .display-info-box {
+            flex-direction: column;
+            padding: 20px;
+        }
+        .display-info-box .display-text, .display-info-box .display-image {
+            width: 100%;
+            margin: 0;
+        }
+        .display-info-box ul {
+            columns: 1;
+        }
+        .image-tree-section {
+            padding: 20px 0;
+        }
+        .image-tree {
+            max-width: 100%;
+        }
+        .image-tree img {
+            width: 100%;
+        }
     }
 </style>
 
