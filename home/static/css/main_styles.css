@@ -24,7 +24,7 @@ html, body {
     left: 0;
     width: 100vw; /* 100% of the viewport width */
     height: 100vh; /* 100% of the viewport height */
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
     z-index: -1;
 }
 
@@ -50,7 +50,7 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
-    background: linear-gradient(120deg, rgba(0, 0, 0, 0.7), rgba(68, 68, 68, 0.7)); /* Transparent background */
+    background: rgba(0, 0, 0, 0.5); /* Transparent background */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 9999;
     height: 44px; /* Set the height to match the max-height specified */
@@ -74,7 +74,7 @@ nav ul li {
 nav ul li a {
     color: white; /* Ensure text color in navbar is white */
     text-decoration: none;
-    padding: 10px 15px; /* Maintain padding for click area */
+    padding: 5px 10px; /* Reduce padding for a skinnier navbar */
     border-radius: 5px;
     transition: background 0.3s;
     height: 100%; /* Ensure the links take the full height of the ul */
@@ -120,6 +120,7 @@ nav ul li a:hover {
         margin-top: 10px; /* Add margin to dropdown */
     }
 }
+
 
 /* Search container styles */
 #search-container {
@@ -679,6 +680,8 @@ footer {
     padding-bottom: 60px; /* Increased from 20px to 60px */
     border-radius: 20px; /* Add rounded corners */
     margin-top: 45px; /* Reduce margin to make the content closer to the navbar */
+    margin-left: 20px; /* Add margin to move container away from the edge */
+    margin-right: 20px; /* Add margin to move container away from the edge */
     min-height: 400px; /* Set a minimum height to ensure consistent height */
 }
 
@@ -704,8 +707,10 @@ footer {
     border-bottom: 5px solid #ffffff; /* Add white border around the video container */
     margin-top: -10px; /* Add margin to create space above the video container */
     margin-bottom: -60px; /* Add margin to create space below the video container */
+    margin-left: 20px; /* Add margin to move container away from the edge */
+    margin-right: 20px; /* Add margin to move container away from the edge */
     z-index: 0; /* Ensure the video background stays in its own layer */
-    width: 100%;
+    width: calc(100% - 40px); /* Adjust width to account for margins */
     height: 100vh; /* Make the container full viewport height */
     display: flex;
     align-items: center; /* Center content vertically */
@@ -757,6 +762,7 @@ footer {
     transition: opacity 0.3s;
     border-radius: 20px; /* Add rounded corners */
 }
+
 
 
 .container {
