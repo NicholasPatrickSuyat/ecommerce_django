@@ -89,7 +89,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- Custom JS (optional) -->
-    <script src="{% static 'js/scripts.js' %}"></script>
+    <!-- Inline JavaScript -->
+    <script>
+        $(document).ready(function() {
+            // Toggle navbar for mobile
+            $('.navbar-toggler').click(function() {
+                $('#navbarNav').toggleClass('show');
+            });
+        });
+    </script>
 </body>
 </html>
