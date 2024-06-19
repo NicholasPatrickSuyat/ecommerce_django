@@ -7,81 +7,14 @@
     <title>{% block title %}Avant{% endblock %}</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- FontAwesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link rel="stylesheet" href="https://avant-ecommerce.s3.amazonaws.com/static/css/main_styles.css?v=1.0">
-    <style>
-        .navbar-nav .nav-link, .navbar-brand {
-            color: #fff !important; /* White text */
-        }
-        .navbar-toggler {
-            border-color: rgba(255, 255, 255, 0.1); /* Light border for toggler */
-        }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* White icon */
-        }
-        @media (max-width: 991.98px) {
-            .navbar-collapse {
-                background-color: #333; /* Dark background for dropdown */
-                border-radius: 10px 10px; /* Rounded bottom corners */
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow */
-                margin-top: 10px; /* Add margin to dropdown */
-            }
-            .navbar-nav .nav-item .nav-link {
-                padding: 15px; /* Spacing for dropdown items */
-            }
-        }
-        
-        /* Mobile styles for main content */
-        @media (max-width: 767.98px) {
-            .content {
-                padding: 15px;
-                background-color: #f9f9f9; /* Light background color for better readability */
-            }
-            .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
-                font-size: 1.5em; /* Larger font size for headings */
-                margin-top: 20px; /* More spacing above headings */
-            }
-            .content p {
-                font-size: 1.1em; /* Larger font size for paragraphs */
-                line-height: 1.6; /* Increased line height for readability */
-            }
-            .content img {
-                max-width: 100%;
-                height: auto; /* Responsive images */
-            }
-            .content .btn {
-                display: block;
-                width: 100%;
-                margin-bottom: 10px; /* Full-width buttons with spacing */
-            }
-            .content table {
-                width: 100%;
-                overflow-x: auto; /* Scrollable tables */
-                display: block;
-            }
-            .content ul, .content ol {
-                padding-left: 20px; /* Indentation for lists */
-            }
-            .content blockquote {
-                border-left: 5px solid #ccc;
-                padding-left: 15px;
-                margin-left: 0;
-                font-style: italic; /* Styled blockquotes */
-            }
-        }
-    </style>
 </head>
 <body>
-    <!-- Background color container -->
-    <div class="color-background"></div>
-
-    <!-- Navbar or other shared elements -->
-    {% block navbar %}
-    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -130,7 +63,6 @@
             </ul>
         </div>
     </nav>
-    {% endblock %}
 
     <!-- Main content -->
     <div class="content">
@@ -141,39 +73,7 @@
     <!-- Footer -->
     <footer>
         <div class="footer-container">
-            <div class="footer-column">
-                <h4>About</h4>
-                <a href="{% url 'home:terms' %}">Terms of Service</a>
-                <a href="{% url 'home:privacy' %}">Privacy</a>
-                <a href="{% url 'home:patents' %}">Patents</a>
-                <a href="{% url 'home:warranty' %}">Warranty</a>
-            </div>
-            <div class="footer-column">
-                <h4>Support</h4>
-                <a href="{% url 'contact:contact' %}" >Technical Support</a>
-                <a href="{% url 'user:login' %}">Account</a>
-                <a href="{% url 'home:order_status' %}">Order Status</a> 
-                <a href="{% url 'home:faqs' %}">FAQs</a>
-                <a href="{% url 'home:user_manuals' %}">User Manuals</a>
-            </div>
-            
-            <div class="footer-column">
-                <h4>Company</h4>
-                <a href="https://mainstreetcustomfinishing.com/careers">Career Opportunities</a>
-                <a href="{% url 'products:product_list' %}">Shop</a>
-                <a href="{% url 'training:training' %}">Learn</a>
-            </div>
-            <div class="footer-column">
-                <h4>Follow Us</h4>
-                <a href="https://www.facebook.com">Facebook</a>
-                <a href="https://www.twitter.com">Twitter</a>
-                <a href="https://www.youtube.com/channel/UCiccB-YiVBMEeSI-6oWyixQ">YouTube</a>
-            </div>
-            <div class="footer-column">
-                <h4>Contact Us</h4>
-                <p><a href="mailto:avantuvcoatings@gmail.com">avantuvcoatings@gmail.com</a></p>
-                <a href="{% url 'contact:contact' %}">Contact Avant</a>
-            </div>
+            <!-- Footer content -->
         </div>
         <div class="footer-bottom">
             <p>&copy; 2024 AVANT UV COATINGS. All rights reserved.</p>
@@ -187,37 +87,5 @@
 
     <!-- Custom JS (optional) -->
     <script src="{% static 'js/scripts.js' %}"></script>
-
-    <script>
-        $(document).ready(function(){
-            $('#search-input').on('input', function() {
-                let query = $(this).val();
-                if (query.length > 0) {
-                    $.ajax({
-                        url: '{% url "home:search_recommendations" %}',
-                        data: {'q': query},
-                        success: function(data) {
-                            let resultsContainer = $('#search-results');
-                            resultsContainer.empty();
-                            if (data.length > 0) {
-                                data.forEach(function(item) {
-                                    let resultItem = $('<a>', {
-                                        class: 'list-group-item list-group-item-action',
-                                        text: item.title,
-                                        href: '{% url "products:product_detail" 1 %}'.replace('1', item.id)  // Using 1 as a placeholder to be replaced
-                                    });
-                                    resultsContainer.append(resultItem);
-                                });
-                            } else {
-                                resultsContainer.append('<div class="list-group-item">No results found</div>');
-                            }
-                        }
-                    });
-                } else {
-                    $('#search-results').empty();
-                }
-            });
-        });
-    </script>
 </body>
 </html>
