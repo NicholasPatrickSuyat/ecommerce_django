@@ -677,7 +677,7 @@ footer {
     border-bottom: 5px solid #ffffff; /* Adjust the border color and width as needed */
     padding-top: 60px; /* Increased from 20px to 60px */
     padding-bottom: 60px; /* Increased from 20px to 60px */
-    border-radius: 10px; /* Optional: Add rounded corners */
+    border-radius: 20px; /* Add rounded corners */
     margin-top: 45px; /* Reduce margin to make the content closer to the navbar */
     min-height: 400px; /* Set a minimum height to ensure consistent height */
 }
@@ -697,8 +697,6 @@ footer {
     z-index: 0;
 }
 
-
-
 .video-background-container {
     position: relative;
     overflow: hidden; /* Ensure the video doesn't overflow */
@@ -712,6 +710,7 @@ footer {
     display: flex;
     align-items: center; /* Center content vertically */
     justify-content: center; /* Center content horizontally */
+    border-radius: 20px; /* Add rounded corners */
 }
 
 .video-background {
@@ -722,6 +721,7 @@ footer {
     height: 100%;
     object-fit: cover;
     z-index: -1; /* Ensure the video is behind the content */
+    border-radius: 20px; /* Add rounded corners */
 }
 
 .video-content {
@@ -743,7 +743,6 @@ footer {
     margin-bottom: 100px; /* Remove margin for the button */
 }
 
-
 .background-container .overlay {
     position: absolute;
     top: 0;
@@ -756,7 +755,9 @@ footer {
     background: rgba(0, 0, 0, 0.5);
     opacity: 0;
     transition: opacity 0.3s;
+    border-radius: 20px; /* Add rounded corners */
 }
+
 
 .container {
     max-width: 600px;
