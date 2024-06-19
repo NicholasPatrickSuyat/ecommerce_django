@@ -7,6 +7,89 @@ Avant UV Cure Lights and Starter Kits
 {% endblock %}
 
 {% block content %}
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #fff;
+        color: #000;
+        font-size: 18px;
+    }
+    .uv-cure-container {
+        padding: 50px;
+    }
+    .uv-cure-header {
+        text-align: center;
+        background-color: #000;
+        color: #fff;
+        padding: 20px;
+    }
+    .uv-cure-title {
+        font-size: 3rem;
+    }
+    .uv-cure-subtitle {
+        font-size: 1.5rem;
+        margin-top: 10px;
+    }
+    .uv-cure-overview, .uv-cure-features, .uv-cure-applications, .uv-cure-videos, .uv-cure-cta {
+        margin: 40px 0;
+    }
+    .uv-cure-overview-content, .uv-cure-features-content, .uv-cure-applications-content, .uv-cure-video-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .uv-cure-overview-text, .uv-cure-overview-image, .feature, .application, .video {
+        flex: 1;
+        margin: 10px;
+    }
+    .uv-cure-overview-text {
+        max-width: 600px;
+    }
+    .uv-cure-overview-image img, .feature img, .application img {
+        width: 100%;
+        border-radius: 10px;
+    }
+    .feature {
+        text-align: center;
+    }
+    .feature h3 {
+        font-size: 1.5rem;
+        margin-top: 10px;
+    }
+    .application {
+        text-align: center;
+    }
+    .application h3 {
+        font-size: 1.5rem;
+        margin-top: 10px;
+    }
+    .uv-cure-cta {
+        text-align: center;
+    }
+    .uv-cure-cta p {
+        font-size: 1.2rem;
+    }
+    @media (max-width: 768px) {
+        .uv-cure-title {
+            font-size: 2rem;
+        }
+        .uv-cure-subtitle {
+            font-size: 1.2rem;
+        }
+        .uv-cure-overview-text, .uv-cure-overview-image, .feature, .application, .video {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .uv-cure-overview-content, .uv-cure-features-content, .uv-cure-applications-content, .uv-cure-video-content {
+            flex-direction: column;
+        }
+    }
+</style>
+
 <div class="uv-cure-container">
     <header class="uv-cure-header">
         <h1 class="uv-cure-title">Revolutionize Your Curing Process with Avant UV Solutions</h1>
@@ -21,7 +104,7 @@ Avant UV Cure Lights and Starter Kits
                 <p>Eliminate costly energy-consuming curing steps and bottlenecks with Avant’s affordable and efficient low-energy LED UVA-lighting system. Our lights operate within the safest UV spectrum range (365nm to 405nm), with 395nm being the most popular choice. Whether in a controlled environment or exposed to sunlight, Avant’s UV lights deliver a complete cure in minutes.</p>
             </div>
             <div class="uv-cure-overview-image">
-                <img src="{% static 'iphone_jJ7htxi.jpg' %}" alt="Avant UV Cure Lighs">
+                <img src="{% static 'iphone_jJ7htxi.jpg' %}" alt="Avant UV Cure Lights">
             </div>
         </div>
     </section>

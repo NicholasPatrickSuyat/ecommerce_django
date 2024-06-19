@@ -43,6 +43,7 @@ Training Library
     }
     .video-section {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-around;
         margin: 40px 0;
     }
@@ -51,9 +52,11 @@ Training Library
         border-radius: 10px;
         width: 30%;
         height: 315px;
+        margin: 10px;
     }
     .safety-content {
         display: flex;
+        flex-wrap: wrap;
         align-items: flex-start;
     }
     .safety-description {
@@ -83,6 +86,23 @@ Training Library
     }
     .bottom-section a:hover {
         text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .header h1 {
+            font-size: 3rem;
+        }
+        .video-section iframe {
+            width: 100%;
+            height: auto;
+        }
+        .safety-content {
+            flex-direction: column;
+        }
+        .safety-description, .safety-image {
+            width: 100%;
+            margin: 10px 0;
+        }
     }
 </style>
 

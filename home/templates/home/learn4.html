@@ -39,6 +39,7 @@ About
 
   .section {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     margin: 3rem auto;
@@ -89,8 +90,8 @@ About
 
   .collage {
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
+    justify-content: space-around;
     margin: 3rem auto;
     max-width: 1400px;
   }
@@ -129,6 +130,32 @@ About
   .contact-link:hover {
     text-decoration: underline;
   }
+
+  @media (max-width: 768px) {
+    .header-text {
+      font-size: 2.5rem;
+      top: 30%;
+    }
+
+    .section {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .section img, .section img.additional {
+      width: 100%;
+      margin: 0 0 1rem 0;
+    }
+
+    .section p {
+      width: 100%;
+    }
+
+    .collage img {
+      width: 100%;
+      margin: 1rem 0;
+    }
+  }
 </style>
 
 <div class="apple-theme">
@@ -160,7 +187,6 @@ About
       <strong>Handheld UV Lights</strong><br><br>
       We offer a 12" by 8" handheld light and a 48" handheld light that can be operated through mounting or by hand.
       <br><br>
-      <a href="{% url 'products:product_list' %}" class="btn btn-primary rounded-pill shop-button">Go to Store</a>
       <a href="{% url 'products:product_list' %}" class="btn btn-primary rounded-pill shop-button">Go to Store</a>
     </p>
   </div>
