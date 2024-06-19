@@ -75,10 +75,13 @@ About
             justify-content: space-between;
             padding: 60px 20px;
             text-align: left;
+            flex-wrap: wrap;
         }
 
         .info-section .column {
             width: 45%;
+            flex-grow: 1;
+            box-sizing: border-box;
         }
 
         .info-section .column:not(:last-child) {
@@ -111,16 +114,18 @@ About
             align-items: flex-start;
             padding: 20px 20px 60px 20px;
             background-color: #000;
+            flex-wrap: wrap;
         }
 
         .price-box {
             background-color: #333;
             border-radius: 10px;
             padding: 60px;
-            margin: 0 20px;
+            margin: 20px;
             text-align: left;
             max-width: 400px;
             flex-grow: 1;
+            box-sizing: border-box;
         }
 
         .price-box img {
@@ -182,6 +187,7 @@ About
             padding: 40px 0;
             max-width: 1200px;
             margin: 0 auto;
+            flex-wrap: wrap;
         }
 
         .kit-box {
@@ -189,6 +195,7 @@ About
             flex-grow: 1;
             margin: 0 10px;
             text-align: left;
+            box-sizing: border-box;
         }
 
         .kit-box h3 {
@@ -206,10 +213,12 @@ About
             display: flex;
             align-items: center;
             padding: 60px 20px;
+            flex-wrap: wrap;
         }
 
         .handheld-light img {
             margin-right: 40px;
+            max-width: 100%;
         }
 
         .handheld-light .shop-now {
@@ -260,6 +269,71 @@ About
 
         .grouped-section p {
             color: #333;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            h3 {
+                font-size: 1.6em;
+            }
+
+            .content-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-section img {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .info-section {
+                flex-direction: column;
+            }
+
+            .info-section .column {
+                width: 100%;
+                margin-right: 0;
+            }
+
+            .kits-section {
+                flex-direction: column;
+            }
+
+            .kit-box {
+                max-width: 100%;
+                margin: 10px 0;
+            }
+
+            .handheld-light {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .handheld-light img {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .price-comparison {
+                flex-direction: column;
+            }
+
+            .price-box {
+                max-width: 100%;
+                margin: 20px 0;
+            }
+
+            .final-section h1 {
+                font-size: 2.5em;
+            }
         }
     </style>
 </head>
