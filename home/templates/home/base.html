@@ -12,6 +12,27 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="https://avant-ecommerce.s3.amazonaws.com/static/css/main_styles.css?v=1.0">
     <style>
+        .navbar-nav .nav-link, .navbar-brand {
+            color: #fff !important; /* White text */
+        }
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.1); /* Light border for toggler */
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* White icon */
+        }
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background-color: #333; /* Dark background for dropdown */
+                border-radius: 10px 10px; /* Rounded bottom corners */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow */
+                margin-top: 10px; /* Add margin to dropdown */
+            }
+            .navbar-nav .nav-item .nav-link {
+                padding: 15px; /* Spacing for dropdown items */
+            }
+        }
+        
         /* Mobile styles for main content */
         @media (max-width: 767.98px) {
             .content {
@@ -53,12 +74,13 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <a class="navbar-brand" href="{% url 'home:home' %}">
-            <img src="{% static 'images/logo.png' %}" alt="Logo" class="navbar-logo">
-            Avant
-        </a>
+    <!-- Background color container -->
+    <div class="color-background"></div>
+
+    <!-- Navbar or other shared elements -->
+    {% block navbar %}
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'home:home' %}">Avant</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -107,6 +129,7 @@
             </ul>
         </div>
     </nav>
+    {% endblock %}
 
     <!-- Main content -->
     <div class="content">
@@ -126,7 +149,7 @@
             </div>
             <div class="footer-column">
                 <h4>Support</h4>
-                <a href="{% url 'contact:contact' %}">Technical Support</a>
+                <a href="{% url 'contact:contact' %}" >Technical Support</a>
                 <a href="{% url 'user:login' %}">Account</a>
                 <a href="{% url 'home:order_status' %}">Order Status</a> 
                 <a href="{% url 'home:faqs' %}">FAQs</a>
@@ -161,12 +184,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- Inline JavaScript -->
     <script>
-        $(document).ready(function() {
-            // Toggle navbar for mobile
+        $(document).ready(function(){
+            // Navbar toggle for mobile view
             $('.navbar-toggler').click(function() {
                 $('#navbarNav').toggleClass('show');
+            });
+
+            // Search input handling
+            $('#search-input').on('input', function() {
+                let query = $(this).val();
+                if (query.length > 0) {
+                    $.ajax({
+                        url: '{% url "home:search_recommendations" %}',
+                        data: {'q': query},
+                        success: function(data) {
+                            let resultsContainer = $('#search-results');
+                            resultsContainer.empty();
+                            if (data.length > 0) {
+                                data.forEach(function(item) {
+                                    let resultItem = $('<a>', {
+                                        class: 'list-group-item list-group-item-action',
+                                        text: item.title,
+                                        href: '{% url "products:product_detail" 1 %}'.replace('1', item.id)  // Using 1 as a placeholder to be replaced
+                                    });
+                                    resultsContainer.append(resultItem);
+                                });
+                            } else {
+                                resultsContainer.append('<div class="list-group-item">No results found</div>');
+                            }
+                        }
+                    });
+                } else {
+                    $('#search-results').empty();
+                }
             });
         });
     </script>
