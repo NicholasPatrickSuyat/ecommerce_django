@@ -569,24 +569,29 @@ footer {
     background-color: var(--gutter-color);
     grid-gap: var(--gutter-width);
     grid-template-columns: repeat(var(--columns), 1fr);
-    width: 100vw; /* Ensure the section spans the full viewport width */
-    margin: 70px 0; /* Add margin to create space above and below the grid section */
+    width: 99vw; /* Reduce the width to create space from the edges */
+    margin: 70px auto; /* Center the grid section and add margin above and below */
     padding: 0; /* Remove any default padding */
     border-bottom: var(--gutter-width) solid var(--gutter-color);
     border-left: var(--gutter-width) solid var(--gutter-color);
     border-right: var(--gutter-width) solid var(--gutter-color);
+    border-radius: 20px; /* Round the edges of the grid section */
+    margin-top: 5px;
 }
 
 .grid-item {
     position: relative;
     width: 100%;
-    height: auto;
+    height: 600px; /* Set a shorter height */
+    border-radius: 15px; /* Round the edges of each grid item */
+    overflow: hidden; /* Ensure content does not overflow the rounded edges */
 }
 
 .grid-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 15px; /* Round the edges of the images */
 }
 
 .overlay {
@@ -601,11 +606,13 @@ footer {
     background: rgba(0, 0, 0, 0.5);
     opacity: 0;
     transition: opacity 0.3s;
+    border-radius: 15px; /* Ensure the overlay follows the rounded edges */
 }
 
 .grid-item:hover .overlay {
     opacity: 1;
 }
+
 
 .learn-more-overlay-btn {
     padding: 10px 30px;
@@ -662,13 +669,14 @@ footer {
     background-position: center;
     border-top: 5px solid #ffffff; /* Adjust the border color and width as needed */
     border-bottom: 5px solid #ffffff; /* Adjust the border color and width as needed */
-    padding-top: 60px; /* Increased from 20px to 60px */
-    padding-bottom: 60px; /* Increased from 20px to 60px */
+    padding-top: 200px; /* Increased padding to make the container taller */
+    padding-bottom: 200px; /* Increased padding to make the container taller */
     border-radius: 20px; /* Add rounded corners */
-    margin-top: 45px; /* Reduce margin to make the content closer to the navbar */
-    margin-left: 20px; /* Add margin to move container away from the edge */
-    margin-right: 20px; /* Add margin to move container away from the edge */
-    min-height: 400px; /* Set a minimum height to ensure consistent height */
+    margin-top: 50px; /* Adjust margin to bring it closer to other sections */
+    margin-bottom: 5px; /* Adjust margin to bring it closer to other sections */
+    margin-left: var(--gutter-width); /* Match the grid section's gutter width */
+    margin-right: var(--gutter-width); /* Match the grid section's gutter width */
+    width: calc(100% - 2 * var(--gutter-width)); /* Adjust width to account for margins */
 }
 
 .background-container .row {
@@ -691,12 +699,12 @@ footer {
     overflow: hidden; /* Ensure the video doesn't overflow */
     border-top: 5px solid #ffffff; /* Add white border around the video container */
     border-bottom: 5px solid #ffffff; /* Add white border around the video container */
-    margin-top: -10px; /* Add margin to create space above the video container */
-    margin-bottom: -60px; /* Add margin to create space below the video container */
-    margin-left: 20px; /* Add margin to move container away from the edge */
-    margin-right: 20px; /* Add margin to move container away from the edge */
+    margin-top: 5px; /* Reduce margin to bring it closer to other sections */
+    margin-bottom: 10px; /* Reduce margin to bring it closer to other sections */
+    margin-left: var(--gutter-width); /* Match the grid section's gutter width */
+    margin-right: var(--gutter-width); /* Match the grid section's gutter width */
     z-index: 0; /* Ensure the video background stays in its own layer */
-    width: calc(100% - 40px); /* Adjust width to account for margins */
+    width: calc(100% - 2 * var(--gutter-width)); /* Adjust width to account for margins */
     height: 100vh; /* Make the container full viewport height */
     display: flex;
     align-items: center; /* Center content vertically */
@@ -731,7 +739,7 @@ footer {
 }
 
 .video-content .learn-more-btn {
-    margin-bottom: 100px; /* Remove margin for the button */
+    margin-bottom: 0; /* Remove margin for the button */
 }
 
 .background-container .overlay {
@@ -748,6 +756,8 @@ footer {
     transition: opacity 0.3s;
     border-radius: 20px; /* Add rounded corners */
 }
+
+
 
 
 
