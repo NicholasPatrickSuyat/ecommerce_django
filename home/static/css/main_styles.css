@@ -90,43 +90,10 @@ nav ul li a:hover {
     margin-right: 10px; /* Add some space between the logo and the text */
 }
 
-@media (max-width: 767.98px) {
+
+@media (max-width: 991.98px) {
     .navbar-collapse {
-        background-color: #333; /* Dark background for dropdown */
-        border-radius: 10px 10px; /* Rounded bottom corners */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow */
         margin-top: 10px; /* Add margin to dropdown */
-    }
-    .navbar-nav .nav-item .nav-link {
-        padding: 15px; /* Spacing for dropdown items */
-    }
-}
-
-@media (max-width: 768px) {
-    .navbar-nav {
-        background: rgba(0, 0, 0, 0.9); /* Darker background for mobile dropdown */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        position: absolute;
-        top: 44px; /* Ensure the dropdown starts just below the navbar */
-        left: 0;
-        width: 100%;
-        padding: 10px 0; /* Add some padding for the dropdown */
-        display: none; /* Initially hidden */
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .navbar-nav.show {
-        display: flex; /* Show the dropdown when toggled */
-    }
-
-    .navbar-nav .nav-item {
-        width: 100%; /* Full width for mobile items */
-    }
-
-    .navbar-nav .nav-link {
-        padding: 10px 15px; /* Adjust padding for mobile */
-        width: 100%; /* Full width for mobile items */
     }
 }
 
