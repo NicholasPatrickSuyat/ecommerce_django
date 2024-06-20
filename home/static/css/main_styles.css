@@ -49,7 +49,7 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
-    background: linear-gradient(120deg, rgba(0, 0, 0, 0.7), rgba(68, 68, 68, 0.7)); /* Transparent background */
+    background: transparent; /* Transparent background */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 9999;
     height: 44px; /* Set the height to match the max-height specified */
@@ -82,7 +82,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1); /* Slight background color on hover */
 }
 
 .navbar-logo {
@@ -90,12 +90,22 @@ nav ul li a:hover {
     margin-right: 10px; /* Add some space between the logo and the text */
 }
 
-
 @media (max-width: 991.98px) {
     .navbar-collapse {
+        background-color: #333; /* Dark background for dropdown */
+        border-radius: 10px 10px; /* Rounded bottom corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow */
         margin-top: 10px; /* Add margin to dropdown */
     }
+    .navbar-nav .nav-item .nav-link {
+        padding: 15px; /* Spacing for dropdown items */
+    }
 }
+
+.navbar-nav .nav-link, .navbar-brand {
+    color: #fff !important; /* White text */
+}
+
 
 
 /* Search container styles */
