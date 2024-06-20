@@ -91,6 +91,18 @@ nav ul li a:hover {
     margin-right: 10px; /* Add some space between the logo and the text */
 }
 
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: #333; /* Dark background for dropdown */
+        border-radius: 10px 10px; /* Rounded bottom corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow */
+        margin-top: 10px; /* Add margin to dropdown */
+    }
+    .navbar-nav .nav-item .nav-link {
+        padding: 15px; /* Spacing for dropdown items */
+    }
+}
+
 @media (max-width: 768px) {
     .navbar-nav {
         background: rgba(0, 0, 0, 0.9); /* Darker background for mobile dropdown */
@@ -118,7 +130,6 @@ nav ul li a:hover {
         width: 100%; /* Full width for mobile items */
     }
 }
-
 
 
 /* Search container styles */
