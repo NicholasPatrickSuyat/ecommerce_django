@@ -563,6 +563,7 @@ footer {
     --edge-border-width-fallback: 12px;
 }
 
+/* Base styles for larger screens */
 .grid-section {
     z-index: 1; /* Ensure the grid section is above the video background container */
     display: grid;
@@ -612,6 +613,30 @@ footer {
 .grid-item:hover .overlay {
     opacity: 1;
 }
+
+/* Styles for mobile screens */
+@media (max-width: 767px) {
+    .grid-section {
+        grid-template-columns: repeat(1, 1fr); /* Single column layout on mobile */
+        width: 95vw; /* Adjust width to create space from the edges */
+        margin: 20px auto; /* Adjust margin for mobile */
+        border-radius: 15px; /* Reduce border radius for smaller screens */
+    }
+
+    .grid-item {
+        height: 300px; /* Reduce height for mobile */
+        border-radius: 10px; /* Reduce border radius for smaller screens */
+    }
+
+    .grid-item img {
+        border-radius: 10px; /* Match the border radius of the grid item */
+    }
+
+    .overlay {
+        border-radius: 10px; /* Match the border radius of the grid item */
+    }
+}
+
 
 
 .learn-more-overlay-btn {
@@ -693,6 +718,13 @@ footer {
     height: 100%;
     z-index: 0;
 }
+
+.logo-image {
+    width: 1000px; /* Adjust the width to make the logo bigger */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Ensure the logo does not exceed the container's width */
+}
+
 
 .video-background-container {
     position: relative;
