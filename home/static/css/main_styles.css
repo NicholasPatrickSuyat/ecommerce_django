@@ -1,5 +1,6 @@
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Text:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Scientific+Gothic:wght@400;700&display=swap');
 
 /* Reset some default browser styles */
 * {
@@ -693,21 +694,21 @@ footer {
     background-image: url("../images/backgrounds/gradient_01.jpeg"); /* Adjust the path based on your directory structure */
     background-size: cover;
     background-position: center;
-    border-top: 5px solid #ffffff; /* Adjust the border color and width as needed */
-    border-bottom: 5px solid #ffffff; /* Adjust the border color and width as needed */
-    padding-top: 100px; /* Increased padding to make the container taller */
-    padding-bottom: 100px; /* Increased padding to make the container taller */
-    border-radius: 20px; /* Add rounded corners */
-    margin-top: 50px; /* Adjust margin to bring it closer to other sections */
-    margin-bottom: 5px; /* Adjust margin to bring it closer to other sections */
-    margin-left: var(--gutter-width); /* Match the grid section's gutter width */
-    margin-right: var(--gutter-width); /* Match the grid section's gutter width */
-    width: calc(100% - 2 * var(--gutter-width)); /* Adjust width to account for margins */
+    border-top: 5px solid #ffffff;
+    border-bottom: 5px solid #ffffff;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    border-radius: 20px;
+    margin-top: 50px;
+    margin-bottom: 5px;
+    margin-left: var(--gutter-width);
+    margin-right: var(--gutter-width);
+    width: calc(100% - 2 * var(--gutter-width));
 }
 
 .background-container .row {
     position: relative;
-    z-index: 1; /* Ensure the content is above the background image */
+    z-index: 1;
 }
 
 .background-container::before {
@@ -721,9 +722,9 @@ footer {
 }
 
 .logo-image {
-    width: 1000px; /* Adjust the width to make the logo bigger */
-    height: auto; /* Maintain aspect ratio */
-    max-width: 100%; /* Ensure the logo does not exceed the container's width */
+    width: 1000px;
+    height: auto;
+    max-width: 100%;
 }
 
 
@@ -792,12 +793,21 @@ footer {
 }
 
 .company-name-link, .tagline-link {
+    font-family: 'Scientific Gothic', sans-serif;
     color: white;
     text-decoration: none;
 }
 
 .company-name-link:hover, .tagline-link:hover {
     text-decoration: underline;
+}
+
+.company-name {
+    font-size: 4rem;
+}
+
+.tagline {
+    font-size: 2rem;
 }
 
 
