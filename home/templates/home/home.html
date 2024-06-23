@@ -80,8 +80,17 @@ Home - My Company
                 </div>
             </div>
         {% endfor %}
+        {% for product in products %}
+            <div class="card mb-4">
+                <img src="{{ product.images.first.image.url }}" class="card-img-top">
+                <div class="overlay">
+                    <a href="{% url 'products:product_detail' product.id %}" class="view-button">Shop</a>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 </div>
+
 
 <!-- Include the JavaScript directly in the HTML -->
 <script>
