@@ -29,17 +29,15 @@ Home - My Company
 
 
 
-<!-- New video background section -->
+<!-- New image background section -->
 <div class="video-background-container">
-    <video autoplay loop muted class="video-background">
-        <source src="{% static 'videos/backgroundvideo_002.mp4' %}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    <img src="{% static 'images/backgrounds/gradient_03.jpeg' %}" alt="Background Image" class="image-background">
     <div class="video-content">
         <h2 class="tagline">See Our Products in Action</h2>
         <a href="{% url 'home:index' %}" class="btn btn-primary rounded-pill learn-more-btn">Learn More</a>
     </div>
 </div>
+
 
 <!-- Grid section -->
 <div class="grid-section">

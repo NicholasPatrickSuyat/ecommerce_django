@@ -690,7 +690,7 @@ footer {
 
 .background-container {
     position: relative;
-    background-image: url("../images/backgrounds/black.jpeg"); /* Adjust the path based on your directory structure */
+    background-image: url("../images/backgrounds/gradient_04.jpeg"); /* Adjust the path based on your directory structure */
     background-size: cover;
     background-position: center;
     border-top: 5px solid #ffffff; /* Adjust the border color and width as needed */
