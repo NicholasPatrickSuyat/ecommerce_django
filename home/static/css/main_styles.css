@@ -745,9 +745,8 @@ footer {
     justify-content: center; /* Center content horizontally */
     border-radius: 20px; /* Add rounded corners */
     background-image: url("../images/backgrounds/gradient_06.jpeg"); /* Adjust the path based on your directory structure */
-    background-size: contain; /* Ensure the image is not cropped */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
-    background-position: center; /* Center the image */
+    background-size: cover;
+    background-position: center;
 }
 
 .video-content {
@@ -801,6 +800,7 @@ footer {
     .video-content h2 {
         font-size: 1.2rem; /* Adjust font size for mobile */
         margin-bottom: 20px; /* Adjust margin for better spacing */
+ 
     }
 
     .video-content .learn-more-btn {
