@@ -789,7 +789,14 @@ footer {
     border-radius: 20px; /* Add rounded corners */
 }
 
+.company-name-link, .tagline-link {
+    color: white;
+    text-decoration: none;
+}
 
+.company-name-link:hover, .tagline-link:hover {
+    text-decoration: underline;
+}
 
 
 

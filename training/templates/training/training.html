@@ -7,7 +7,7 @@ Training Library
 
 {% block content %}
 <style>
-    body, html {
+        body, html {
         margin: 0;
         padding: 0;
         overflow-x: hidden;
@@ -16,37 +16,60 @@ Training Library
         color: #000;
         font-size: 18px;
     }
+
     .content-container {
         padding: 50px;
     }
+
     .header {
         text-align: center;
         padding: 50px 0;
         background-color: #ffffff;
         margin-bottom: 40px;
     }
+
     .header h1 {
         font-size: 6rem;
         color: #333;
         margin: 0;
     }
+
     .gray-box, .safety-box {
-        background-color: #f8f8f8;
+        background-color: #333;
         border: 1px solid #ddd;
         padding: 30px;
         margin: 20px auto;
         border-radius: 10px;
         max-width: 1200px;
+        color: white; /* Text color for gray-box and safety-box */
     }
+
     .gray-box h2, .safety-box h2 {
         margin-top: 0;
+        color: white; /* Text color for headings */
     }
+
+    .gray-box p, .safety-box p, .gray-box ul, .safety-box ul {
+        color: white; /* Text color for paragraphs and lists */
+    }
+
+    .gray-box a, .safety-box a {
+        color: #007aff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .gray-box a:hover, .safety-box a:hover {
+        text-decoration: underline;
+    }
+
     .video-section {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
         margin: 40px 0;
     }
+
     .video-section iframe {
         border: none;
         border-radius: 10px;
@@ -54,36 +77,44 @@ Training Library
         height: 315px;
         margin: 10px;
     }
+
     .safety-content {
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
     }
+
     .safety-description {
         flex: 1;
     }
+
     .safety-description p {
         margin-top: 0;
     }
+
     .safety-image {
         margin-left: 20px;
         width: 150px;
         height: auto;
     }
+
     .bottom-section {
         text-align: center;
         padding: 20px;
         background-color: #e0e0e0;
         border-top: 1px solid #ddd;
     }
+
     .bottom-section p {
         margin: 0;
     }
+
     .bottom-section a {
         color: #007aff;
         text-decoration: none;
         font-weight: bold;
     }
+
     .bottom-section a:hover {
         text-decoration: underline;
     }
