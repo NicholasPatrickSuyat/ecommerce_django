@@ -66,8 +66,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'home:home' %}">Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item dropdown">
                     <a class="nav-link" href="{% url 'products:product_list' %}">Shop</a>
+                    <div class="dropdown">
+                        <a class="nav-link" href="{% url 'products:product_list' %}">Products</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'training:training' %}">Training</a>

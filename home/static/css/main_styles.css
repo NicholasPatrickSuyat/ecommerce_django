@@ -68,6 +68,7 @@ nav ul {
 }
 
 nav ul li {
+    position: relative; /* For dropdown */
     margin: 0 10px; /* Slightly reduce margin */
 }
 
@@ -86,11 +87,31 @@ nav ul li a:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
+nav ul li .dropdown {
+    display: none; /* Hide dropdown by default */
+    position: absolute;
+    top: 100%; /* Position below the parent li */
+    left: 0;
+    background: linear-gradient(120deg, rgba(0, 0, 0, 0.7), rgba(68, 68, 68, 0.7)); /* Same background as nav */
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+}
+
+nav ul li:hover .dropdown {
+    display: block; /* Show dropdown on hover */
+}
+
+nav ul li .dropdown a {
+    padding: 10px 15px; /* Maintain padding for click area */
+    width: 100px; /* Set a fixed width for the dropdown */
+    display: block; /* Make the link a block element */
+}
+
 .navbar-logo {
     width: 30px; /* Adjust the size of the navbar logo */
     margin-right: 10px; /* Add some space between the logo and the text */
 }
-
 
 @media (max-width: 991.98px) {
     .navbar-collapse {
