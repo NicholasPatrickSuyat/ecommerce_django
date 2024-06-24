@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-white text-center">Checkout</h2>
-    <form id="checkout-form" method="post" class="background-form p-4 rounded shadow text-white">
+    <form id="checkout-form" method="post" class="bg-dark p-4 rounded shadow text-white">
         {% csrf_token %}
         <div class="form-group">
             {{ form.as_p }}
