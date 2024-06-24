@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-white text-center">Checkout</h2>
-    <form id="checkout-form" method="post" class="bg-dark p-4 rounded shadow">
+    <form id="checkout-form" method="post" class="bg-dark p-4 rounded shadow text-white">
         {% csrf_token %}
         <div class="form-group">
             {{ form.as_p }}
@@ -95,7 +95,7 @@
     }
 
     .bg-dark {
-        background-color: #343a40;
+        background-color: #333;
     }
 
     .text-white {
@@ -116,6 +116,10 @@
         background-color: #495057;
         color: #fff;
         border-color: #80bdff;
+    }
+
+    .form-control::placeholder {
+        color: #ccc;
     }
 
     .btn-success {

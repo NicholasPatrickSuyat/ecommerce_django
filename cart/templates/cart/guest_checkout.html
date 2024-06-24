@@ -3,12 +3,16 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-white">Checkout</h2>
-    <form id="checkout-form" method="post">
+    <h2 class="text-white text-center">Guest Checkout</h2>
+    <form id="checkout-form" method="post" class="bg-dark p-4 rounded shadow text-white">
         {% csrf_token %}
-        {{ form.as_p }}
-        {{ address_form.as_p }}
-        <button type="button" id="proceed-to-payment" class="btn btn-success mt-3">Proceed to Payment</button>
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <div class="form-group">
+            {{ address_form.as_p }}
+        </div>
+        <button type="button" id="proceed-to-payment" class="btn btn-success mt-3 w-100">Proceed to Payment</button>
     </form>
     
     <div id="paypal-button-container" class="mt-3"></div>
@@ -83,4 +87,60 @@
         });
     </script>
 </div>
+
+<style>
+    .container {
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .bg-dark {
+        background-color: #333;
+    }
+
+    .text-white {
+        color: #fff !important;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-control {
+        background-color: #495057;
+        border: 1px solid #6c757d;
+        color: #fff;
+    }
+
+    .form-control:focus {
+        background-color: #495057;
+        color: #fff;
+        border-color: #80bdff;
+    }
+
+    .form-control::placeholder {
+        color: #ccc;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border: none;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    #paypal-button-container {
+        text-align: center;
+    }
+
+    .rounded {
+        border-radius: 0.25rem;
+    }
+
+    .shadow {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+</style>
 {% endblock %}
