@@ -18,7 +18,7 @@ Training Library
     }
 
     .content-container {
-        max-width: 1400px; 
+        max-width: 90%; 
         margin: 0 auto;
         padding: 20px;
     }
@@ -64,22 +64,21 @@ Training Library
         padding: 50px;
         border-radius: 10px;
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
     }
 
     .video-container {
         display: flex;
-        justify-content: space-around;
         gap: 20px;
         width: 100%;
-        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .video-container iframe {
         border: none;
         border-radius: 10px;
-        width: 560px;
+        width: 30%; /* Adjust width to ensure videos fit side by side */
         height: 315px;
     }
 
