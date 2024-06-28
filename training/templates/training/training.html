@@ -12,170 +12,238 @@ Training Library
         padding: 0;
         overflow-x: hidden;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        background-color: #fff;
-        color: #000;
+        background-color: #f5f5f5;
+        color: #333;
         font-size: 18px;
+    }
+
+    .fade-in {
+        animation: fadeIn 2s ease-out;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
     }
 
     .content-container {
         padding: 50px;
-        max-width: 1200px;
-        margin: 0 auto;
     }
 
-    .header {
-        text-align: center;
-        padding: 50px 0;
-        background-color: #ffffff;
-        margin-bottom: 40px;
-    }
-
-    .header h1 {
-        font-size: 4rem; /* Adjusted to be more uniform */
+    .description-container {
+        margin: 40px 0;
+        background-color: #e8e8e8;
+        padding: 80px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         color: #333;
-        margin: 0;
+        font-size: 1.2rem;
     }
 
-    .container-box {
-        background-color: #333;
-        border: 1px solid #ddd;
-        padding: 40px; /* Uniform padding */
-        margin: 20px 0; /* Uniform margin between containers */
-        border-radius: 10px;
-        color: white;
-    }
-
-    .container-box h2 {
+    .description-container h1,
+    .description-container h2 {
         margin-top: 0;
-        color: white;
+        color: #333;
     }
 
-    .container-box p, .container-box ul {
-        color: white;
+    .description-container p,
+    .description-container ul {
+        color: #333;
     }
 
-    .container-box a {
+    .description-container a {
         color: #007aff;
         text-decoration: none;
         font-weight: bold;
     }
 
-    .container-box a:hover {
+    .description-container a:hover {
         text-decoration: underline;
     }
 
-    .video-section {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        margin: 40px 0; /* Uniform margin between sections */
+    .description-container img {
+        max-width: 200px;
+        margin-bottom: 30px;
     }
 
-    .video-section iframe {
-        border: none;
+    .product-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        justify-content: center;
+        background-color: #e8e8e8;
+        padding: 80px;
         border-radius: 10px;
-        width: 30%;
-        height: 315px;
-        margin: 10px;
+        margin-top: 40px;
     }
 
-    .safety-content {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-    }
-
-    .safety-description {
-        flex: 1;
-    }
-
-    .safety-description p {
-        margin-top: 0;
-    }
-
-    .safety-image {
-        margin-left: 20px;
-        width: 150px;
-        height: auto;
-    }
-
-    .bottom-section {
+    .product-box {
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        padding: 60px;
+        flex: 1 1 400px;
         text-align: center;
-        padding: 20px;
-        background-color: #e0e0e0;
-        border-top: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-size: 1.2rem;
     }
 
-    .bottom-section p {
-        margin: 0;
+    .product-box img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin-bottom: 20px;
     }
 
-    .bottom-section a {
-        color: #007aff;
+    .shop-now-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .black-button {
+        background-color: #000;
+        border-color: #000;
+    }
+
+    .btn-primary {
+        border-radius: 50px;
+        color: white;
+        padding: 10px 20px;
         text-decoration: none;
-        font-weight: bold;
+        transition: background-color 0.3s, border-color 0.3s;
     }
 
-    .bottom-section a:hover {
-        text-decoration: underline;
+    .btn-primary:hover {
+        background-color: #333;
+        border-color: #333;
+    }
+
+    .footer {
+        text-align: center;
+        padding: 40px;
+        background-color: #1e1e1e;
+        border-top: 1px solid #2e2e2e;
+        color: #EDEDED;
+    }
+
+    .footer-content {
+        margin: 0 auto;
+        max-width: 800px;
+    }
+
+    .btn-transparent {
+        background-color: transparent;
+        border: 2px solid white;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+    }
+
+    .btn-transparent:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .social-icons {
+        margin-top: 10px;
+    }
+
+    .social-icons a {
+        margin: 0 10px;
+    }
+
+    .social-icons img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mission-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: #e8e8e8;
+        padding: 50px;
+        border-radius: 10px;
+    }
+
+    .mission-image {
+        width: 50%;
+        height: auto;
+        margin-right: 20px;
+        border-radius: 10px;
+    }
+
+    .mission-text {
+        width: 50%;
     }
 
     @media (max-width: 768px) {
-        .header h1 {
-            font-size: 3rem;
+        .content-container {
+            padding: 20px;
         }
 
-        .video-section iframe {
-            width: 100%;
-            height: auto;
-        }
-
-        .safety-content {
+        .description-container {
             flex-direction: column;
         }
 
-        .safety-description, .safety-image {
+        .product-container {
+            flex-direction: column;
+        }
+
+        .product-box {
+            flex: 1 1 100%;
+        }
+
+        .mission-container {
+            flex-direction: column;
+        }
+
+        .mission-image {
             width: 100%;
-            margin: 10px 0;
+            margin: 0 0 20px 0;
+        }
+
+        .mission-text {
+            width: 100%;
         }
     }
 </style>
 
-<div class="content-container">
-    <div class="header">
-        <h1>Training</h1>
-    </div>
-
-    <div class="container-box">
-        <h2>How to Use Avant UV Coatings Products</h2>
-        <p>Welcome to the Avant UV Coatings training library. Below, you will find detailed guides and tutorials on how to effectively use our products.</p>
-        <p>In this tutorial, we will cover:</p>
-        <ul>
-            <li>Application Techniques</li>
-            <li>Product Benefits</li>
-            <li>Maintenance and Care</li>
-            <li>Common Troubleshooting Tips</li>
-        </ul>
-        <p>For more detailed information, please refer to our video tutorials below.</p>
-    </div>
-
-    <div class="video-section">
-        <iframe src="https://www.youtube.com/embed/ZMxKpCjWR5U" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/TLzLvXWXPyw" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/Qx03MqOBRT0" allowfullscreen></iframe>
-    </div>
-
-    <div class="container-box">
-        <h2>Safety and Precautions</h2>
-        <div class="safety-content">
-            <div class="safety-description">
-                <p><a href="#" target="_blank">Technical Data Sheet (TDS)</a></p>
-                <p><a href="#" target="_blank">Safety Data Sheet (SDS)</a></p>
-                <p>Safety glasses are a crucial part of being safe while using the LED UV lights from our store. They are required while using the lights for optimal eye protection.</p>
-                <p>For more information or if you have any questions, feel free to <a href="/contact">contact us</a>.</p>
+<main class="content-container">
+    <section class="intro-partners-box fade-in">
+        <div class="description-container">
+            <h1>Training Library</h1>
+            <h2>How to Use Avant UV Coatings Products</h2>
+            <p>Welcome to the Avant UV Coatings training library. Below, you will find detailed guides and tutorials on how to effectively use our products.</p>
+            <p>In this tutorial, we will cover:</p>
+            <ul>
+                <li>Application Techniques</li>
+                <li>Product Benefits</li>
+                <li>Maintenance and Care</li>
+                <li>Common Troubleshooting Tips</li>
+            </ul>
+            <p>For more detailed information, please refer to our video tutorials below.</p>
+            
+            <div class="video-section">
+                <iframe src="https://www.youtube.com/embed/ZMxKpCjWR5U" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/TLzLvXWXPyw" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/Qx03MqOBRT0" allowfullscreen></iframe>
             </div>
-            <img src="{% static 'images/kit/41Q6bg7U95L.jpg' %}" alt="Safety Glasses" class="safety-image">
+            
+            <h2>Safety and Precautions</h2>
+            <div class="safety-content">
+                <div class="safety-description">
+                    <p><a href="#" target="_blank">Technical Data Sheet (TDS)</a></p>
+                    <p><a href="#" target="_blank">Safety Data Sheet (SDS)</a></p>
+                    <p>Safety glasses are a crucial part of being safe while using the LED UV lights from our store. They are required while using the lights for optimal eye protection.</p>
+                    <p>For more information or if you have any questions, feel free to <a href="/contact">contact us</a>.</p>
+                </div>
+                <img src="{% static 'images/kit/41Q6bg7U95L.jpg' %}" alt="Safety Glasses" class="safety-image">
+            </div>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 {% endblock %}
