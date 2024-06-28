@@ -19,6 +19,8 @@ Training Library
 
     .content-container {
         padding: 50px;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     .header {
@@ -29,36 +31,36 @@ Training Library
     }
 
     .header h1 {
-        font-size: 6rem;
+        font-size: 4rem; /* Adjusted to be more uniform */
         color: #333;
         margin: 0;
     }
 
-    .gray-box, .safety-box {
+    .container-box {
         background-color: #333;
-        padding: 80px;
-        margin: 40px auto;
+        border: 1px solid #ddd;
+        padding: 40px; /* Uniform padding */
+        margin: 20px 0; /* Uniform margin between containers */
         border-radius: 10px;
-        max-width: 1200px;
-        color: white; /* Text color for gray-box and safety-box */
+        color: white;
     }
 
-    .gray-box h2, .safety-box h2 {
+    .container-box h2 {
         margin-top: 0;
-        color: white; /* Text color for headings */
+        color: white;
     }
 
-    .gray-box p, .safety-box p, .gray-box ul, .safety-box ul {
-        color: white; /* Text color for paragraphs and lists */
+    .container-box p, .container-box ul {
+        color: white;
     }
 
-    .gray-box a, .safety-box a {
+    .container-box a {
         color: #007aff;
         text-decoration: none;
         font-weight: bold;
     }
 
-    .gray-box a:hover, .safety-box a:hover {
+    .container-box a:hover {
         text-decoration: underline;
     }
 
@@ -66,7 +68,7 @@ Training Library
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
-        margin: 40px 0;
+        margin: 40px 0; /* Uniform margin between sections */
     }
 
     .video-section iframe {
@@ -122,13 +124,16 @@ Training Library
         .header h1 {
             font-size: 3rem;
         }
+
         .video-section iframe {
             width: 100%;
             height: auto;
         }
+
         .safety-content {
             flex-direction: column;
         }
+
         .safety-description, .safety-image {
             width: 100%;
             margin: 10px 0;
@@ -141,7 +146,7 @@ Training Library
         <h1>Training</h1>
     </div>
 
-    <div class="gray-box">
+    <div class="container-box">
         <h2>How to Use Avant UV Coatings Products</h2>
         <p>Welcome to the Avant UV Coatings training library. Below, you will find detailed guides and tutorials on how to effectively use our products.</p>
         <p>In this tutorial, we will cover:</p>
@@ -160,7 +165,7 @@ Training Library
         <iframe src="https://www.youtube.com/embed/Qx03MqOBRT0" allowfullscreen></iframe>
     </div>
 
-    <div class="safety-box">
+    <div class="container-box">
         <h2>Safety and Precautions</h2>
         <div class="safety-content">
             <div class="safety-description">
