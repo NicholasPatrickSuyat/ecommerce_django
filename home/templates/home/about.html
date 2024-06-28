@@ -2,60 +2,166 @@
 {% load static %}
 
 {% block title %}
-Training Library
+About
 {% endblock %}
 
 {% block content %}
+
+<main class="content-container">
+    <section class="intro-partners-box fade-in">
+        <div class="description-container">
+            <h1>Welcome to Avant</h1>
+            <img src="{% static 'images/logo/avant-transparent.png' %}" alt="Avant Logo" class="logo">
+            <p>
+                At Avant, we are at the forefront of revolutionizing the coatings industry with our patented UV curable polymer coating systems. Founded in [Year], Avant was born out of a vision to create an unparalleled solution for industrial coatings, one that not only meets but exceeds the ever-growing environmental standards.
+            </p>
+            <p>
+                Our innovative coatings are an exceptional alternative to traditional compliant industrial coatings, offering a trifecta of benefits: they are Cleaner, Stronger, and Faster. Our products are VOC and HAP free, ensuring minimal environmental impact while maintaining superior quality. They offer remarkable chemical and weather resistance, making them durable and reliable. Additionally, our UV curable coatings cure on-demand in mere minutes, significantly reducing downtime and increasing efficiency.
+            </p>
+            <h2 class="partners-title">Our Partners</h2>
+            <p>We are proud to partner with two leading companies in the industry: <a href="https://www.cleanarmor.com/">Clean Armor</a> and <a href="https://mainstreetcustomfinishing.com/">Mainstreet Custom Finishing</a>. Together, we are committed to delivering high-quality, sustainable solutions that drive the industry forward.</p>
+        </div>
+    </section>
+
+    <section class="products fade-in">
+        <div class="description-container">
+            <h2>Our Products</h2>
+            <p>Discover the various innovative products we offer that are designed to meet the highest standards of quality and sustainability. From UV lights to curable resins and custom touch-up kits, our products are tailored to provide the best solutions for your needs.</p>
+            <div class="product-container">
+                <div class="product-box">
+                    <img src="{% static 'images/kit/blackbgcuvolightbig.jpeg' %}" alt="UV Lights">
+                    <h3>UV Lights</h3>
+                    <p>Discover our state-of-the-art UV lights, designed to work seamlessly with our UV curable coatings for immediate, on-demand curing. Our UV lights are engineered for efficiency and durability, providing consistent performance over extended periods.</p>
+                    <p>With advanced technology, our UV lights offer superior curing speed, ensuring that your coatings are ready in minutes. They are also energy-efficient, reducing operational costs while maintaining high output levels.</p>
+                </div>
+                <div class="product-box">
+                    <img src="{% static 'images/kit/pianolight1.jpeg' %}" alt="UV Curable Resin">
+                    <h3>UV Curable Resin</h3>
+                    <p>Experience the next generation of resin with our UV curable options that offer superior strength and environmental compliance. Our resins are designed to provide excellent adhesion, flexibility, and resistance to wear and tear.</p>
+                    <p>These resins cure rapidly under UV light, allowing for quick turnaround times in production. They are ideal for a variety of applications, including automotive, aerospace, and industrial coatings, where performance and reliability are crucial.</p>
+                </div>
+                <div class="product-box">
+                    <img src="{% static 'images/backgrounds/largelbox.jpeg' %}" alt="Custom Touch-Up Kits">
+                    <h3>Custom Touch-Up Kits</h3>
+                    <p>Our custom touch-up kits are perfect for UV repairs, providing quick and effective solutions for any touch-up needs. These kits are compact, easy to use, and include everything you need for immediate repairs.</p>
+                    <p>Whether you are dealing with minor scratches or significant damage, our touch-up kits deliver professional-grade results. The UV curable components ensure a durable finish that blends seamlessly with the original coating.</p>
+                </div>
+            </div>
+            <div class="shop-now-container fade-in">
+                <a href="{% url 'products:product_list' %}" class="btn btn-primary rounded-pill black-button">Go to Store</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="mission fade-in">
+        <div class="mission-container">
+            <img src="{% static 'images/backgrounds/training.jpg' %}" alt="Mission Image" class="mission-image">
+            <div class="mission-text">
+                <h2>Our Mission</h2>
+                <p>At Avant, we are dedicated to transforming the coatings industry through innovation and sustainability. Our mission is to provide products that are not only environmentally friendly but also superior in performance and efficiency. We believe in no compromises and are committed to delivering solutions that are cleaner, stronger, and faster, setting a new standard for industrial coatings.</p>
+                <p>Explore our website to learn more about our products and how they can benefit your business. Partner with Avant today and be a part of the revolution in the coatings industry.</p>
+                <p><a href="{% url 'contact:contact' %}">Contact us</a> today to see how Avant can provide the solutions you need.</p>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="footer fade-in">
+    <div class="footer-content">
+        <h3>Make an Account</h3>
+        <p>Join Avant today to access exclusive benefits and stay updated with the latest developments in the coatings industry. Creating an account is quick and easy, and it provides you with numerous advantages:</p>
+        <ul>
+            <li>Exclusive access to new products and promotions</li>
+            <li>Personalized recommendations and support</li>
+            <li>Faster checkout and order tracking</li>
+            <li>Members-only discounts and offers</li>
+        </ul>
+        <p><a href="{% url 'user:register' %}" class="btn btn-transparent rounded-pill">Create an Account</a></p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const img = document.getElementById('falling-image');
+        img.addEventListener('animationend', function() {
+            document.getElementById('introduction').scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
+
 <style>
     body, html {
         margin: 0;
         padding: 0;
         overflow-x: hidden;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        background-color: #ffffff; /* White background */
+        background-color: #f5f5f5;
         color: #333;
         font-size: 18px;
     }
 
+    .fade-in {
+        animation: fadeIn 2s ease-out;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .scale-down {
+        animation: scaleDown 2s ease-out forwards;
+    }
+
+    @keyframes scaleDown {
+        0% {
+            transform: scale(2);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .avant-container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-color: #121212;
+    }
+
+    .avant-text img {
+        width: 100%;
+        height: auto;
+    }
+
     .content-container {
         padding: 50px;
-        max-width: 1400px;
-        margin: 0 auto;
     }
 
     .description-container {
         margin: 40px 0;
-        background-color: #e8e8e8; /* Off-white/gray background */
+        background-color: #e8e8e8;
         padding: 80px;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         color: #333;
         font-size: 1.2rem;
-        width: 100%;
-        box-sizing: border-box;
     }
 
-    .description-container h1,
-    .description-container h2 {
-        margin-top: 0;
-        color: #333;
-    }
-
-    .description-container p,
-    .description-container ul {
-        color: #333;
-    }
-
-    .description-container a {
-        color: #007aff;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .description-container a:hover {
-        text-decoration: underline;
+    .partners-title {
+        margin-top: 40px;
+        font-size: 1.5rem;
+        align-self: flex-start;
     }
 
     .description-container img {
@@ -63,72 +169,143 @@ Training Library
         margin-bottom: 30px;
     }
 
-    .video-section {
-        background-color: #e8e8e8; /* Off-white/gray background */
+    .product-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        justify-content: center;
+        background-color: #e8e8e8;
         padding: 80px;
         border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-        box-sizing: border-box;
+        margin-top: 40px;
     }
 
-    .video-container {
-        display: flex;
-        gap: 20px;
-        width: 100%;
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
-
-    .video-container iframe {
-        border: none;
+    .product-box {
+        background-color: #f5f5f5;
         border-radius: 10px;
-        width: 32%;
-        height: 315px;
+        padding: 60px;
+        flex: 1 1 400px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-size: 1.2rem;
+    }
+
+    .product-box img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .shop-now-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .black-button {
+        background-color: #000;
+        border-color: #000;
+    }
+
+    .btn-primary {
+        border-radius: 50px;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #333;
+        border-color: #333;
+    }
+
+    .footer {
+        text-align: center;
+        padding: 40px;
+        background-color: #1e1e1e;
+        border-top: 1px solid #2e2e2e;
+        color: #EDEDED;
+    }
+
+    .footer-content {
+        margin: 0 auto;
+        max-width: 800px;
+    }
+
+    .btn-transparent {
+        background-color: transparent;
+        border: 2px solid white;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+    }
+
+    .btn-transparent:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .social-icons {
+        margin-top: 10px;
+    }
+
+    .social-icons a {
+        margin: 0 10px;
+    }
+
+    .social-icons img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mission-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: #e8e8e8;
+        padding: 50px;
+        border-radius: 10px;
+    }
+
+    .mission-image {
+        width: 50%;
+        height: auto;
+        margin-right: 20px;
+        border-radius: 10px;
+    }
+
+    .mission-text {
+        width: 50%;
     }
 
     @media (max-width: 768px) {
-        .description-container, .video-section {
+        .content-container {
             padding: 20px;
         }
 
-        .video-container iframe {
+        .description-container {
+            flex-direction: column;
+        }
+
+        .product-container {
+            flex-direction: column;
+        }
+
+        .product-box {
+            flex: 1 1 100%;
+        }
+
+        .mission-container {
+            flex-direction: column;
+        }
+
+        .mission-image {
             width: 100%;
-            height: auto;
+            margin: 0 0 20px 0;
+        }
+
+        .mission-text {
+            width: 100%;
         }
     }
 </style>
-
-<main class="content-container">
-    <section class="description-container">
-        <h1>Training Library</h1>
-        <h2>How to Use Avant UV Coatings Products</h2>
-        <p>Welcome to the Avant UV Coatings training library. Below, you will find detailed guides and tutorials on how to effectively use our products.</p>
-        <p>In this tutorial, we will cover:</p>
-        <ul>
-            <li>Application Techniques</li>
-            <li>Product Benefits</li>
-            <li>Maintenance and Care</li>
-            <li>Common Troubleshooting Tips</li>
-        </ul>
-        <p>For more detailed information, please refer to our video tutorials below.</p>
-
-        <h2>Safety and Precautions</h2>
-        <p><a href="#" target="_blank">Technical Data Sheet (TDS)</a></p>
-        <p><a href="#" target="_blank">Safety Data Sheet (SDS)</a></p>
-        <p>Safety glasses are a crucial part of being safe while using the LED UV lights from our store. They are required while using the lights for optimal eye protection.</p>
-        <p>For more information or if you have any questions, feel free to <a href="/contact">contact us</a>.</p>
-        <img src="{% static 'images/kit/41Q6bg7U95L.jpg' %}" alt="Safety Glasses">
-    </section>
-
-    <section class="video-section">
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/ZMxKpCjWR5U" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/TLzLvXWXPyw" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/Qx03MqOBRT0" allowfullscreen></iframe>
-        </div>
-    </section>
-</main>
 {% endblock %}
