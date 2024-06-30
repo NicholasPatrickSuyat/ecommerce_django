@@ -7,7 +7,7 @@ from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 from decimal import Decimal
 from .models import Cart, DeliveryAddress
-from products.models import Products, ProductSize
+from products.models import Products, ProductSize, Sheen
 from user.models import Order, OrderItem
 from .forms import GuestCheckoutForm, CheckoutForm, DeliveryAddressForm, OrderStatusForm
 from .paypal_utils import create_invoice
@@ -40,13 +40,14 @@ def create_order(user, shipping_address, cart_items):
             order=order,
             product=item['product'],
             size=item['size'],
-            sheen=item['sheen'],
+            sheen=item.get('sheen'),  # Ensure the sheen is saved
             quantity=item['quantity']
         )
         total_cost += item['size'].price * item['quantity']
     order.total_cost = total_cost
     order.save()
     return order
+
 
 
 def create_invoice_view(request, order, email):
@@ -86,19 +87,23 @@ def cart_view(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
+    sheen_id = request.POST.get('sheen')  # Capture the sheen
     size = get_object_or_404(ProductSize, id=size_id)
+    sheen = get_object_or_404(Sheen, id=sheen_id)  # Get the sheen object
+
     if request.user.is_authenticated:
-        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size_id=size_id)
+        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size=size, sheen=sheen)
         if not created:
             cart_item.quantity += 1
             cart_item.save()
     else:
         cart = request.session.get('cart', {})
         if str(product_id) not in cart:
-            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id}
+            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id, 'sheen_id': sheen_id}
         cart[str(product_id)]['quantity'] += 1
         request.session['cart'] = cart
     return redirect('cart:cart')
+
 
 def remove_from_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
