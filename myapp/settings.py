@@ -147,14 +147,14 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'console': {
-            'level': 'DEBUG',  # Capture all levels of logs
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'detailed',
+            'formatter': 'simple',
         },
     },
     'formatters': {
-        'detailed': {
-            'format': '{asctime} {name} {levelname} {message}',
+        'simple': {
+            'format': '{asctime} {levelname} {name} {message}',
             'style': '{',
         },
     },
@@ -173,13 +173,9 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
-        'paypalrestsdk': {  # Specific logger for PayPal SDK
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
     },
 }
+
 
 
 # Activate Django-Heroku.
