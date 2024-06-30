@@ -7,7 +7,7 @@ from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 from decimal import Decimal
 from .models import Cart, DeliveryAddress
-from products.models import Products, ProductSize, Sheen
+from products.models import Products, ProductSize
 from user.models import Order, OrderItem
 from .forms import GuestCheckoutForm, CheckoutForm, DeliveryAddressForm, OrderStatusForm
 from .paypal_utils import create_invoice
@@ -86,33 +86,19 @@ def cart_view(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
-    sheen_id = request.POST.get('sheen')
     size = get_object_or_404(ProductSize, id=size_id)
-
-    # Check if sheen_id is provided
-    sheen = None
-    if sheen_id:
-        sheen = get_object_or_404(Sheen, id=sheen_id)
-
     if request.user.is_authenticated:
-        cart_item, created = Cart.objects.get_or_create(
-            user=request.user,
-            product=product,
-            size=size,
-            sheen=sheen
-        )
+        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size_id=size_id)
         if not created:
             cart_item.quantity += 1
             cart_item.save()
     else:
         cart = request.session.get('cart', {})
         if str(product_id) not in cart:
-            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id, 'sheen_id': sheen_id}
+            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id}
         cart[str(product_id)]['quantity'] += 1
         request.session['cart'] = cart
-
     return redirect('cart:cart')
-
 
 def remove_from_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
@@ -444,7 +430,6 @@ def paypal_webhook(request):
     else:
         logger.warning("Invalid request method")
         return JsonResponse({'status': 'invalid request'}, status=400)
-
 
 def test_logging_view(request):
     return HttpResponse("Logging test complete. Check your logs.")
