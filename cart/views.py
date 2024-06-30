@@ -382,58 +382,51 @@ def paypal_webhook(request):
 
             event_type = data.get('event_type')
             resource = data.get('resource')
+            order_id = resource.get('supplementary_data', {}).get('related_ids', {}).get('order_id')
+
+            logger.debug(f"Received event type: {event_type} for order_id: {order_id}")
 
             if event_type == 'PAYMENT.CAPTURE.COMPLETED':
-                capture_id = resource.get('id')
-                order_id = resource.get('supplementary_data', {}).get('related_ids', {}).get('order_id')
-                logger.debug(f"Processing capture ID: {capture_id}, Order ID: {order_id}")
-
                 if order_id:
-                    order = Order.objects.filter(paypal_invoice_id=order_id).first()
-                    if order:
+                    try:
+                        order = get_object_or_404(Order, paypal_invoice_id=order_id)
                         order.status = 'COMPLETED'
                         order.save()
                         logger.info(f"Order {order_id} marked as completed.")
                         return JsonResponse({'status': 'success'}, status=200)
-                    else:
+                    except Order.DoesNotExist:
                         logger.error(f"No Order matches the given query for order_id: {order_id}")
-                        return JsonResponse({'status': 'error', 'message': 'Order ID not found'}, status=400)
+                        return JsonResponse({'status': 'error', 'message': 'Order not found'}, status=400)
                 else:
                     logger.warning("Order ID not found in the resource.")
                     return JsonResponse({'status': 'invalid data', 'message': 'Order ID not found'}, status=400)
 
             elif event_type == 'CHECKOUT.ORDER.APPROVED':
-                order_id = resource.get('id')
-                logger.debug(f"Processing order approval for Order ID: {order_id}")
-
                 if order_id:
-                    order = Order.objects.filter(paypal_invoice_id=order_id).first()
-                    if order:
+                    try:
+                        order = get_object_or_404(Order, paypal_invoice_id=order_id)
                         order.status = 'APPROVED'
                         order.save()
                         logger.info(f"Order {order_id} marked as approved.")
                         return JsonResponse({'status': 'success'}, status=200)
-                    else:
+                    except Order.DoesNotExist:
                         logger.error(f"No Order matches the given query for order_id: {order_id}")
-                        return JsonResponse({'status': 'error', 'message': 'Order ID not found'}, status=400)
+                        return JsonResponse({'status': 'error', 'message': 'Order not found'}, status=400)
                 else:
                     logger.warning("Order ID not found in the resource.")
                     return JsonResponse({'status': 'invalid data', 'message': 'Order ID not found'}, status=400)
 
             elif event_type == 'CHECKOUT.ORDER.COMPLETED':
-                order_id = resource.get('id')
-                logger.debug(f"Processing order completion for Order ID: {order_id}")
-
                 if order_id:
-                    order = Order.objects.filter(paypal_invoice_id=order_id).first()
-                    if order:
+                    try:
+                        order = get_object_or_404(Order, paypal_invoice_id=order_id)
                         order.status = 'COMPLETED'
                         order.save()
                         logger.info(f"Order {order_id} marked as completed.")
                         return JsonResponse({'status': 'success'}, status=200)
-                    else:
+                    except Order.DoesNotExist:
                         logger.error(f"No Order matches the given query for order_id: {order_id}")
-                        return JsonResponse({'status': 'error', 'message': 'Order ID not found'}, status=400)
+                        return JsonResponse({'status': 'error', 'message': 'Order not found'}, status=400)
                 else:
                     logger.warning("Order ID not found in the resource.")
                     return JsonResponse({'status': 'invalid data', 'message': 'Order ID not found'}, status=400)
@@ -451,7 +444,6 @@ def paypal_webhook(request):
     else:
         logger.warning("Invalid request method")
         return JsonResponse({'status': 'invalid request'}, status=400)
-
 
 
 def test_logging_view(request):
