@@ -40,6 +40,7 @@ def create_order(user, shipping_address, cart_items):
             order=order,
             product=item['product'],
             size=item['size'],
+            sheen=item['sheen'],
             quantity=item['quantity']
         )
         total_cost += item['size'].price * item['quantity']
