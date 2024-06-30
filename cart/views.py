@@ -416,6 +416,9 @@ def paypal_webhook(request):
         return JsonResponse({'status': 'invalid request'}, status=400)
 
 def test_logging_view(request):
-    logger.debug("Debug message for testing logging")
+    logger = logging.getLogger(__name__)
+    logger.debug("Test logging debug message")
+    logger.info("Test logging info message")
     return HttpResponse("Logging test complete. Check your logs.")
+
 

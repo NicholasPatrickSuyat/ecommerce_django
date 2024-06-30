@@ -154,7 +154,7 @@ LOGGING = {
     },
     'formatters': {
         'simple': {
-            'format': '{asctime} {levelname} {name} {message}',
+            'format': '{asctime} {levelname} {message}',
             'style': '{',
         },
     },
@@ -175,6 +175,7 @@ LOGGING = {
         },
     },
 }
+
 
 
 
