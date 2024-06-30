@@ -7,7 +7,7 @@ from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 from decimal import Decimal
 from .models import Cart, DeliveryAddress
-from products.models import Products, ProductSize
+from products.models import Products, ProductSize, Sheen
 from user.models import Order, OrderItem
 from .forms import GuestCheckoutForm, CheckoutForm, DeliveryAddressForm, OrderStatusForm
 from .paypal_utils import create_invoice
@@ -86,19 +86,33 @@ def cart_view(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
+    sheen_id = request.POST.get('sheen')
     size = get_object_or_404(ProductSize, id=size_id)
+
+    # Check if sheen_id is provided
+    sheen = None
+    if sheen_id:
+        sheen = get_object_or_404(Sheen, id=sheen_id)
+
     if request.user.is_authenticated:
-        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size_id=size_id)
+        cart_item, created = Cart.objects.get_or_create(
+            user=request.user,
+            product=product,
+            size=size,
+            sheen=sheen
+        )
         if not created:
             cart_item.quantity += 1
             cart_item.save()
     else:
         cart = request.session.get('cart', {})
         if str(product_id) not in cart:
-            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id}
+            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id, 'sheen_id': sheen_id}
         cart[str(product_id)]['quantity'] += 1
         request.session['cart'] = cart
+
     return redirect('cart:cart')
+
 
 def remove_from_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
@@ -375,11 +389,15 @@ def paypal_webhook(request):
                 logger.debug(f"Processing capture ID: {capture_id}, Order ID: {order_id}")
 
                 if order_id:
-                    order = get_object_or_404(Order, paypal_invoice_id=order_id)
-                    order.status = 'COMPLETED'
-                    order.save()
-                    logger.info(f"Order {order_id} marked as completed.")
-                    return JsonResponse({'status': 'success'}, status=200)
+                    order = Order.objects.filter(paypal_invoice_id=order_id).first()
+                    if order:
+                        order.status = 'COMPLETED'
+                        order.save()
+                        logger.info(f"Order {order_id} marked as completed.")
+                        return JsonResponse({'status': 'success'}, status=200)
+                    else:
+                        logger.error(f"No Order matches the given query for order_id: {order_id}")
+                        return JsonResponse({'status': 'error', 'message': 'Order ID not found'}, status=400)
                 else:
                     logger.warning("Order ID not found in the resource.")
                     return JsonResponse({'status': 'invalid data', 'message': 'Order ID not found'}, status=400)
@@ -389,11 +407,15 @@ def paypal_webhook(request):
                 logger.debug(f"Processing order approval for Order ID: {order_id}")
 
                 if order_id:
-                    order = get_object_or_404(Order, paypal_invoice_id=order_id)
-                    order.status = 'APPROVED'
-                    order.save()
-                    logger.info(f"Order {order_id} marked as approved.")
-                    return JsonResponse({'status': 'success'}, status=200)
+                    order = Order.objects.filter(paypal_invoice_id=order_id).first()
+                    if order:
+                        order.status = 'APPROVED'
+                        order.save()
+                        logger.info(f"Order {order_id} marked as approved.")
+                        return JsonResponse({'status': 'success'}, status=200)
+                    else:
+                        logger.error(f"No Order matches the given query for order_id: {order_id}")
+                        return JsonResponse({'status': 'error', 'message': 'Order ID not found'}, status=400)
                 else:
                     logger.warning("Order ID not found in the resource.")
                     return JsonResponse({'status': 'invalid data', 'message': 'Order ID not found'}, status=400)
@@ -403,11 +425,15 @@ def paypal_webhook(request):
                 logger.debug(f"Processing order completion for Order ID: {order_id}")
 
                 if order_id:
-                    order = get_object_or_404(Order, paypal_invoice_id=order_id)
-                    order.status = 'COMPLETED'
-                    order.save()
-                    logger.info(f"Order {order_id} marked as completed.")
-                    return JsonResponse({'status': 'success'}, status=200)
+                    order = Order.objects.filter(paypal_invoice_id=order_id).first()
+                    if order:
+                        order.status = 'COMPLETED'
+                        order.save()
+                        logger.info(f"Order {order_id} marked as completed.")
+                        return JsonResponse({'status': 'success'}, status=200)
+                    else:
+                        logger.error(f"No Order matches the given query for order_id: {order_id}")
+                        return JsonResponse({'status': 'error', 'message': 'Order ID not found'}, status=400)
                 else:
                     logger.warning("Order ID not found in the resource.")
                     return JsonResponse({'status': 'invalid data', 'message': 'Order ID not found'}, status=400)
@@ -425,6 +451,7 @@ def paypal_webhook(request):
     else:
         logger.warning("Invalid request method")
         return JsonResponse({'status': 'invalid request'}, status=400)
+
 
 
 def test_logging_view(request):
