@@ -16,6 +16,7 @@ class Products(models.Model):
     comparison_chart_image = models.ImageField(upload_to='static/images/products/comparison_charts/', blank=True, null=True)
     comparison_description = models.TextField(blank=True, null=True)
     section = models.ForeignKey(Section, on_delete=models.SET_NULL, null=True, blank=True)
+    color = models.CharField(max_length=50, blank=True, null=True)  # New field
 
     def __str__(self):
         return self.title

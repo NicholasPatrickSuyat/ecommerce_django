@@ -11,12 +11,12 @@ class ProductSizeInline(admin.TabularInline):
 
 @admin.register(Products)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'section')
+    list_display = ('title', 'description', 'section', 'color')
     search_fields = ('title',)
     inlines = [ProductImageInline, ProductSizeInline]
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'comparison_chart_image', 'comparison_description', 'section')
+            'fields': ('title', 'description', 'color', 'comparison_chart_image', 'comparison_description', 'section')
         }),
     )
 

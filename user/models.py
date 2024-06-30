@@ -45,7 +45,7 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} of {self.product.title} - {self.size.size}"
+        return f"{self.quantity} of {self.product.title} ({self.product.color}) - {self.size.size}"
 
     def total_cost(self):
         return self.size.price * self.quantity
