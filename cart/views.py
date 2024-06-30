@@ -31,23 +31,29 @@ def create_order(user, shipping_address, cart_items):
         user=user,
         shipping_address=shipping_address,
         order_date=timezone.now(),
-        status='PENDING',  # Set the initial status to 'PENDING'
-        paypal_invoice_id="some_invoice_id"  # Set the PayPal invoice ID here
+        status='PENDING'
     )
     total_cost = 0
     for item in cart_items:
-        order_item = OrderItem.objects.create(
+        OrderItem.objects.create(
             order=order,
             product=item['product'],
             size=item['size'],
-            sheen=item['sheen'],
+            sheen=item.get('sheen'),
             quantity=item['quantity']
         )
         total_cost += item['size'].price * item['quantity']
+    
     order.total_cost = total_cost
     order.save()
-    return order
 
+    # Generate the PayPal invoice
+    invoice_id = create_invoice(order, user.email)
+    if invoice_id:
+        order.paypal_invoice_id = invoice_id
+        order.save()
+    
+    return order
 
 def create_invoice_view(request, order, email):
     invoice_id = create_invoice(order, email)
