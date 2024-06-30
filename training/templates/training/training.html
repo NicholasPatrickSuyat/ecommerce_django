@@ -76,31 +76,17 @@ Training Library
         margin-bottom: 30px;
     }
 
-    .video-section-container {
-        margin: 40px 0;
-        background-color: #e8e8e8;
-        padding: 80px;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        color: #333;
-        font-size: 1.2rem;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
     .video-section {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         gap: 20px;
-        width: 100%;
+        margin: 40px 0;
     }
 
     .video-section iframe {
         border: none;
         border-radius: 10px;
-        width: calc(33.33% - 20px); /* Three videos side by side with 20px gap */
+        width: 560px;
         height: 315px;
     }
 
@@ -109,14 +95,8 @@ Training Library
             padding: 20px;
         }
 
-        .description-container,
-        .video-section-container {
-            padding: 20px;
-        }
-
-        .video-section {
+        .description-container {
             flex-direction: column;
-            align-items: center;
         }
 
         .video-section iframe {
@@ -127,37 +107,37 @@ Training Library
 </style>
 
 <main class="content-container">
-    <section class="description-container fade-in">
-        <h1>Training Library</h1>
-        <h2>How to Use Avant UV Coatings Products</h2>
-        <p>Welcome to the Avant UV Coatings training library. Below, you will find detailed guides and tutorials on how to effectively use our products.</p>
-        <p>In this tutorial, we will cover:</p>
-        <ul>
-            <li>Application Techniques</li>
-            <li>Product Benefits</li>
-            <li>Maintenance and Care</li>
-            <li>Common Troubleshooting Tips</li>
-        </ul>
-        <p>For more detailed information, please refer to our video tutorials below.</p>
+    <section class="intro-partners-box fade-in">
+        <div class="description-container">
+            <h1>Training Library</h1>
+            <h2>How to Use Avant UV Coatings Products</h2>
+            <p>Welcome to the Avant UV Coatings training library. Below, you will find detailed guides and tutorials on how to effectively use our products.</p>
+            <p>In this tutorial, we will cover:</p>
+            <ul>
+                <li>Application Techniques</li>
+                <li>Product Benefits</li>
+                <li>Maintenance and Care</li>
+                <li>Common Troubleshooting Tips</li>
+            </ul>
+            <p>For more detailed information, please refer to our video tutorials below.</p>
 
-        <h2>Safety and Precautions</h2>
-        <div class="safety-content">
-            <div class="safety-description">
-                <p><a href="#" target="_blank">Technical Data Sheet (TDS)</a></p>
-                <p><a href="#" target="_blank">Safety Data Sheet (SDS)</a></p>
-                <p>Safety glasses are a crucial part of being safe while using the LED UV lights from our store. They are required while using the lights for optimal eye protection.</p>
-                <p>For more information or if you have any questions, feel free to <a href="/contact">contact us</a>.</p>
+            <h2>Safety and Precautions</h2>
+            <div class="safety-content">
+                <div class="safety-description">
+                    <p><a href="#" target="_blank">Technical Data Sheet (TDS)</a></p>
+                    <p><a href="#" target="_blank">Safety Data Sheet (SDS)</a></p>
+                    <p>Safety glasses are a crucial part of being safe while using the LED UV lights from our store. They are required while using the lights for optimal eye protection.</p>
+                    <p>For more information or if you have any questions, feel free to <a href="/contact">contact us</a>.</p>
+                </div>
+                <img src="{% static 'images/kit/41Q6bg7U95L.jpg' %}" alt="Safety Glasses" class="safety-image">
             </div>
-            <img src="{% static 'images/kit/41Q6bg7U95L.jpg' %}" alt="Safety Glasses" class="safety-image">
         </div>
     </section>
 
-    <section class="video-section-container fade-in">
-        <div class="video-section">
-            <iframe src="https://www.youtube.com/embed/ZMxKpCjWR5U" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/TLzLvXWXPyw" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed/Qx03MqOBRT0" allowfullscreen></iframe>
-        </div>
-    </section>
+    <div class="video-section">
+        <iframe src="https://www.youtube.com/embed/ZMxKpCjWR5U" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/TLzLvXWXPyw" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/Qx03MqOBRT0" allowfullscreen></iframe>
+    </div>
 </main>
 {% endblock %}
