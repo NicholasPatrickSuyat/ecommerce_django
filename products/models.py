@@ -9,6 +9,13 @@ class Section(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Color(models.Model):
+    name = models.CharField(max_length=50)
+    hex_code = models.CharField(max_length=7)
+
+    def __str__(self):
+        return self.name
 
 class Products(models.Model):
     title = models.CharField(max_length=100)
@@ -16,7 +23,7 @@ class Products(models.Model):
     comparison_chart_image = models.ImageField(upload_to='static/images/products/comparison_charts/', blank=True, null=True)
     comparison_description = models.TextField(blank=True, null=True)
     section = models.ForeignKey(Section, on_delete=models.SET_NULL, null=True, blank=True)
-    color = models.CharField(max_length=50, blank=True, null=True)  # New field
+    colors = models.ManyToManyField(Color, blank=True, related_name='products')  # Updated to many-to-many
 
     def __str__(self):
         return self.title
