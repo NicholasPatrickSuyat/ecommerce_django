@@ -87,14 +87,15 @@ def add_to_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
     sheen_id = request.POST.get('sheen')
-    size = get_object_or_404(ProductSize, id=size_id)
-    sheen = get_object_or_404(Sheen, id=sheen_id)
     
+    size = get_object_or_404(ProductSize, id=size_id)
+    sheen = get_object_or_404(Sheen, id=sheen_id) if sheen_id else None
+
     if request.user.is_authenticated:
         cart_item, created = Cart.objects.get_or_create(
-            user=request.user, 
-            product=product, 
-            size=size, 
+            user=request.user,
+            product=product,
+            size=size,
             sheen=sheen
         )
         if not created:
@@ -108,6 +109,7 @@ def add_to_cart(request, product_id):
         request.session['cart'] = cart
 
     return redirect('cart:cart')
+
 
 def remove_from_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
