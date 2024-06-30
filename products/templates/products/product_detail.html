@@ -28,11 +28,11 @@
                                 <p id="size-error" class="text-danger" style="display: none;">Select a size</p>
                             </div>
                             <div class="form-group">
-                                <label for="color" class="form-label">Color:</label>
-                                <div class="color-selector">
-                                    {% for color in product.colors.all %}
-                                    <input type="radio" name="color" id="color-{{ color.id }}" value="{{ color.id }}" class="color-option">
-                                    <label for="color-{{ color.id }}" class="color-label" style="background-color: {{ color.hex_code }};"></label>
+                                <label for="sheen" class="form-label">Sheen:</label>
+                                <div class="sheen-selector">
+                                    {% for sheen in product.sheens.all %}
+                                    <input type="radio" name="sheen" id="sheen-{{ sheen.id }}" value="{{ sheen.id }}" class="sheen-option">
+                                    <label for="sheen-{{ sheen.id }}" class="sheen-label">{{ sheen.name }}</label>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -206,29 +206,36 @@ document.getElementById('add-to-cart-form').addEventListener('submit', function(
         transform: scale(1.1);
     }
 
-    .color-selector {
+    .sheen-selector {
         display: flex;
+        flex-wrap: wrap;
         gap: 10px;
         margin-top: 10px;
     }
 
-    .color-option {
+    .sheen-option {
         display: none;
     }
 
-    .color-label {
+    .sheen-label {
+        background-color: #f8f9fa;
         border: 2px solid #000000;
-        border-radius: 50%;
+        border-radius: 20px;
+        color: #000000;
         cursor: pointer;
-        display: inline-block;
-        height: 30px;
-        width: 30px;
-        transition: transform 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        height: 40px;
+        width: 80px;
+        transition: background-color 0.3s, transform 0.3s;
     }
 
-    .color-option:checked + .color-label {
+    .sheen-option:checked + .sheen-label {
+        background-color: #817c7c;
+        color: white;
         transform: scale(1.1);
-        border-color: #4659c5;
     }
 
     @media (max-width: 940px) {

@@ -42,10 +42,11 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey('products.Products', on_delete=models.CASCADE)
     size = models.ForeignKey('products.ProductSize', on_delete=models.CASCADE)
+    sheen = models.ForeignKey('products.Sheen', on_delete=models.CASCADE, null=True, blank=True)  # Add this line
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} of {self.product.title} ({self.product.color}) - {self.size.size}"
+        return f"{self.quantity} of {self.product.title} ({self.sheen.name}) - {self.size.size}"
 
     def total_cost(self):
         return self.size.price * self.quantity
