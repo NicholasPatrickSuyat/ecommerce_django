@@ -18,6 +18,9 @@ from django.http import JsonResponse, HttpResponse
 import json
 from django.utils import timezone
 import logging
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 logger = logging.getLogger(__name__)
 
@@ -234,6 +237,19 @@ def guest_checkout_view(request):
         'PAYPAL_CLIENT_ID': settings.PAYPAL_CLIENT_ID
     })
 
+def send_order_confirmation_email(order):
+    subject = 'Order Confirmation'
+    html_message = render_to_string('emails/order_confirmation.html', {
+        'order': order,
+        'order_items': order.items.all(),
+        'total_cost': order.total_cost
+    })
+    plain_message = strip_tags(html_message)
+    from_email = settings.DEFAULT_FROM_EMAIL
+    recipient_list = [order.user.email if order.user else order.guest_email, from_email]
+
+    send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
+
 
 def payment_done(request):
     try:
@@ -252,7 +268,7 @@ def payment_done(request):
                     user=user,
                     guest_email=guest_email,
                     shipping_address=str(shipping_address),
-                    status='PENDING'  # Set initial status to 'PENDING'
+                    status='PENDING'
                 )
 
                 # Move items from cart to order
@@ -285,6 +301,9 @@ def payment_done(request):
                     cart_items.delete()
                 else:
                     request.session['cart'] = {}
+
+                # Send order confirmation email
+                send_order_confirmation_email(order)
 
                 return render(request, 'cart/payment_success.html', {'order': order})
             else:

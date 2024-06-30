@@ -1,59 +1,45 @@
-{% extends "home/base.html" %}
-{% load static %}
-{% load custom_filters %} <!-- Add this line to load custom filters -->
-
-{% block content %}
-<div class="container mt-5">
-    <h2 class="text-center">Order Confirmation</h2>
-    <p>Thank you for your purchase! Here are the details of your order:</p>
-    
-    <h4>Order Summary</h4>
-    <table class="table table-striped">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <h2>Order Confirmation</h2>
+    <p>Thank you for your purchase!</p>
+    <p><strong>Order ID:</strong> {{ order.id }}</p>
+    <p><strong>User:</strong>
+        {% if order.user %}
+            {{ order.user.username }}
+        {% else %}
+            {{ order.guest_email }}
+        {% endif %}
+    </p>
+    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+    <p><strong>Date:</strong> {{ order.order_date }}</p>
+    <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
+    <h3>Items</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
         <thead>
             <tr>
-                <th>Product</th>
-                <th>Size</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
+                <th style="border: 1px solid #ccc; padding: 10px;">Product</th>
+                <th style="border: 1px solid #ccc; padding: 10px;">Size</th>
+                <th style="border: 1px solid #ccc; padding: 10px;">Color</th>
+                <th style="border: 1px solid #ccc; padding: 10px;">Quantity</th>
+                <th style="border: 1px solid #ccc; padding: 10px;">Price</th>
             </tr>
         </thead>
         <tbody>
-            {% for item in orders %}
+            {% for item in order_items %}
             <tr>
-                <td>{{ item.product.title }}</td>
-                <td>{{ item.size.size }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>${{ item.size.price }}</td>
-                <td>${{ item.size.price|multiply:item.quantity }}</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.product.title }}</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.size.size }}</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.product.color }}</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.quantity }}</td>
+                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.size.price }}</td>
             </tr>
             {% endfor %}
         </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4" class="text-right"><strong>Subtotal:</strong></td>
-                <td>${{ total_price }}</td>
-            </tr>
-            <tr>
-                <td colspan="4" class="text-right"><strong>Shipping Cost:</strong></td>
-                <td>${{ shipping_cost }}</td>
-            </tr>
-            <tr>
-                <td colspan="4" class="text-right"><strong>Total Payment:</strong></td>
-                <td>${{ total_payment }}</td>
-            </tr>
-        </tfoot>
     </table>
-
-    <h4>Shipping Information</h4>
-    <p>{{ shipping_address.address_line1 }}<br>
-    {% if shipping_address.address_line2 %}{{ shipping_address.address_line2 }}<br>{% endif %}
-    {{ shipping_address.city }}, {{ shipping_address.state }} {{ shipping_address.postal_code }}<br>
-    {{ shipping_address.country }}</p>
-
-    <h4>Shipping Method</h4>
-    <p>{{ shipping_option.name }} - ${{ shipping_option.cost }}</p>
-
-    <p>If you have any questions about your order, please contact us at {{ seller_email }}.</p>
-</div>
-{% endblock %}
+    <p><strong>Total Cost:</strong> {{ total_cost }}</p>
+</body>
+</html>
