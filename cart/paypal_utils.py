@@ -38,9 +38,8 @@ def create_invoice(order, email):
 
     try:
         if invoice.create():
-            logger.info(f"Invoice created successfully for order {order.id}")
-            logger.debug(f"Invoice ID: {invoice.id}")
-            return invoice.id  # Return the invoice ID to be stored in the order
+            logger.info(f"Invoice created successfully for order {order.id}, Invoice ID: {invoice.id}")
+            return invoice.id
         else:
             logger.error(f"Error creating invoice for order {order.id}: {invoice.error}")
             return None
