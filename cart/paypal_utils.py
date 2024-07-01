@@ -38,11 +38,12 @@ def create_invoice(order, email):
 
     try:
         if invoice.create():
-            logger.info(f"Invoice created successfully for order {order.id}, Invoice ID: {invoice.id}")
-            return invoice.id
+            logger.info(f"Invoice created successfully for order {order.id}")
+            logger.debug(f"Invoice ID: {invoice.id}")
+            return invoice.id  # Return the invoice ID to be stored in the order
         else:
             logger.error(f"Error creating invoice for order {order.id}: {invoice.error}")
             return None
     except Exception as e:
-        logger.error(f"Exception occurred while creating invoice for order {order.id}: {str(e)}")
+        logger.exception(f"Exception occurred while creating invoice for order {order.id}: {str(e)}")
         return None

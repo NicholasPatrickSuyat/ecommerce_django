@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 CustomUser = get_user_model()
 
 def create_order(user, shipping_address, cart_items):
+    logger.debug("Creating order")
     order = Order.objects.create(
         user=user,
         shipping_address=shipping_address,
@@ -46,14 +47,19 @@ def create_order(user, shipping_address, cart_items):
     
     order.total_cost = total_cost
     order.save()
+    logger.debug(f"Order created with ID: {order.id}")
 
     # Generate the PayPal invoice
     invoice_id = create_invoice(order, user.email)
     if invoice_id:
         order.paypal_invoice_id = invoice_id
         order.save()
+        logger.debug(f"PayPal invoice ID {invoice_id} saved for order {order.id}")
+    else:
+        logger.warning(f"Failed to create PayPal invoice for order {order.id}")
     
     return order
+
 
 def create_invoice_view(request, order, email):
     invoice_id = create_invoice(order, email)
@@ -446,3 +452,16 @@ def test_logging_view(request):
     return HttpResponse("Logging test complete. Check your logs.")
 
 
+def test_invoice_creation(request):
+    user = request.user
+    order = Order.objects.filter(user=user).last()  # Use the most recent order for testing
+    if not order:
+        return HttpResponse("No orders found for this user.")
+    
+    invoice_id = create_invoice(order, user.email)
+    if invoice_id:
+        order.paypal_invoice_id = invoice_id
+        order.save()
+        return HttpResponse(f"Invoice created successfully: {invoice_id}")
+    else:
+        return HttpResponse("Failed to create invoice.")
