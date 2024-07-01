@@ -26,7 +26,7 @@ urlpatterns = [
     path('permission-denied/', custom_permission_denied_view, name='permission_denied'),
     path('paypal-webhook/', paypal_webhook, name='paypal_webhook'),
     path('test-logging/', test_logging_view, name='test_logging'),
-    path('cart/test-invoice-creation/', test_invoice_creation, name='test_invoice_creation'),
+    path('test-invoice-creation/', test_invoice_creation, name='test_invoice_creation'),
     
     
 ]
