@@ -2,11 +2,17 @@ from django.shortcuts import render
 from .models import CompanyVideo  # Import the CompanyVideo model
 from products.models import Products  # Import the Products model
 from django.http import JsonResponse
+from products.models import Section
 
 def home_view(request):
     videos = CompanyVideo.objects.all()  # Fetch all videos from the database
     products = Products.objects.all()  # Fetch all products from the database
-    return render(request, 'home/home.html', {'company_videos': videos, 'products': products})
+    sections = Section.objects.all()  # Fetch all sections from the database
+    return render(request, 'home/home.html', {
+        'company_videos': videos,
+        'products': products,
+        'sections': sections  # Add sections to the context
+    })
 
 def learn_more_1(request):
     return render(request, 'home/learn1.html')
@@ -69,3 +75,7 @@ def search_recommendations(request):
     else:
         results = []
     return JsonResponse(results, safe=False)
+
+def get_product_sections():
+    sections = Section.objects.all()
+    return {'sections': sections}

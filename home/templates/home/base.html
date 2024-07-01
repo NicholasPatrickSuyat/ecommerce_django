@@ -70,6 +70,9 @@
                     <a class="nav-link" href="{% url 'products:product_list' %}">Shop</a>
                     <div class="dropdown">
                         <a class="nav-link" href="{% url 'home:index' %}">Products</a>
+                        {% for section in sections %}
+                            <a class="nav-link" href="{% url 'products:product_list' %}?section={{ section.id }}">{{ section.name }}</a>
+                        {% endfor %}
                     </div>
                 </li>
                 <li class="nav-item">
