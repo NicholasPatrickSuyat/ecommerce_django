@@ -90,36 +90,26 @@ nav ul li a:hover {
 nav ul li .dropdown {
     display: none; /* Hide dropdown by default */
     position: absolute;
-    top: 44px; /* Position below the parent li */
-    left: 0;
-    right: 0;
-    width: 100vw; /* Full width of the viewport */
+    top: 100%; /* Position below the parent li */
+    left: 50%; /* Start positioning from the center */
+    transform: translateX(-50%); /* Center the dropdown */
+    width: auto; /* Adjust the width to fit the content */
     background: linear-gradient(120deg, rgba(0, 0, 0, 0.9), rgba(68, 68, 68, 0.9)); /* Darker transparent background */
     border-radius: 0 0 10px 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 9999;
     text-align: left; /* Align text to the left */
-    display: grid; /* Use CSS Grid */
-    grid-template-columns: repeat(2, 1fr); /* 2 columns */
-    gap: 10px; /* Add some space between items */
-    padding: 10px; /* Add padding */
+    padding: 10px 0; /* Add some padding to the dropdown */
 }
 
 nav ul li:hover .dropdown {
-    display: grid; /* Show dropdown on hover */
+    display: block; /* Show dropdown on hover */
 }
 
 nav ul li .dropdown a {
     padding: 10px 15px; /* Maintain padding for click area */
     display: block; /* Make the link a block element */
     color: #fff; /* White text for dropdown items */
-    border-radius: 5px; /* Add border radius for dropdown items */
-    background: rgba(0, 0, 0, 0.6); /* Slightly darker background for dropdown items */
-    transition: background 0.3s; /* Smooth background transition */
-}
-
-nav ul li .dropdown a:hover {
-    background: rgba(255, 255, 255, 0.1); /* Change background on hover */
 }
 
 .navbar-logo {
