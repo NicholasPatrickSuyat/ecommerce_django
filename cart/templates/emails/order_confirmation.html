@@ -2,44 +2,91 @@
 <html>
 <head>
     <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #007aff;
+        }
+        p {
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #007aff;
+            color: #fff;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .total-cost {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h2>Order Confirmation</h2>
-    <p>Thank you for your purchase!</p>
-    <p><strong>Order ID:</strong> {{ order.id }}</p>
-    <p><strong>User:</strong>
-        {% if order.user %}
-            {{ order.user.username }}
-        {% else %}
-            {{ order.guest_email }}
-        {% endif %}
-    </p>
-    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
-    <p><strong>Date:</strong> {{ order.order_date }}</p>
-    <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
-    <h3>Items</h3>
-    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-        <thead>
-            <tr>
-                <th style="border: 1px solid #ccc; padding: 10px;">Product</th>
-                <th style="border: 1px solid #ccc; padding: 10px;">Size</th>
-                <th style="border: 1px solid #ccc; padding: 10px;">Sheen</th>
-                <th style="border: 1px solid #ccc; padding: 10px;">Quantity</th>
-                <th style="border: 1px solid #ccc; padding: 10px;">Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in order_items %}
-            <tr>
-                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.product.title }}</td>
-                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.size.size }}</td>
-                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.sheen.name }}</td>
-                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.quantity }}</td>
-                <td style="border: 1px solid #ccc; padding: 10px;">{{ item.size.price }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <p><strong>Total Cost:</strong> {{ total_cost }}</p>
+    <div class="container">
+        <h2>Order Confirmation</h2>
+        <p>Thank you for your purchase!</p>
+        <p><strong>Order ID:</strong> {{ order.id }}</p>
+        <p><strong>User:</strong>
+            {% if order.user %}
+                {{ order.user.username }}
+            {% else %}
+                {{ order.guest_email }}
+            {% endif %}
+        </p>
+        <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+        <p><strong>Date:</strong> {{ order.order_date }}</p>
+        <p><strong>Shipping Address:</strong> {{ order.shipping_address }}</p>
+        <h3>Items</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Size</th>
+                    <th>Sheen</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order_items %}
+                <tr>
+                    <td>{{ item.product.title }}</td>
+                    <td>{{ item.size.size }}</td>
+                    <td>{{ item.sheen.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.size.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="total-cost"><strong>Total Cost:</strong> {{ total_cost }}</p>
+    </div>
 </body>
 </html>
