@@ -374,46 +374,70 @@ def paypal_webhook(request):
 
             event_type = data.get('event_type')
             resource = data.get('resource')
-            order_id = resource.get('invoice_id')
+
+            # Check for order_id in multiple places
+            order_id = resource.get('supplementary_data', {}).get('related_ids', {}).get('order_id')
+            if not order_id:
+                order_id = resource.get('invoice_id')
+            if not order_id:
+                for purchase_unit in resource.get('purchase_units', []):
+                    order_id = purchase_unit.get('reference_id')
+                    if order_id:
+                        break
+
+            logger.debug(f"Processed event type: {event_type}, Order ID: {order_id}")
 
             if not order_id:
                 logger.warning("Order ID not found in the resource.")
                 return JsonResponse({'status': 'invalid data', 'message': 'Order ID not found'}, status=400)
 
-            logger.debug(f"Processed event type: {event_type}, Order ID: {order_id}")
-
-            try:
-                order = get_object_or_404(Order, paypal_invoice_id=order_id)
-                
-                if event_type in ['PAYMENT.CAPTURE.COMPLETED', 'CHECKOUT.ORDER.COMPLETED']:
+            if event_type == 'PAYMENT.CAPTURE.COMPLETED':
+                try:
+                    order = get_object_or_404(Order, paypal_invoice_id=order_id)
                     order.status = 'COMPLETED'
                     order.save()
                     logger.info(f"Order {order_id} marked as completed.")
                     return JsonResponse({'status': 'success'}, status=200)
-                
-                elif event_type == 'CHECKOUT.ORDER.APPROVED':
+                except Order.DoesNotExist:
+                    logger.error(f"No Order matches the given query for order_id: {order_id}")
+                    return JsonResponse({'status': 'error', 'message': 'Order not found'}, status=400)
+
+            elif event_type == 'CHECKOUT.ORDER.APPROVED':
+                try:
+                    order = get_object_or_404(Order, paypal_invoice_id=order_id)
                     order.status = 'APPROVED'
                     order.save()
                     logger.info(f"Order {order_id} marked as approved.")
                     return JsonResponse({'status': 'success'}, status=200)
+                except Order.DoesNotExist:
+                    logger.error(f"No Order matches the given query for order_id: {order_id}")
+                    return JsonResponse({'status': 'error', 'message': 'Order not found'}, status=400)
 
-                else:
-                    logger.warning(f"Unhandled event type: {event_type}")
-                    return JsonResponse({'status': 'invalid event type'}, status=400)
+            elif event_type == 'CHECKOUT.ORDER.COMPLETED':
+                try:
+                    order = get_object_or_404(Order, paypal_invoice_id=order_id)
+                    order.status = 'COMPLETED'
+                    order.save()
+                    logger.info(f"Order {order_id} marked as completed.")
+                    return JsonResponse({'status': 'success'}, status=200)
+                except Order.DoesNotExist:
+                    logger.error(f"No Order matches the given query for order_id: {order_id}")
+                    return JsonResponse({'status': 'error', 'message': 'Order not found'}, status=400)
 
-            except Order.DoesNotExist:
-                logger.error(f"No Order matches the given query for order_id: {order_id}")
-                return JsonResponse({'status': 'error', 'message': 'Order not found'}, status=400)
+            else:
+                logger.warning(f"Unhandled event type: {event_type}")
+                return JsonResponse({'status': 'invalid event type'}, status=400)
 
         except json.JSONDecodeError as e:
-            logger.error(f"JSON decode error: {e}")
+            logger.exception(f"JSON decode error: {e}")
             return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
         except Exception as e:
-            logger.error(f"Exception processing webhook: {e}")
+            logger.exception(f"Exception processing webhook: {e}")
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     else:
         logger.warning("Invalid request method")
         return JsonResponse({'status': 'invalid request'}, status=400)
+
 
 def test_logging_view(request):
     logger = logging.getLogger(__name__)
