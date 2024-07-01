@@ -38,28 +38,28 @@ Training Library
     }
 
     .description-container {
-        margin: 40px 0;
+        margin: 20px; /* Reduced margin to bring closer to edge */
         background-color: #e8e8e8;
         padding: 80px;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        color: #333;
+        color: #333; /* Change text color to white */
         font-size: 1.2rem;
-        width: 100%;
+        width: calc(100% - 40px); /* Adjust width to make it wider */
         box-sizing: border-box;
     }
 
     .description-container h1,
     .description-container h2 {
         margin-top: 0;
-        color: #333;
+        color: #fff; /* Change text color to white */
     }
 
     .description-container p,
     .description-container ul {
-        color: #333;
+        color: #fff; /* Change text color to white */
     }
 
     .description-container a {
@@ -98,6 +98,7 @@ Training Library
 
         .description-container {
             flex-direction: column;
+            width: calc(100% - 40px); /* Ensure responsiveness */
         }
 
         .video-section iframe {
