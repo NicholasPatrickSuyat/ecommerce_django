@@ -453,15 +453,23 @@ def test_logging_view(request):
 
 
 def test_invoice_creation(request):
-    user = request.user
-    order = Order.objects.filter(user=user).last()  # Use the most recent order for testing
-    if not order:
-        return HttpResponse("No orders found for this user.")
-    
-    invoice_id = create_invoice(order, user.email)
-    if invoice_id:
-        order.paypal_invoice_id = invoice_id
-        order.save()
-        return HttpResponse(f"Invoice created successfully: {invoice_id}")
-    else:
-        return HttpResponse("Failed to create invoice.")
+    try:
+        user = request.user
+        order = Order.objects.filter(user=user).last()  # Use the most recent order for testing
+        if not order:
+            logger.warning("No orders found for this user.")
+            return HttpResponse("No orders found for this user.")
+        
+        logger.info(f"Testing invoice creation for order {order.id} and user {user.email}")
+        invoice_id = create_invoice(order, user.email)
+        if invoice_id:
+            logger.info(f"Invoice created successfully: {invoice_id}")
+            order.paypal_invoice_id = invoice_id
+            order.save()
+            return HttpResponse(f"Invoice created successfully: {invoice_id}")
+        else:
+            logger.warning("Failed to create invoice.")
+            return HttpResponse("Failed to create invoice.")
+    except Exception as e:
+        logger.exception("Exception occurred while testing invoice creation.")
+        return HttpResponse("An error occurred during invoice creation.")
