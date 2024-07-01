@@ -16,6 +16,9 @@ AVANT UV Coatings
         color: #000;
         font-size: 22px;
     }
+    .content-container {
+        padding: 50px;
+    }
     .header {
         text-align: center;
         padding: 50px 0;
@@ -27,15 +30,33 @@ AVANT UV Coatings
         color: #333;
         margin: 0;
     }
-    .info-section-container, .center-text-container, .account-contact-container {
-        background-color: #333;
-        color: #fff;
-        margin: 5px;
-        padding: 20px;
+    .section {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+    .section img {
+        width: 100%;
+        max-width: 45%;
+        height: auto;
         border-radius: 10px;
-        width: calc(100% - 10px); /* Full width minus the margins */
+        margin-bottom: 20px;
+    }
+    .section-text {
+        width: 100%;
+        max-width: 50%;
+        font-size: 1.6rem;
+        line-height: 1.8;
+        text-align: left;
+        padding: 20px; /* Adjusted padding */
+        box-sizing: border-box;
     }
     .info-section {
+        background-color: #f8f8f8;
+        padding: 20px;
+        border-radius: 10px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -108,6 +129,25 @@ AVANT UV Coatings
         background-color: #007aff;
         color: #fff;
     }
+    .account-contact-section {
+        text-align: center;
+        padding: 40px;
+        background-color: #f8f8f8;
+        color: #000;
+        margin: 50px 0;
+        border-radius: 10px;
+    }
+    .account-contact-section h2, .account-contact-section p {
+        margin: 20px 0;
+    }
+    .account-contact-section ul {
+        text-align: center;
+        list-style-position: inside;
+        padding: 0;
+    }
+    .account-contact-section ul li {
+        margin: 10px 0;
+    }
     .pricing-box {
         background-color: #000;
         color: #fff;
@@ -159,11 +199,11 @@ AVANT UV Coatings
 </style>
 
 
-<div class="header">
-    <h1>AVANT UV COATINGS</h1>
-</div>
+<div class="content-container">
+    <div class="header">
+        <h1>AVANT UV COATINGS</h1>
+    </div>
 
-<div class="info-section-container">
     <div class="info-section">
         <div class="section-text">
             <p>Our patented UV curable polymer coatings systems are an amazing alternative to existing compliant industrial coatings. In a world fast approaching more stringent environmental laws, instead of a watered-down coatings system, we’ve decided to revolutionize the coatings industry. Our solution is no compromise with coatings that are Cleaner, being VOC and HAP free, Stronger, with both chemical and weather resistance, and Faster with immediate on-demand UV curing in minutes.</p>
@@ -179,9 +219,7 @@ AVANT UV Coatings
             <a href="{% url 'products:product_list' %}" class="shop-button">Go to Store</a>
         </div>
     </div>
-</div>
 
-<div class="center-text-container">
     <div class="center-text">
         <h2>How It Works</h2>
         <div class="center-paragraph">
@@ -189,38 +227,36 @@ AVANT UV Coatings
         </div>
         <a href="/training" class="training-button">Training Page</a>
     </div>
-</div>
 
-<div class="black-section">
-    <img src="{% static 'images/backgrounds/product comps.png' %}" alt="Product Comparison">
-    <div class="product-info-box">
-        <div class="section-text">
-            <p>What makes Avant UV Coatings better than other products? Our advanced formulation ensures superior performance, durability, and finish quality. Experience the best with Avant. Our patented coatings systems have a low carbon footprint, providing cost savings while supporting a good environmental posture. There is no hazardous disposal requirement for our coatings; just cure any unused product and follow your state and local waste disposal ordinances for non-hazardous material.</p>
+    <div class="black-section">
+        <img src="{% static 'images/backgrounds/product comps.png' %}" alt="Product Comparison">
+        <div class="product-info-box">
+            <div class="section-text">
+                <p>What makes Avant UV Coatings better than other products? Our advanced formulation ensures superior performance, durability, and finish quality. Experience the best with Avant. Our patented coatings systems have a low carbon footprint, providing cost savings while supporting a good environmental posture. There is no hazardous disposal requirement for our coatings; just cure any unused product and follow your state and local waste disposal ordinances for non-hazardous material.</p>
+            </div>
+            <img src="{% static 'images/backgrounds/Screenshot.png' %}" alt="Additional Info">
         </div>
-        <img src="{% static 'images/backgrounds/Screenshot.png' %}" alt="Additional Info">
-    </div>
-    <div class="product-info-box">
-        <img src="{% static 'images/backgrounds/black.jpeg' %}" alt="Another Image">
-        <div class="section-text">
-            <p>Our coating systems require no expensive emissions control equipment needed for solvent-based and VOC-based products. They provide air quality improvements as they have no Volatile Organic Compounds (VOC), zero Hazardous Air Pollutants (HAP), and produce very low atomization. This environmentally friendly system offers a regulatory compliant solution usable almost anywhere, safer for human contact exposure and the surrounding environment.</p>
+        <div class="product-info-box">
+            <img src="{% static 'images/backgrounds/black.jpeg' %}" alt="Another Image">
+            <div class="section-text">
+                <p>Our coating systems require no expensive emissions control equipment needed for solvent-based and VOC-based products. They provide air quality improvements as they have no Volatile Organic Compounds (VOC), zero Hazardous Air Pollutants (HAP), and produce very low atomization. This environmentally friendly system offers a regulatory compliant solution usable almost anywhere, safer for human contact exposure and the surrounding environment.</p>
+            </div>
+        </div>
+        <div class="pricing-box">
+            <h2>Pricing</h2>
+            <p>Our wood finishes average < $0.40 per SqFt at 1 mil coverage.</p>
+            <p>When comparing the cost of our products you should consider the concentrated nature of Clean Armor and how much more coverage you will get when compared to traditional finishes.</p>
+            <p>Available Sizes:</p>
+            <ul>
+                <li>1 Quart (.95L)</li>
+                <li>1 Gallon (3.78L)</li>
+                <li>5 Gallon (18.9L)</li>
+            </ul>
+            <p>COST OF MATERIALS - EQUIVALENT: Saves Time and Money. Our Concentrated Coatings Have 3+ Times the Coverage Compared to Traditional Finishes.</p>
+            <a href="{% url 'products:product_list' %}" class="shop-button">Shop Now</a>
         </div>
     </div>
-    <div class="pricing-box">
-        <h2>Pricing</h2>
-        <p>Our wood finishes average < $0.40 per SqFt at 1 mil coverage.</p>
-        <p>When comparing the cost of our products you should consider the concentrated nature of Clean Armor and how much more coverage you will get when compared to traditional finishes.</p>
-        <p>Available Sizes:</p>
-        <ul>
-            <li>1 Quart (.95L)</li>
-            <li>1 Gallon (3.78L)</li>
-            <li>5 Gallon (18.9L)</li>
-        </ul>
-        <p>COST OF MATERIALS - EQUIVALENT: Saves Time and Money. Our Concentrated Coatings Have 3+ Times the Coverage Compared to Traditional Finishes.</p>
-        <a href="{% url 'products:product_list' %}" class="shop-button">Shop Now</a>
-    </div>
-</div>
 
-<div class="account-contact-container">
     <div class="account-contact-section">
         <h2>Create an Account</h2>
         <p>Join Avant today to access exclusive benefits and stay updated with the latest developments in the coatings industry. Creating an account is quick and easy, and it provides you with numerous advantages:</p>
