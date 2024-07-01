@@ -67,12 +67,12 @@ nav ul {
     height: 100%; /* Ensure the ul takes the full height of the nav */
 }
 
-nav ul li.nav-item {
+nav ul li {
     position: relative; /* For dropdown */
     margin: 0 10px; /* Slightly reduce margin */
 }
 
-nav ul li a.nav-link {
+nav ul li a {
     color: white; /* Ensure text color in navbar is white */
     text-decoration: none;
     padding: 10px 15px; /* Maintain padding for click area */
@@ -83,35 +83,43 @@ nav ul li a.nav-link {
     align-items: center; /* Center text vertically */
 }
 
-nav ul li a.nav-link:hover {
+nav ul li a:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
-nav ul li.nav-item .dropdown {
+nav ul li .dropdown {
     display: none; /* Hide dropdown by default */
     position: absolute;
-    top: 100%; /* Position below the parent li */
+    top: 44px; /* Position below the parent li */
     left: 0;
+    right: 0;
     width: 100vw; /* Full width of the viewport */
     background: linear-gradient(120deg, rgba(0, 0, 0, 0.9), rgba(68, 68, 68, 0.9)); /* Darker transparent background */
     border-radius: 0 0 10px 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 9999;
     text-align: left; /* Align text to the left */
-    box-sizing: border-box; /* Ensure padding doesn't exceed width */
-    display: flex; /* Make dropdown items display in a row */
-    flex-wrap: wrap; /* Allow wrapping of items to the next line */
+    display: grid; /* Use CSS Grid */
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 10px; /* Add some space between items */
+    padding: 10px; /* Add padding */
 }
 
-nav ul li.nav-item:hover .dropdown {
-    display: flex; /* Show dropdown on hover */
+nav ul li:hover .dropdown {
+    display: grid; /* Show dropdown on hover */
 }
 
-nav ul li .dropdown a.nav-link {
+nav ul li .dropdown a {
     padding: 10px 15px; /* Maintain padding for click area */
     display: block; /* Make the link a block element */
     color: #fff; /* White text for dropdown items */
-    white-space: nowrap; /* Prevent text from wrapping */
+    border-radius: 5px; /* Add border radius for dropdown items */
+    background: rgba(0, 0, 0, 0.6); /* Slightly darker background for dropdown items */
+    transition: background 0.3s; /* Smooth background transition */
+}
+
+nav ul li .dropdown a:hover {
+    background: rgba(255, 255, 255, 0.1); /* Change background on hover */
 }
 
 .navbar-logo {
@@ -134,8 +142,6 @@ nav ul li .dropdown a.nav-link {
 .navbar-nav .nav-link, .navbar-brand {
     color: #fff !important; /* White text */
 }
-
-
 
 
 /* Search container styles */
