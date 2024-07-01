@@ -30,36 +30,29 @@ Training Library
         }
     }
 
-    .training-container {
-        padding: 10px;
-        max-width: 100%;
-        margin: 0 auto;
-        color: #333;
-    }
-
     .description-container {
-        margin: 20px; /* Reduced margin to bring closer to edge */
-        background-color: #e8e8e8;
-        padding: 80px;
+        margin: 10px; /* Reduced margin to bring closer to edge */
+        background-color: #333; /* Changed background color to dark */
+        padding: 40px; /* Adjusted padding */
         border-radius: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        color: #333; /* Change text color to white */
+        color: #fff; /* Changed text color to white */
         font-size: 1.2rem;
-        width: calc(100% - 40px); /* Adjust width to make it wider */
+        width: calc(100% - 20px); /* Adjusted width to make it wider */
         box-sizing: border-box;
     }
 
     .description-container h1,
     .description-container h2 {
         margin-top: 0;
-        color: #fff; /* Change text color to white */
+        color: #fff; /* Changed text color to white */
     }
 
     .description-container p,
     .description-container ul {
-        color: #fff; /* Change text color to white */
+        color: #fff; /* Changed text color to white */
     }
 
     .description-container a {
@@ -92,13 +85,9 @@ Training Library
     }
 
     @media (max-width: 768px) {
-        .content-container {
-            padding: 20px;
-        }
-
         .description-container {
             flex-direction: column;
-            width: calc(100% - 40px); /* Ensure responsiveness */
+            width: calc(100% - 20px); /* Ensure responsiveness */
         }
 
         .video-section iframe {
@@ -108,32 +97,31 @@ Training Library
     }
 </style>
 
-<main class="training-container">
-        <div class="description-container">
-            <h1>Training Library</h1>
-            <h2>How to Use Avant UV Coatings Products</h2>
-            <p>Welcome to the Avant UV Coatings training library. Below, you will find detailed guides and tutorials on how to effectively use our products.</p>
-            <p>In this tutorial, we will cover:</p>
-            <ul>
-                <li>Application Techniques</li>
-                <li>Product Benefits</li>
-                <li>Maintenance and Care</li>
-                <li>Common Troubleshooting Tips</li>
-            </ul>
-            <p>For more detailed information, please refer to our video tutorials below.</p>
+<main>
+    <div class="description-container fade-in">
+        <h1>Training Library</h1>
+        <h2>How to Use Avant UV Coatings Products</h2>
+        <p>Welcome to the Avant UV Coatings training library. Below, you will find detailed guides and tutorials on how to effectively use our products.</p>
+        <p>In this tutorial, we will cover:</p>
+        <ul>
+            <li>Application Techniques</li>
+            <li>Product Benefits</li>
+            <li>Maintenance and Care</li>
+            <li>Common Troubleshooting Tips</li>
+        </ul>
+        <p>For more detailed information, please refer to our video tutorials below.</p>
 
-            <h2>Safety and Precautions</h2>
-            <div class="safety-content">
-                <div class="safety-description">
-                    <p><a href="#" target="_blank">Technical Data Sheet (TDS)</a></p>
-                    <p><a href="#" target="_blank">Safety Data Sheet (SDS)</a></p>
-                    <p>Safety glasses are a crucial part of being safe while using the LED UV lights from our store. They are required while using the lights for optimal eye protection.</p>
-                    <p>For more information or if you have any questions, feel free to <a href="/contact">contact us</a>.</p>
-                </div>
-                <img src="{% static 'images/kit/41Q6bg7U95L.jpg' %}" alt="Safety Glasses" class="safety-image">
+        <h2>Safety and Precautions</h2>
+        <div class="safety-content">
+            <div class="safety-description">
+                <p><a href="#" target="_blank">Technical Data Sheet (TDS)</a></p>
+                <p><a href="#" target="_blank">Safety Data Sheet (SDS)</a></p>
+                <p>Safety glasses are a crucial part of being safe while using the LED UV lights from our store. They are required while using the lights for optimal eye protection.</p>
+                <p>For more information or if you have any questions, feel free to <a href="/contact">contact us</a>.</p>
             </div>
+            <img src="{% static 'images/kit/41Q6bg7U95L.jpg' %}" alt="Safety Glasses" class="safety-image">
         </div>
-
+    </div>
 
     <div class="video-section">
         <iframe src="https://www.youtube.com/embed/ZMxKpCjWR5U" allowfullscreen></iframe>
