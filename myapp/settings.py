@@ -155,24 +155,36 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'debug.log'),
+            'formatter': 'verbose',
+        },
+        'rotating_file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'app_rotating.log'),
+            'maxBytes': 1024*1024,
+            'backupCount': 3,
+            'formatter': 'verbose',
+        },
     },
     'root': {
-        'handlers': ['console'],
+        'handlers': ['console', 'file', 'rotating_file'],
         'level': 'DEBUG',
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file', 'rotating_file'],
             'level': 'DEBUG',
             'propagate': False,
         },
         'cart': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file', 'rotating_file'],
             'level': 'DEBUG',
             'propagate': False,
         },
         'paypalrestsdk': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file', 'rotating_file'],
             'level': 'DEBUG',
             'propagate': False,
         },
