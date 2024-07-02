@@ -483,3 +483,4 @@ def test_invoice_creation(request):
     except Exception as e:
         logger.exception("Exception occurred while testing invoice creation.")
         return HttpResponse("An error occurred during invoice creation.")
+
