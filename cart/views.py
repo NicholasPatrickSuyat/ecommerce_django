@@ -7,7 +7,7 @@ from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 from decimal import Decimal
 from .models import Cart, DeliveryAddress
-from products.models import Products, ProductSize
+from products.models import Products, ProductSize, Sheen
 from user.models import Order, OrderItem
 from .forms import GuestCheckoutForm, CheckoutForm, DeliveryAddressForm, OrderStatusForm
 from .paypal_utils import create_invoice
@@ -73,10 +73,12 @@ def cart_view(request):
         cart_items_queryset = Cart.objects.filter(user=request.user)
         for item in cart_items_queryset:
             size = get_object_or_404(ProductSize, id=item.size_id)
+            sheen = get_object_or_404(Sheen, id=item.sheen_id)
             total_price += size.price * item.quantity
             cart_items.append({
                 'product': item.product,
                 'size': size,
+                'sheen': sheen,
                 'quantity': item.quantity,
                 'total_price': size.price * item.quantity,
             })
@@ -85,10 +87,12 @@ def cart_view(request):
         for product_id, details in cart.items():
             product = get_object_or_404(Products, id=product_id)
             size = get_object_or_404(ProductSize, id=details['size_id'])
+            sheen = get_object_or_404(Sheen, id=details['sheen_id'])
             total_price += size.price * details['quantity']
             cart_items.append({
                 'product': product,
                 'size': size,
+                'sheen': sheen,
                 'quantity': details['quantity'],
                 'total_price': size.price * details['quantity'],
             })
@@ -98,19 +102,22 @@ def cart_view(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
+    sheen_id = request.POST.get('sheen')  # Get the sheen ID from the request
     size = get_object_or_404(ProductSize, id=size_id)
+    sheen = get_object_or_404(Sheen, id=sheen_id)
     if request.user.is_authenticated:
-        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size_id=size_id)
+        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size_id=size_id, sheen_id=sheen_id)
         if not created:
             cart_item.quantity += 1
             cart_item.save()
     else:
         cart = request.session.get('cart', {})
         if str(product_id) not in cart:
-            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id}
+            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id, 'sheen_id': sheen_id}
         cart[str(product_id)]['quantity'] += 1
         request.session['cart'] = cart
     return redirect('cart:cart')
+
 
 def remove_from_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
