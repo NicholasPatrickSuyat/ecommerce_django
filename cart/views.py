@@ -64,6 +64,8 @@ def create_invoice_view(request, order, email):
     invoice_id = create_invoice(order, email)
     return invoice_id
 
+from django.shortcuts import render
+
 def cart_view(request):
     cart_items = []
     total_price = 0
@@ -71,31 +73,30 @@ def cart_view(request):
     if request.user.is_authenticated:
         cart_items_queryset = Cart.objects.filter(user=request.user)
         for item in cart_items_queryset:
-            size = get_object_or_404(ProductSize, id=item.size_id)
-            total_price += size.price * item.quantity
             cart_items.append({
                 'product': item.product,
-                'size': size,
-                'quantity': item.quantity,
+                'size': item.size,
                 'sheen': item.sheen,
-                'total_price': size.price * item.quantity,
+                'quantity': item.quantity,
+                'total_price': item.size.price * item.quantity,
             })
     else:
         cart = request.session.get('cart', {})
-        for product_id, details in cart.items():
-            product = get_object_or_404(Products, id=product_id)
-            size = get_object_or_404(ProductSize, id=details['size_id'])
-            total_price += size.price * details['quantity']
-            sheen = get_object_or_404(Sheen, id=details['sheen_id']) if details.get('sheen_id') else None
+        for key, value in cart.items():
+            product = get_object_or_404(Products, id=value['product_id'])
+            size = get_object_or_404(ProductSize, id=value['size_id'])
+            sheen = get_object_or_404(Sheen, id=value['sheen_id']) if value['sheen_id'] else None
             cart_items.append({
                 'product': product,
                 'size': size,
-                'quantity': details['quantity'],
                 'sheen': sheen,
-                'total_price': size.price * details['quantity'],
+                'quantity': value['quantity'],
+                'total_price': size.price * value['quantity'],
             })
+            total_price += size.price * value['quantity']
 
     return render(request, 'cart/cart.html', {'cart_items': cart_items, 'total_price': total_price})
+
 
 def add_to_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
@@ -120,11 +121,7 @@ def add_to_cart(request, product_id):
 
         request.session['cart'] = cart
 
-    return redirect('cart:cart')
-
-
-
-
+    return redirect('cart')  # Use the URL name 'cart' instead of 'cart:cart'
 
 
 
