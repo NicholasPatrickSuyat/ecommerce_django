@@ -6,7 +6,7 @@
 <style>
     .cart-container {
         padding: 2rem;
-        max-width: 1200px; /* Adjust this value as needed */
+        max-width: 1200px;
         margin: 0 auto;
     }
     h2 {
@@ -27,6 +27,13 @@
     }
     .btn-sm {
         margin-top: 0.5rem;
+    }
+    .empty-cart-message {
+        text-align: center;
+        padding: 2rem;
+        border: 1px solid #333;
+        border-radius: 10px;
+        background-color: #222;
     }
     @media (max-width: 768px) {
         .table thead {
@@ -58,21 +65,21 @@
 
 <div class="cart-container mt-5">
     <h2 class="text-white">Shopping Cart</h2>
-    <table class="table table-dark table-striped">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Product</th>
-                <th>Size</th>
-                <th>Sheen</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if cart_items %}
+    {% if cart_items %}
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Size</th>
+                    <th>Sheen</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
                 {% for item in cart_items %}
                 <tr>
                     <td data-label="Image">
@@ -106,16 +113,14 @@
                     </td>
                 </tr>
                 {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="8" class="text-center">Your cart is empty.</td>
-                </tr>
-            {% endif %}
-        </tbody>
-    </table>
-    {% if cart_items %}
-    <p class="text-white">Total: ${{ total_price }}</p>
-    <a href="{% url 'cart:checkout' %}" class="btn btn-success">Checkout</a>
+            </tbody>
+        </table>
+        <p class="text-white">Total: ${{ total_price }}</p>
+        <a href="{% url 'cart:checkout' %}" class="btn btn-success">Checkout</a>
+    {% else %}
+        <div class="empty-cart-message text-white">
+            Your cart is empty.
+        </div>
     {% endif %}
 </div>
 {% endblock %}
