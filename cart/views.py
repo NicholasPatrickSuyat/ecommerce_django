@@ -237,9 +237,11 @@ def guest_checkout_view(request):
             user = CustomUser.objects.create_user(username=guest_username, email=email)
             shipping_address.user = user
             shipping_address.save()
+            logger.debug(f"Guest user created: {user.username}")
 
             cart = request.session.get('cart', {})
             if not cart:
+                logger.warning("Cart is empty for guest user during checkout")
                 return redirect('cart:cart')
 
             cart_items = []
@@ -256,6 +258,7 @@ def guest_checkout_view(request):
 
             # Create order without the paypal_invoice_id initially
             order = create_order(user, shipping_address, cart_items)
+            logger.debug(f"Order created for guest user: {order.id}")
 
             # Generate the invoice and update the order with the paypal_invoice_id
             invoice_id = create_invoice_view(request, order, email)
@@ -267,10 +270,11 @@ def guest_checkout_view(request):
             request.session['cart'] = {}
             request.session['order_id'] = str(order.id)
             request.session['total_price'] = str(order.total_cost())
-            
+
             # Send order confirmation email
             send_order_confirmation_email(order)
-            
+            logger.debug(f"Order confirmation email sent for guest user order: {order.id}")
+
             return redirect('cart:payment_done')
     else:
         form = GuestCheckoutForm()
@@ -284,6 +288,7 @@ def guest_checkout_view(request):
         'total_price': total_price,
         'PAYPAL_CLIENT_ID': settings.PAYPAL_CLIENT_ID
     })
+
 
 def send_order_confirmation_email(order):
     subject = 'Order Confirmation'
@@ -383,6 +388,7 @@ def payment_done(request):
     except Exception as e:
         logger.exception("Exception in payment_done")
         return redirect('cart:payment_error')
+
 
 def payment_cancelled(request):
     return render(request, 'cart/payment_cancel.html', {'error': 'Payment was cancelled'})
