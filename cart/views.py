@@ -113,13 +113,18 @@ def add_to_cart(request, product_id):
         cart = request.session.get('cart', {})
         cart_key = f"{product_id}_{size_id}_{sheen_id or 'none'}"  # Create a unique key for each combination
 
-        if cart_key not in cart:
-            cart[cart_key] = {'quantity': 0, 'product_id': product_id, 'size_id': size_id, 'sheen_id': sheen_id}
-        cart[cart_key]['quantity'] += 1
+        if cart_key in cart:
+            cart[cart_key]['quantity'] += 1
+        else:
+            cart[cart_key] = {'quantity': 1, 'product_id': product_id, 'size_id': size_id, 'sheen_id': sheen_id}
 
         request.session['cart'] = cart
 
     return redirect('cart:cart')
+
+
+
+
 
 
 
