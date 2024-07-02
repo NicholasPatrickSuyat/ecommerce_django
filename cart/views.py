@@ -306,7 +306,7 @@ def send_order_confirmation_email(order):
 def payment_done(request):
     try:
         if request.method == "POST":
-            logger.debug("Received POST request for payment_done")
+            print("Received POST request for payment_done")
             form = CheckoutForm(request.POST)
             address_form = DeliveryAddressForm(request.POST)
 
@@ -315,7 +315,7 @@ def payment_done(request):
                 guest_email = form.cleaned_data.get('email') if not user else None
 
                 shipping_address = address_form.save()
-                logger.debug(f"Shipping address saved: {shipping_address}")
+                print(f"Shipping address saved: {shipping_address}")
 
                 # Create order
                 order = Order.objects.create(
@@ -324,7 +324,7 @@ def payment_done(request):
                     shipping_address=str(shipping_address),
                     status='PENDING'
                 )
-                logger.debug(f"Order created: {order.id}")
+                print(f"Order created: {order.id}")
 
                 # Move items from cart to order
                 cart_items = []
@@ -339,10 +339,11 @@ def payment_done(request):
                         })
                 else:
                     cart = request.session.get('cart', {})
-                    for product_id, details in cart.items():
+                    for key, details in cart.items():
+                        product_id, size_id, sheen_id = key.split('_')
                         product = get_object_or_404(Products, id=product_id)
-                        size = get_object_or_404(ProductSize, id=details['size_id'])
-                        sheen = get_object_or_404(Sheen, id=details['sheen_id']) if details.get('sheen_id') else None
+                        size = get_object_or_404(ProductSize, id=size_id)
+                        sheen = get_object_or_404(Sheen, id=sheen_id) if sheen_id != 'none' else None
                         cart_items.append({
                             'product': product,
                             'size': size,
@@ -361,12 +362,12 @@ def payment_done(request):
                     )
                     total_cost += item['size'].price * item['quantity']
                 
-                logger.debug(f"Total cost calculated: {total_cost}")
+                print(f"Total cost calculated: {total_cost}")
 
                 # Update total cost and save the order
                 order.total_cost = total_cost
                 order.save()
-                logger.debug(f"Order total cost updated: {order.total_cost}")
+                print(f"Order total cost updated: {order.total_cost}")
 
                 # Clear cart
                 if user:
@@ -376,18 +377,19 @@ def payment_done(request):
 
                 # Send order confirmation email
                 send_order_confirmation_email(order)
-                logger.debug(f"Order confirmation email sent for order: {order.id}")
+                print(f"Order confirmation email sent for order: {order.id}")
 
                 return render(request, 'cart/payment_success.html', {'order': order})
             else:
-                logger.warning("Form validation failed in payment_done")
+                print("Form validation failed in payment_done")
                 return redirect('cart:checkout')
         else:
-            logger.warning("Invalid request method for payment_done")
+            print("Invalid request method for payment_done")
             return redirect('cart:checkout')
     except Exception as e:
-        logger.exception("Exception in payment_done")
+        print(f"Exception in payment_done: {e}")
         return redirect('cart:payment_error')
+
 
 
 def payment_cancelled(request):
