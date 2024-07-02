@@ -126,20 +126,25 @@ def add_to_cart(request, product_id):
 
 
 def remove_from_cart(request, product_id):
-    product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
+    sheen_id = request.POST.get('sheen')
+
     if not size_id:
         return redirect('cart:cart')
 
     if request.user.is_authenticated:
-        cart_item = get_object_or_404(Cart, user=request.user, product=product, size_id=size_id)
+        cart_item = get_object_or_404(Cart, user=request.user, product_id=product_id, size_id=size_id, sheen_id=sheen_id)
         cart_item.delete()
     else:
         cart = request.session.get('cart', {})
-        if str(product_id) in cart and cart[str(product_id)]['size_id'] == size_id:
-            del cart[str(product_id)]
+        cart_key = f"{product_id}_{size_id}_{sheen_id or 'none'}"
+        
+        if cart_key in cart:
+            del cart[cart_key]
             request.session['cart'] = cart
+
     return redirect('cart:cart')
+
 
 def update_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
