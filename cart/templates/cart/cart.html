@@ -87,5 +87,33 @@
                         <form method="post" action="{% url 'cart:update_cart' item.product.id %}">
                             {% csrf_token %}
                             <input type="hidden" name="size" value="{{ item.size.id }}">
+                            <input type="hidden" name="sheen" value="{{ item.sheen.id }}">
                             <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control">
-                            <button type="submit" class="btn btn-primary btn-sm"
+                            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                        </form>
+                    </td>
+                    <td data-label="Price">${{ item.size.price }}</td>
+                    <td data-label="Total">${{ item.size.price|multiply:item.quantity }}</td>
+                    <td data-label="Actions">
+                        <form method="post" action="{% url 'cart:remove_from_cart' item.product.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="size" value="{{ item.size.id }}">
+                            <input type="hidden" name="sheen" value="{{ item.sheen.id }}">
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="8" class="text-center">Your cart is empty.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    {% if cart_items %}
+    <p class="text-white">Total: ${{ total_price }}</p>
+    <a href="{% url 'cart:checkout' %}" class="btn btn-success">Checkout</a>
+    {% endif %}
+</div>
+{% endblock %}
