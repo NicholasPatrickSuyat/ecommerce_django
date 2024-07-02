@@ -101,14 +101,16 @@ def cart_view(request):
     return render(request, 'cart/cart.html', {'cart_items': cart_items, 'total_price': total_price})
 
 
+
 def add_to_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
-    sheen_id = request.POST.get('sheen')
+    sheen_id = request.POST.get('sheen')  # Get the sheen ID from the request
     size = get_object_or_404(ProductSize, id=size_id)
-    sheen = get_object_or_404(Sheen, id=sheen_id)
+    
     if request.user.is_authenticated:
-        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size_id=size_id, sheen_id=sheen_id)
+        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size_id=size_id)
+        cart_item.sheen_id = sheen_id
         if not created:
             cart_item.quantity += 1
             cart_item.save()
@@ -117,7 +119,9 @@ def add_to_cart(request, product_id):
         if str(product_id) not in cart:
             cart[str(product_id)] = {'quantity': 0, 'size_id': size_id, 'sheen_id': sheen_id}
         cart[str(product_id)]['quantity'] += 1
+        cart[str(product_id)]['sheen_id'] = sheen_id
         request.session['cart'] = cart
+
     return redirect('cart:cart')
 
 
@@ -206,6 +210,7 @@ def logged_in_checkout_view(request):
     })
 
 
+
 def guest_checkout_view(request):
     if request.method == 'POST':
         form = GuestCheckoutForm(request.POST)
@@ -227,9 +232,11 @@ def guest_checkout_view(request):
             for product_id, details in cart.items():
                 product = get_object_or_404(Products, id=product_id)
                 size = get_object_or_404(ProductSize, id=details['size_id'])
+                sheen = get_object_or_404(Sheen, id=details['sheen_id'])
                 cart_items.append({
                     'product': product,
                     'size': size,
+                    'sheen': sheen,
                     'quantity': details['quantity']
                 })
 
