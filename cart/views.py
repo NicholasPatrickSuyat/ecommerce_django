@@ -7,7 +7,7 @@ from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 from decimal import Decimal
 from .models import Cart, DeliveryAddress
-from products.models import Products, ProductSize, Sheen
+from products.models import Products, ProductSize
 from user.models import Order, OrderItem
 from .forms import GuestCheckoutForm, CheckoutForm, DeliveryAddressForm, OrderStatusForm
 from .paypal_utils import create_invoice
@@ -40,7 +40,7 @@ def create_order(user, shipping_address, cart_items):
             order=order,
             product=item['product'],
             size=item['size'],
-            sheen=item['sheen'],
+            sheen=item.get('sheen'),
             quantity=item['quantity']
         )
         total_cost += item['size'].price * item['quantity']
@@ -61,7 +61,6 @@ def create_order(user, shipping_address, cart_items):
     return order
 
 
-
 def create_invoice_view(request, order, email):
     invoice_id = create_invoice(order, email)
     return invoice_id
@@ -74,12 +73,10 @@ def cart_view(request):
         cart_items_queryset = Cart.objects.filter(user=request.user)
         for item in cart_items_queryset:
             size = get_object_or_404(ProductSize, id=item.size_id)
-            sheen = get_object_or_404(Sheen, id=item.sheen_id)
             total_price += size.price * item.quantity
             cart_items.append({
                 'product': item.product,
                 'size': size,
-                'sheen': sheen,
                 'quantity': item.quantity,
                 'total_price': size.price * item.quantity,
             })
@@ -88,43 +85,32 @@ def cart_view(request):
         for product_id, details in cart.items():
             product = get_object_or_404(Products, id=product_id)
             size = get_object_or_404(ProductSize, id=details['size_id'])
-            sheen = get_object_or_404(Sheen, id=details['sheen_id'])
             total_price += size.price * details['quantity']
             cart_items.append({
                 'product': product,
                 'size': size,
-                'sheen': sheen,
                 'quantity': details['quantity'],
                 'total_price': size.price * details['quantity'],
             })
 
     return render(request, 'cart/cart.html', {'cart_items': cart_items, 'total_price': total_price})
 
-
-
 def add_to_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
-    sheen_id = request.POST.get('sheen')  # Get the sheen ID from the request
     size = get_object_or_404(ProductSize, id=size_id)
-    
     if request.user.is_authenticated:
         cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size_id=size_id)
-        cart_item.sheen_id = sheen_id
         if not created:
             cart_item.quantity += 1
             cart_item.save()
     else:
         cart = request.session.get('cart', {})
         if str(product_id) not in cart:
-            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id, 'sheen_id': sheen_id}
+            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id}
         cart[str(product_id)]['quantity'] += 1
-        cart[str(product_id)]['sheen_id'] = sheen_id
         request.session['cart'] = cart
-
     return redirect('cart:cart')
-
-
 
 def remove_from_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
@@ -210,7 +196,6 @@ def logged_in_checkout_view(request):
     })
 
 
-
 def guest_checkout_view(request):
     if request.method == 'POST':
         form = GuestCheckoutForm(request.POST)
@@ -232,11 +217,9 @@ def guest_checkout_view(request):
             for product_id, details in cart.items():
                 product = get_object_or_404(Products, id=product_id)
                 size = get_object_or_404(ProductSize, id=details['size_id'])
-                sheen = get_object_or_404(Sheen, id=details['sheen_id'])
                 cart_items.append({
                     'product': product,
                     'size': size,
-                    'sheen': sheen,
                     'quantity': details['quantity']
                 })
 
@@ -272,11 +255,11 @@ def send_order_confirmation_email(order):
     html_message = render_to_string('emails/order_confirmation.html', {
         'order': order,
         'order_items': order.items.all(),
-        'total_cost': order.total_cost()
+        'total_cost': order.total_cost
     })
     plain_message = strip_tags(html_message)
     from_email = settings.DEFAULT_FROM_EMAIL
-    recipient_list = [order.user.email if order.user else order.guest_email]
+    recipient_list = [order.user.email if order.user else order.guest_email, from_email]
 
     send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
 
@@ -490,4 +473,3 @@ def test_invoice_creation(request):
     except Exception as e:
         logger.exception("Exception occurred while testing invoice creation.")
         return HttpResponse("An error occurred during invoice creation.")
-
