@@ -40,7 +40,7 @@ def create_order(user, shipping_address, cart_items):
             order=order,
             product=item['product'],
             size=item['size'],
-            sheen=item.get('sheen'),
+            sheen=item['sheen'],
             quantity=item['quantity']
         )
         total_cost += item['size'].price * item['quantity']
@@ -59,6 +59,7 @@ def create_order(user, shipping_address, cart_items):
         logger.warning(f"Failed to create PayPal invoice for order {order.id}")
     
     return order
+
 
 
 def create_invoice_view(request, order, email):
@@ -99,10 +100,11 @@ def cart_view(request):
 
     return render(request, 'cart/cart.html', {'cart_items': cart_items, 'total_price': total_price})
 
+
 def add_to_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
-    sheen_id = request.POST.get('sheen')  # Get the sheen ID from the request
+    sheen_id = request.POST.get('sheen')
     size = get_object_or_404(ProductSize, id=size_id)
     sheen = get_object_or_404(Sheen, id=sheen_id)
     if request.user.is_authenticated:
@@ -117,6 +119,7 @@ def add_to_cart(request, product_id):
         cart[str(product_id)]['quantity'] += 1
         request.session['cart'] = cart
     return redirect('cart:cart')
+
 
 
 def remove_from_cart(request, product_id):
@@ -262,11 +265,11 @@ def send_order_confirmation_email(order):
     html_message = render_to_string('emails/order_confirmation.html', {
         'order': order,
         'order_items': order.items.all(),
-        'total_cost': order.total_cost
+        'total_cost': order.total_cost()
     })
     plain_message = strip_tags(html_message)
     from_email = settings.DEFAULT_FROM_EMAIL
-    recipient_list = [order.user.email if order.user else order.guest_email, from_email]
+    recipient_list = [order.user.email if order.user else order.guest_email]
 
     send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
 
