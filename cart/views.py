@@ -7,7 +7,7 @@ from django.utils.crypto import get_random_string
 from django.contrib.auth import get_user_model
 from decimal import Decimal
 from .models import Cart, DeliveryAddress
-from products.models import Products, ProductSize
+from products.models import Products, ProductSize, Sheen
 from user.models import Order, OrderItem
 from .forms import GuestCheckoutForm, CheckoutForm, DeliveryAddressForm, OrderStatusForm
 from .paypal_utils import create_invoice
@@ -86,11 +86,12 @@ def cart_view(request):
             product = get_object_or_404(Products, id=product_id)
             size = get_object_or_404(ProductSize, id=details['size_id'])
             total_price += size.price * details['quantity']
+            sheen = get_object_or_404(Sheen, id=details['sheen_id']) if details.get('sheen_id') else None
             cart_items.append({
                 'product': product,
                 'size': size,
                 'quantity': details['quantity'],
-                'sheen': details.get('sheen'),
+                'sheen': sheen,
                 'total_price': size.price * details['quantity'],
             })
 
@@ -99,17 +100,18 @@ def cart_view(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
-    sheen = request.POST.get('sheen')
+    sheen_id = request.POST.get('sheen')
     size = get_object_or_404(ProductSize, id=size_id)
+    sheen = get_object_or_404(Sheen, id=sheen_id) if sheen_id else None
     if request.user.is_authenticated:
-        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size_id=size_id, defaults={'sheen': sheen})
+        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size=size, sheen=sheen)
         if not created:
             cart_item.quantity += 1
             cart_item.save()
     else:
         cart = request.session.get('cart', {})
         if str(product_id) not in cart:
-            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id, 'sheen': sheen}
+            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id, 'sheen_id': sheen_id}
         cart[str(product_id)]['quantity'] += 1
         request.session['cart'] = cart
     return redirect('cart:cart')
@@ -134,7 +136,8 @@ def update_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
     quantity = int(request.POST.get('quantity'))
-    sheen = request.POST.get('sheen')
+    sheen_id = request.POST.get('sheen')
+    sheen = get_object_or_404(Sheen, id=sheen_id) if sheen_id else None
     if not size_id:
         return redirect('cart:cart')
 
@@ -147,7 +150,7 @@ def update_cart(request, product_id):
         cart = request.session.get('cart', {})
         if str(product_id) in cart and cart[str(product_id)]['size_id'] == size_id:
             cart[str(product_id)]['quantity'] = quantity
-            cart[str(product_id)]['sheen'] = sheen
+            cart[str(product_id)]['sheen_id'] = sheen_id
             request.session['cart'] = cart
     return redirect('cart:cart')
 
@@ -168,9 +171,18 @@ def logged_in_checkout_view(request):
             shipping_address.user = request.user
             shipping_address.save()
 
-            cart_items = Cart.objects.filter(user=request.user)
-            if not cart_items.exists():
+            cart_items_queryset = Cart.objects.filter(user=request.user)
+            if not cart_items_queryset.exists():
                 return redirect('cart:cart')
+
+            cart_items = []
+            for item in cart_items_queryset:
+                cart_items.append({
+                    'product': item.product,
+                    'size': item.size,
+                    'quantity': item.quantity,
+                    'sheen': item.sheen
+                })
 
             # Create order without the paypal_invoice_id initially
             order = create_order(request.user, shipping_address, cart_items)
@@ -182,7 +194,7 @@ def logged_in_checkout_view(request):
                 order.save()
 
             # Clear the cart
-            cart_items.delete()
+            cart_items_queryset.delete()
             request.session['order_id'] = str(order.id)
             request.session['total_price'] = str(order.total_cost())
             
@@ -193,8 +205,8 @@ def logged_in_checkout_view(request):
     else:
         form = CheckoutForm()
         address_form = DeliveryAddressForm()
-        cart_items = Cart.objects.filter(user=request.user)
-        total_price = sum(item.size.price * item.quantity for item in cart_items)
+        cart_items_queryset = Cart.objects.filter(user=request.user)
+        total_price = sum(item.size.price * item.quantity for item in cart_items_queryset)
 
     return render(request, 'cart/checkout.html', {
         'form': form,
@@ -225,7 +237,7 @@ def guest_checkout_view(request):
             for product_id, details in cart.items():
                 product = get_object_or_404(Products, id=product_id)
                 size = get_object_or_404(ProductSize, id=details['size_id'])
-                sheen = details.get('sheen')  # Capture sheen from session
+                sheen = get_object_or_404(Sheen, id=details['sheen_id']) if details.get('sheen_id') else None
                 cart_items.append({
                     'product': product,
                     'size': size,
@@ -306,7 +318,7 @@ def payment_done(request):
                     for product_id, details in cart.items():
                         product = get_object_or_404(Products, id=product_id)
                         size = get_object_or_404(ProductSize, id=details['size_id'])
-                        sheen = details.get('sheen')  # Capture sheen from session
+                        sheen = get_object_or_404(Sheen, id=details['sheen_id']) if details.get('sheen_id') else None
                         cart_items.append({
                             'product': product,
                             'size': size,
