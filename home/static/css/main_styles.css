@@ -304,17 +304,27 @@ footer {
 .company-name {
     font-size: 4rem; /* Make the company name larger */
     font-weight: bold;
-    color: rgb(255, 255, 255); /* Change text color to black */
+    color: rgb(255, 255, 255); /* Change text color to white */
     font-family: 'San Francisco'; /* San Francisco font */
     margin-top: -20px; /* Adjust the margin for better spacing */
 }
 
+.company-name-link {
+    color: rgb(255, 255, 255); /* Initial link color */
+    text-decoration: none; /* Remove underline */
+}
+
+.company-name-link:hover {
+    color: rgb(255, 255, 255); /* Keep the link color the same on hover */
+}
+
 .tagline {
     font-size: 2.5rem; /* Make the tagline larger */
-    color: rgb(255, 255, 255); /* Change text color to black */
+    color: rgb(255, 255, 255); /* Change text color to white */
     font-family: 'San Francisco'; /* San Francisco font */
     margin-top: -10px; /* Adjust the margin for better spacing */
 }
+
 
 .learn-more-btn {
     padding: 10px 30px;
