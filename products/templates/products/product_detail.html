@@ -27,6 +27,7 @@
                                 </div>
                                 <p id="size-error" class="text-danger" style="display: none;">Select a size</p>
                             </div>
+                            {% if product.sheens.all %}
                             <div class="form-group">
                                 <label for="sheen" class="form-label">Sheen:</label>
                                 <div class="sheen-selector">
@@ -36,6 +37,7 @@
                                     {% endfor %}
                                 </div>
                             </div>
+                            {% endif %}
                             <div class="form-group">
                                 <label for="quantity" class="form-label">Quantity:</label>
                                 <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control quantity-input">
