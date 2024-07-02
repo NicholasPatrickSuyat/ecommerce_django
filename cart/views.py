@@ -60,7 +60,6 @@ def create_order(user, shipping_address, cart_items):
     
     return order
 
-
 def create_invoice_view(request, order, email):
     invoice_id = create_invoice(order, email)
     return invoice_id
@@ -78,6 +77,7 @@ def cart_view(request):
                 'product': item.product,
                 'size': size,
                 'quantity': item.quantity,
+                'sheen': item.sheen,
                 'total_price': size.price * item.quantity,
             })
     else:
@@ -90,6 +90,7 @@ def cart_view(request):
                 'product': product,
                 'size': size,
                 'quantity': details['quantity'],
+                'sheen': details.get('sheen'),
                 'total_price': size.price * details['quantity'],
             })
 
@@ -98,16 +99,17 @@ def cart_view(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
+    sheen = request.POST.get('sheen')
     size = get_object_or_404(ProductSize, id=size_id)
     if request.user.is_authenticated:
-        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size_id=size_id)
+        cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size_id=size_id, defaults={'sheen': sheen})
         if not created:
             cart_item.quantity += 1
             cart_item.save()
     else:
         cart = request.session.get('cart', {})
         if str(product_id) not in cart:
-            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id}
+            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id, 'sheen': sheen}
         cart[str(product_id)]['quantity'] += 1
         request.session['cart'] = cart
     return redirect('cart:cart')
@@ -132,17 +134,20 @@ def update_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     size_id = request.POST.get('size')
     quantity = int(request.POST.get('quantity'))
+    sheen = request.POST.get('sheen')
     if not size_id:
         return redirect('cart:cart')
 
     if request.user.is_authenticated:
         cart_item = get_object_or_404(Cart, user=request.user, product=product, size_id=size_id)
         cart_item.quantity = quantity
+        cart_item.sheen = sheen
         cart_item.save()
     else:
         cart = request.session.get('cart', {})
         if str(product_id) in cart and cart[str(product_id)]['size_id'] == size_id:
             cart[str(product_id)]['quantity'] = quantity
+            cart[str(product_id)]['sheen'] = sheen
             request.session['cart'] = cart
     return redirect('cart:cart')
 
@@ -180,6 +185,10 @@ def logged_in_checkout_view(request):
             cart_items.delete()
             request.session['order_id'] = str(order.id)
             request.session['total_price'] = str(order.total_cost())
+            
+            # Send order confirmation email
+            send_order_confirmation_email(order)
+            
             return redirect('cart:payment_done')
     else:
         form = CheckoutForm()
@@ -194,7 +203,6 @@ def logged_in_checkout_view(request):
         'PAYPAL_CLIENT_ID': settings.PAYPAL_CLIENT_ID,
         'user': request.user
     })
-
 
 def guest_checkout_view(request):
     if request.method == 'POST':
@@ -217,10 +225,12 @@ def guest_checkout_view(request):
             for product_id, details in cart.items():
                 product = get_object_or_404(Products, id=product_id)
                 size = get_object_or_404(ProductSize, id=details['size_id'])
+                sheen = details.get('sheen')  # Capture sheen from session
                 cart_items.append({
                     'product': product,
                     'size': size,
-                    'quantity': details['quantity']
+                    'quantity': details['quantity'],
+                    'sheen': sheen
                 })
 
             # Create order without the paypal_invoice_id initially
@@ -236,6 +246,10 @@ def guest_checkout_view(request):
             request.session['cart'] = {}
             request.session['order_id'] = str(order.id)
             request.session['total_price'] = str(order.total_cost())
+            
+            # Send order confirmation email
+            send_order_confirmation_email(order)
+            
             return redirect('cart:payment_done')
     else:
         form = GuestCheckoutForm()
@@ -262,7 +276,6 @@ def send_order_confirmation_email(order):
     recipient_list = [order.user.email if order.user else order.guest_email, from_email]
 
     send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
-
 
 def payment_done(request):
     try:
@@ -293,17 +306,24 @@ def payment_done(request):
                     for product_id, details in cart.items():
                         product = get_object_or_404(Products, id=product_id)
                         size = get_object_or_404(ProductSize, id=details['size_id'])
-                        cart_items.append(Cart(product=product, size=size, quantity=details['quantity']))
+                        sheen = details.get('sheen')  # Capture sheen from session
+                        cart_items.append({
+                            'product': product,
+                            'size': size,
+                            'quantity': details['quantity'],
+                            'sheen': sheen
+                        })
 
                 total_cost = 0
                 for item in cart_items:
                     OrderItem.objects.create(
                         order=order,
-                        product=item.product,
-                        size=item.size,
-                        quantity=item.quantity
+                        product=item['product'],
+                        size=item['size'],
+                        quantity=item['quantity'],
+                        sheen=item.get('sheen')
                     )
-                    total_cost += item.size.price * item.quantity
+                    total_cost += item['size'].price * item['quantity']
                 
                 # Update total cost and save the order
                 order.total_cost = total_cost
@@ -444,13 +464,11 @@ def paypal_webhook(request):
         logger.warning("Invalid request method")
         return JsonResponse({'status': 'invalid request'}, status=400)
 
-
 def test_logging_view(request):
     logger = logging.getLogger(__name__)
     logger.debug("Test logging debug message")
     logger.info("Test logging info message")
     return HttpResponse("Logging test complete. Check your logs.")
-
 
 def test_invoice_creation(request):
     try:
