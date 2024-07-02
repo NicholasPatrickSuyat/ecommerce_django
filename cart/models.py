@@ -1,6 +1,8 @@
+# cart/models.py
+
 from django.db import models
 from django.conf import settings
-from products.models import Products, ProductSize
+from products.models import Products, ProductSize, Sheen
 from user.models import Order
 
 class DeliveryAddress(models.Model):
@@ -34,6 +36,7 @@ class Cart(models.Model):
     guest_email = models.EmailField(null=True, blank=True)
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
+    sheen = models.ForeignKey(Sheen, on_delete=models.CASCADE, null=True, blank=True)  # Added this line
     quantity = models.PositiveIntegerField(default=1)
     added_at = models.DateTimeField(auto_now_add=True)
 
