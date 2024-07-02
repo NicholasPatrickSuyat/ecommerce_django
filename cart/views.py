@@ -103,6 +103,7 @@ def add_to_cart(request, product_id):
     sheen_id = request.POST.get('sheen')
     size = get_object_or_404(ProductSize, id=size_id)
     sheen = get_object_or_404(Sheen, id=sheen_id) if sheen_id else None
+
     if request.user.is_authenticated:
         cart_item, created = Cart.objects.get_or_create(user=request.user, product=product, size=size, sheen=sheen)
         if not created:
@@ -110,11 +111,16 @@ def add_to_cart(request, product_id):
             cart_item.save()
     else:
         cart = request.session.get('cart', {})
-        if str(product_id) not in cart:
-            cart[str(product_id)] = {'quantity': 0, 'size_id': size_id, 'sheen_id': sheen_id}
-        cart[str(product_id)]['quantity'] += 1
+        cart_key = f"{product_id}_{size_id}_{sheen_id}"  # Create a unique key for each combination
+
+        if cart_key not in cart:
+            cart[cart_key] = {'quantity': 0, 'product_id': product_id, 'size_id': size_id, 'sheen_id': sheen_id}
+        cart[cart_key]['quantity'] += 1
+
         request.session['cart'] = cart
+
     return redirect('cart:cart')
+
 
 def remove_from_cart(request, product_id):
     product = get_object_or_404(Products, id=product_id)
