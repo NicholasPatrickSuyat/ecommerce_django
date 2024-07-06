@@ -114,11 +114,11 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
 SELLER_EMAIL = os.environ.get('SELLER_EMAIL')
 
 # Payment configuration
-PAYPAL_MODE = 'sandbox'
+PAYPAL_MODE = 'live'
 PAYPAL_CLIENT_ID = os.environ.get('PAYPAL_CLIENT_ID')
 PAYPAL_CLIENT_SECRET = os.environ.get('PAYPAL_CLIENT_SECRET')
 PAYPAL_RECEIVER_EMAIL = os.environ.get('PAYPAL_RECEIVER_EMAIL')
-PAYPAL_TEST = True
+PAYPAL_TEST = False
 
 # AWS S3 configurations for static and media files
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
